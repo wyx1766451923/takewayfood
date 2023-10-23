@@ -1,0 +1,42 @@
+<!--pages/index/index.wxml-->
+<view class="index">
+  <view class="shop">
+    <view class="shopItem" wx:for="{{shopData}}" wx:key="id" data-shopmsg="{{item}}" bind:tap="toDetail">
+      <view class="shopImgAndStatus">
+        <view class="shopImg">
+          <van-image
+            width="5.8rem"
+            height="5.8rem"
+            fit="cover"
+            src="{{httpImageUrl+item.shopPhoto}}"
+          />
+        </view>
+        <view class="shopStatus">
+          <view wx:if="{{item.isOpen==1}}" class="ifopen">
+            配送中 | 送上楼
+          </view>
+          <view wx:else class="elseopen">
+            休息中 | 无配送
+          </view>        
+        </view>
+      </view>
+      <view class="shopMsg">
+        <view class="shopName">
+          {{item.shopName}}
+        </view>
+        <view class="salesAndTime">
+          <!-- <view class="sales">销量 {{item.sales}}</view> -->
+          <view class="DeliveryTime">{{item.deliveryTime}}分钟内送达</view>
+        </view>
+        <view class="DistrMsg">
+          <text class="startPrice">起送￥{{item.startPrice}}</text>
+          <text class="deliveryFees">配送￥{{item.deliveryFees}}</text>
+        </view>
+        <view class="shopDes">
+          {{item.description}}
+        </view>
+
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@vant/weapp": "^1.11.1",
+    "readline-sync": "^1.4.10"
+  }
+}

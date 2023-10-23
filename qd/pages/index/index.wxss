@@ -1,0 +1,79 @@
+/* pages/index/index.wxss */
+.shop{
+  padding: 10px;
+}
+.shopItem{
+  margin:10px 0;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+}
+/* .shopImgAndStatus{
+
+} */
+.shopImg{
+  width: 5.8rem;
+  height: 5.8rem;
+  border-radius: 10px;
+  box-shadow: 5px 5px 1px rgb(240, 239, 239);
+  overflow: hidden;
+}
+.shopStatus{
+  margin: 30px 0 10px 0;
+
+}
+.ifopen{
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  width: 92px;
+  line-height: 20px;
+  border-radius: 20px;
+  background: #ffa500;
+}
+.elseopen{
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  width: 92px;
+  line-height: 20px;
+  border-radius: 20px;
+  background: gray;
+}
+.shopMsg{
+  padding-left: 10px;
+}
+.shopName{
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 80%;
+  text-overflow: ellipsis;
+  padding-bottom: 15px;
+}
+.salesAndTime{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: gray;
+  padding-bottom: 10px;
+}
+.DistrMsg{
+  font-size: 12px;
+  color: gray;
+  padding-bottom: 5px;
+}
+.startPrice{
+  padding-right: 10px;
+}
+.shopDes{
+  font-size: 14px;
+  color: rgb(31, 30, 30);
+  padding-top: 15px;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+}

@@ -1,0 +1,144 @@
+<!--pages/shopDetail/shopDetail.wxml-->
+<wxs module="shopModule">
+  var getTypeFoodInfo = function(typename,foods){
+    var typeFoods = foods.map(function(item){
+       if(item.typeName == typename){
+         return item
+       }
+    }).filter(function(e){
+      return e != undefined
+    })
+    return typeFoods
+  }
+  var toFixNum = function(num){
+    var newNum = num.toFixed(2);
+    return newNum
+  }
+  module.exports = {
+    getTypeFoodInfo:getTypeFoodInfo,
+    toFixNum:toFixNum
+  }
+</wxs>
+<view class="shopdetail">
+  <view class="shopcard">
+    <view class="back" bind:tap="backHome">
+        <van-icon name="arrow-left" size="30px" />
+    </view>
+    <view class="backImg">
+
+      <van-image
+        width="100%"
+        height="100px"
+        fit="cover"
+        src="{{httpImageUrl+shopMsg.shopPhoto}}"
+      />
+    </view>
+    <view class="shopMsg">
+      <view class="shopImg">
+        <van-image
+          width="50px"
+          height="50px"
+          fit="cover"
+          src="{{httpImageUrl+shopMsg.shopPhoto}}"
+        />
+      </view>
+      <view class="shopInfo">
+        <view class="shopName">
+          {{shopMsg.shopName}}
+        </view>
+        <view class="deliveryTime">
+          配送约{{shopMsg.deliveryTime}}分钟
+        </view>
+        <view class="announcement" bind:tap="showDetail">
+          公告：{{shopMsg.announcement==null?'暂无公告':shopMsg.announcement}}
+          <view class="{{isShow?'announcementDetail':'normal'}}">
+            <van-icon name="cross" custom-style="position:relative;left:185px;top:0px;margin-bottom:-10px;" catch:tap="close"/>
+            <view>
+              {{shopMsg.announcement==null?'暂无公告':shopMsg.announcement}}
+            </view>
+
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="mainVtabs">
+    <view class="menu" >
+      <view class="menuitem {{curIndex===index?'active':''}}" wx:for="{{vtabs}}" wx:key="id" bind:tap="clickMenu" data-typeid="{{item.id}}" data-index="{{index}}">
+        {{item.title}}
+      </view>
+      
+    </view>
+    <scroll-view class="content" bindscroll="scroll" scroll-with-animation="{{true}}" scroll-y scroll-into-view="menu-{{typeid}}">
+      <view class="vtabitem" wx:for="{{vtabs}}"  wx:for-item="vtabitem" wx:key="id" id="menu-{{vtabitem.id}}">
+        <view class="tabtitle">
+          {{vtabitem.title}}
+        </view>
+        <view class="foods">
+          <view class="fooditem" wx:for="{{shopModule.getTypeFoodInfo(vtabitem.title,foods)}}" wx:key="*this" wx:for-item="fooditem">
+            <view class="foodImg">
+              <van-image
+                width="80px"
+                height="80px"
+                fit="cover"
+                src="{{httpImageUrl+fooditem.mainPhoto}}"
+              />
+            </view>
+            <view class="foodInfo">
+              <view class="foodName">
+                {{fooditem.productName}}
+              </view>
+              <view class="sales">
+                销量{{fooditem.sales}}
+              </view>
+              <view wx:if="{{fooditem.discount==10}}">
+                  
+                <text decode="true">&nbsp;</text>
+              </view>
+              <view class="discount" wx:if="{{fooditem.discount!=10}}">
+                <van-icon name="fire" />{{fooditem.discount}}折
+              </view>
+              <view class="priceAndOp">
+                <view class="price">
+                  <text class="rmb">￥</text> 
+                  {{shopModule.toFixNum(fooditem.price*fooditem.discount/10)}}
+                  <text class="oldPrice" wx:if="{{fooditem.discount!=10}}">￥{{fooditem.price}}</text>
+                </view>
+                <view class="op">
+                  <!-- <van-icon name="plus" class="addfood" wx:if="1==0"/> -->
+                  <van-stepper
+                    value="{{ value }}"
+                    integer
+                    disable-input
+                    min="0"
+                    max="100"
+                    step="1"
+                    bind:change="onChange"
+                    bind:plus="onPlus"
+                    bind:minus="onMinus"
+                    data-food="{{fooditem}}"
+                  />
+                </view>
+              </view>
+            </view>
+          </view>
+          <van-divider />
+        </view>       
+      </view>
+    </scroll-view>
+  </view>
+  <view class="bugcard">
+    <view class="cardTotle">
+      <van-icon name="cart" size="40px" color="orange"/>
+      <view class="badge" wx:if="{{foodNum!=0}}">
+      {{foodNum}}
+      </view>
+      <view class="total">
+        ￥{{totalPrice}}
+      </view>
+    </view>
+    <view class="chosen">
+      选好了
+    </view>
+  </view>
+</view>
