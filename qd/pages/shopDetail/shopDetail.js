@@ -19,8 +19,9 @@ Page({
     activeTab: 0,
     isShow:false,
     foodlist:[],//选购的商品
-    totalPrice:0,//合计价格
-    foodNum:0,//点餐数量
+    totalPrice:0,//合计价格 每份打包费1元，配送费总计1元
+    foodNum:0,//点餐数量,
+    show:false
   },
   getTopDistance(typeid){
     var that = this;
@@ -34,8 +35,47 @@ Page({
     }).exec()
   },
   onChange(e){
-    console.log("change")
-    console.log(e)
+    // console.log("change")
+    // console.log(e)
+  },
+  onClose(e){
+
+  },
+  Checkout(){
+    console.log("老板结账")
+  },
+  clickCart(e){
+    this.setData({
+      show:!this.data.show
+    }) 
+  },
+  onClearCart(){
+    let foods = this.data.foods
+    foods.forEach(function(item){
+      item.count = 0
+    })
+    this.setData({
+      foodlist:[],
+      foods:foods,
+      foodNum:0,
+      totalPrice:0,
+      show:false
+    })
+  },
+  checkFoodValue(id,addOrDe){
+    let foods = this.data.foods
+    for(let i = 0;i<foods.length;i++){
+      if(id==foods[i].id){
+        if(addOrDe == 'add'){
+          foods[i].count++
+        }else{
+          foods[i].count--
+        }
+      }
+    }
+    this.setData({
+      foods:foods
+    })
   },
   onPlus(e){//添加菜品
     console.log("plus")
@@ -43,20 +83,34 @@ Page({
     let foodlist = this.data.foodlist
     let foodmsg = JSON.parse(JSON.stringify(e.currentTarget.dataset.food))
     // console.log(foodlist.length,foodmsg.id)
+    this.checkFoodValue(foodmsg.id,'add')
     if(foodlist.length==0){
-      foodmsg.count = 1
+      foodmsg.count = 1 
       foodlist.push(foodmsg)
+      let price = (foodmsg.price * (foodmsg.discount/10))+1
+      this.setData({
+        totalPrice:Number((this.data.totalPrice + price).toFixed(2))
+      })
     }else{
       for(let i = 0;i<foodlist.length;i++){
         if(foodlist[i].id == foodmsg.id){
           foodlist[i].count++
+          
+          let price = (foodlist[i].price * (foodlist[i].discount/10))+1
+          this.setData({
+            totalPrice:Number((this.data.totalPrice + price).toFixed(2))
+          })
           break;
         }
         if(i==foodlist.length-1){
           foodmsg.count = 1
+          let price = (foodmsg.price * (foodmsg.discount/10))+1
+          this.setData({
+            totalPrice:Number((this.data.totalPrice + price).toFixed(2))
+          })
           foodlist.push(foodmsg)
           break
-        }
+        }  
       }
     }
 
@@ -68,22 +122,37 @@ Page({
   },
   onMinus(e){//删除菜品
     console.log("minus")
-    console.log(e)
+    console.log(e) 
     let foodlist = this.data.foodlist
     let foodmsg = JSON.parse(JSON.stringify(e.currentTarget.dataset.food))
+    this.checkFoodValue(foodmsg.id,'de')
     for(let i = 0;i<foodlist.length;i++){
       if(foodlist[i].id == foodmsg.id){
         if(foodlist[i].count>1){
           foodlist[i].count--
+          let price = (foodlist[i].price * (foodlist[i].discount/10))+1
+          this.setData({
+            totalPrice:Number((this.data.totalPrice - price).toFixed(2))
+          })
           break
-        }else{
+        }else{ 
+          let price = (foodlist[i].price * (foodlist[i].discount/10))+1
+          this.setData({
+            totalPrice:Number((this.data.totalPrice - price).toFixed(2))
+          })
           foodlist.splice(i,1)
+          if(foodlist.length==0){
+            this.setData({
+              show:false
+            })
+          }
+
           break
         }
       }
     }
     this.setData({
-      foodNum:this.data.foodNum-1,
+      foodNum:this.data.foodNum >0?this.data.foodNum-1:0,
       foodlist:foodlist
     })
     console.log(this.data.foodlist)

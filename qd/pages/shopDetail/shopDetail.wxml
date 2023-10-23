@@ -107,7 +107,7 @@
                 <view class="op">
                   <!-- <van-icon name="plus" class="addfood" wx:if="1==0"/> -->
                   <van-stepper
-                    value="{{ value }}"
+                    value="{{ fooditem.count }}"
                     integer
                     disable-input
                     min="0"
@@ -127,18 +127,92 @@
       </view>
     </scroll-view>
   </view>
-  <view class="bugcard">
-    <view class="cardTotle">
-      <van-icon name="cart" size="40px" color="orange"/>
-      <view class="badge" wx:if="{{foodNum!=0}}">
-      {{foodNum}}
+  <view>
+    <van-popup
+      show="{{ show }}"
+      position="bottom"
+      custom-style="height: 45%;"
+      bind:close="onClose"
+    >
+    <view class="carthead">
+      <view class="choosenfood">
+        已选商品
       </view>
-      <view class="total">
-        ￥{{totalPrice}}
+      <view class="clearcart" bind:tap="onClearCart">
+        
+        <van-icon name="close" />清空购物车
       </view>
     </view>
-    <view class="chosen">
-      选好了
+    <view class="slogan">
+      <van-icon name="good-job-o" />
+      安全健康 | 品质保障 |专人配送 |放心食用
+    </view>
+    <view class="cartfoodlist">
+      <view wx:for="{{foodlist}}" wx:key="id" class="fooditemcart">
+        <view class="foodImg">
+          <van-image
+            width="60px"
+            height="60px"
+            fit="cover"
+            src="{{httpImageUrl+item.mainPhoto}}"
+           />
+        </view>
+        <view class="foodInfo">
+          <view class="foodName">
+            {{item.productName}}
+          </view>
+          <view class="priceAndOp">
+            <view class="pricecart">
+              <text class="rmb">￥</text> 
+              {{shopModule.toFixNum(item.price*item.discount/10*item.count)}}
+            </view>
+            <view class="op">
+              <!-- <van-icon name="plus" class="addfood" wx:if="1==0"/> -->
+              <van-stepper
+                value="{{ item.count }}"
+                integer
+                disable-input
+                min="0"
+                max="100"
+                step="1"
+                bind:change="onChange"
+                bind:plus="onPlus"
+                bind:minus="onMinus"
+                data-food="{{item}}"
+              />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    </van-popup>
+    <view class="bugcard" wx:if="{{totalPrice!=0}}">
+      <view class="cardTotle" >
+        <van-icon name="cart" size="40px" color="orange" bind:click="clickCart"/>
+        <view class="badge" wx:if="{{foodNum!=0}}">
+        {{foodNum}}
+        </view>
+        <view class="total">
+          ￥{{totalPrice}}
+        </view>
+      </view>
+      <view class="chosen" bind:tap="Checkout">
+        选好了
+      </view>
+    </view>
+    <view class="bugcard" wx:else="">
+      <view class="cardTotle" >
+        <van-icon name="cart" size="40px" color="gray"/>
+        <view class="badge" wx:if="{{foodNum!=0}}">
+        {{foodNum}}
+        </view>
+        <view class="total">
+          ￥{{totalPrice}}
+        </view>
+      </view>
+      <view class="nochosen" >
+        选好了
+      </view>
     </view>
   </view>
 </view>
