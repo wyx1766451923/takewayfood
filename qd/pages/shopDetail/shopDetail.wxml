@@ -196,7 +196,7 @@
           ￥{{totalPrice}}
         </view>
       </view>
-      <view class="chosen" bind:tap="Checkout">
+      <view class="chosen" bind:tap="Checkout" data-foodlist="{{foodlist}}" data-totalprice="{{totalPrice}}" data-foodnum="{{foodNum}}" data-shopmsg="{{shopMsg}}">
         选好了
       </view>
     </view>

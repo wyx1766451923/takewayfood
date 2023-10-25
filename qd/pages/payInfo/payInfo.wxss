@@ -1,0 +1,190 @@
+page{
+  background: rgb(235, 234, 234);
+}
+.subOrder{
+  padding-bottom: 3.125rem;
+} 
+.addressInfo{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  
+}
+.address{
+  display: flex;
+  justify-content: space-between;
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 3px 0 10px 0;
+}
+.estimateTime{
+  padding: 7px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+.time{
+  font-weight: bold;
+}
+.payinfo{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.shopname{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 3px 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.foodlist{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 10px 0 10px 0;
+  height: 10.12rem;
+  overflow-y: scroll;
+}
+.expensee{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 10px 0 10px 0;
+}
+.packfee{
+  padding: 0 0 8px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+.deliveryfee{
+  font-size: 14px;
+  padding-top: 3px;
+  display: flex;
+  justify-content: space-between;
+}
+.totalprice{
+  padding:10px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+.remark{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.remarkinput{
+  display: flex;
+  justify-content: space-between;
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 10px 0 10px 0;
+}
+.rebutton{
+  font-size: 14px;
+  color: gray;
+}
+.addarrow{
+  font-size: 16px;
+  color: gray;
+}
+.tableware{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 5px 0;
+}
+.paymethod{
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.wechatpay{
+  color: rgb(61, 236, 61);
+  font-size: 20px;
+}
+.bugcard{
+  display: flex;
+  width: 95%;
+  margin: 0 0 0 0.5rem;
+  border-radius: 10px;
+  background: rgb(85, 84, 84);
+  color: white;
+  justify-content: space-between;
+  position: fixed;
+  height: 50px;
+  bottom: 0;
+  z-index: 100;
+}
+.cardTotle{
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+}
+.total{
+  padding-left: 10px;
+}
+.chosen{
+  width: 80px;
+  background-color: orange;
+  text-align: center;
+  border-radius: 0 10px 10px 0;
+  overflow: hidden;
+  line-height: 50px;
+}
+.van-popup{
+  border-radius: 10px !important;
+  /* overflow: hidden !important; */
+}
+.title{
+  text-align: center;
+  padding: 10px 0 10px 0;
+
+}
+.select{
+  display: flex;
+  height: 80%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.left{
+  background: rgb(245, 244, 244);
+  height: 100%;
+  width: 30%;
+  text-align: center;
+  font-size: 14px;
+}
+.selectday{
+  background: white;
+  padding: 10px 0 10px 0;
+}
+.right{
+  width: 100%;
+  height: 100%; 
+  text-align: center;
+  overflow-y: scroll;
+}
+.timeitem{
+  border-bottom: 1px solid rgb(248, 246, 246);
+  padding: 10px;
+}
+.fooditem{
+  display: flex;
+  justify-content: space-between;
+}
+.imgAndInfo{
+  display: flex;
+  padding-left: 5px;
+}
+.foodImg{
+  border-radius: 10px;
+  overflow: hidden;
+}
+.foodInfo{
+  padding-left: 5px;
+  font-size: 14px;
+}
+.foodnum{
+  padding-top: 10px;
+}
+.foodprice{
+  font-size: 14px;
+}

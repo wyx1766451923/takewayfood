@@ -1,0 +1,146 @@
+<wxs module="shopModule">
+  var toFixNum = function(num){
+    var newNum = num.toFixed(2);
+    return newNum
+  }
+  var toNumber = function(str){
+    return Number(str)
+  }
+  module.exports = {
+    toFixNum:toFixNum,
+    toNumber:toNumber
+  }
+</wxs>
+<view class="subOrder">
+  <view class="addressInfo">
+    <view class="address">
+      {{'重庆理工大学'}} 
+      <van-icon name="arrow" class="addarrow" bind:click="modifyAddress"/>
+    </view>
+    <view class="estimateTime">
+      <text>预计送达</text>
+      <view class="time">
+      {{selectvalue==0?'当前无法点餐':selectvalue}}
+      <van-icon name="arrow" class="addarrow" bind:click="modifyDeliveryTime"/>
+      </view>
+    </view>
+  </view>
+  <view class="payinfo">
+    <view class="shopname">
+      {{shopmsg.shopName}} 
+    </view>
+    <view class="foodlist">
+      <view class="fooditem" wx:for="{{foodlist}}" wx:key="id">
+        <view class="imgAndInfo">
+          <view class="foodImg">
+            <van-image
+              width="50px"
+              height="50px"
+              fit="cover"
+              src="{{httpImageUrl+item.mainPhoto}}"
+            />
+          </view>
+          <view class="foodInfo">
+            <view class="foodName">
+              {{item.productName}}
+            </view>
+            <view class="foodnum">
+            x{{item.count}}
+            </view>
+          </view>
+        </view>
+        <view class="foodprice">
+          ￥{{shopModule.toFixNum(item.price*item.discount/10)}}
+        </view>
+      </view>
+    </view>
+    <view class="expensee">
+      <view class="packfee">
+        <view>
+          打包费
+        </view>
+        <view>
+          ￥{{foodnum*1}}
+        </view>
+      </view>
+      <view class="deliveryfee">
+        <view>
+          配送费
+        </view>
+        <view>
+          ￥{{shopmsg.deliveryFees}}
+        </view>
+      </view>
+    </view>
+    <view class="totalprice">
+      <view>
+        小计
+      </view>
+      <view>
+        ￥{{shopModule.toNumber(totalprice)+shopmsg.deliveryFees}}
+      </view>
+    </view>
+  </view>
+  <view class="remark">
+    <view class="remarkinput">
+      <view style="font-weight: bold;">
+        备注
+      </view>
+      <view class="rebutton" bind:tap="modifyRemarks">
+        选填
+        <van-icon name="arrow" class="addarrow"/>
+      </view>
+    </view>
+    <view class="tableware">
+      <view style="font-weight: bold;">
+        餐具数量
+      </view>
+      <view class="rebutton" bind:tap="selectTableware">
+        默认
+        <van-icon name="arrow" class="addarrow"/>
+      </view>
+    </view>
+  </view>
+  <view class="paymethod">
+    <view style="font-weight: bold;">
+      支付方式
+    </view>
+    <view>
+      <van-icon name="wechat-pay" class="wechatpay"/>
+      微信支付
+    </view>
+  </view>
+  <view class="bugcard">
+      <view class="cardTotle" >
+        <view class="total">
+          ￥{{shopModule.toNumber(totalprice)+shopmsg.deliveryFees}}
+        </view>
+      </view>
+      <view class="chosen" bind:tap="pay">
+        立即支付
+      </view>
+    </view>
+    <van-popup
+      show="{{ show }}"
+      closeable
+      position="bottom"
+      custom-style="height: 35%"
+      bind:close="onClose"
+    >
+      <view class="title">
+        选择预计配送时间
+      </view>
+      <view class="select">
+        <view class="left">
+          <view class="selectday">
+            今天
+          </view>
+        </view>
+        <view class="right">
+          <view class="timeitem" wx:for="{{selectTime}}" wx:key="*this" bind:tap="determineTime" data-select="{{item}}">
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </van-popup>
+</view>

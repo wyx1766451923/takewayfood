@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/order/order",
     "pages/my/my",
-    "pages/shopDetail/shopDetail"
+    "pages/shopDetail/shopDetail",
+    "pages/payInfo/payInfo",
+    "pages/remark/remark"
   ],
   "tabBar": {
     "list": [
@@ -43,5 +45,4 @@
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents"
-
 }

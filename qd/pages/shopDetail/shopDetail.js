@@ -21,7 +21,7 @@ Page({
     foodlist:[],//选购的商品
     totalPrice:0,//合计价格 每份打包费1元，配送费总计1元
     foodNum:0,//点餐数量,
-    show:false
+    show:false,
   },
   getTopDistance(typeid){
     var that = this;
@@ -41,8 +41,16 @@ Page({
   onClose(e){
 
   },
-  Checkout(){
+  Checkout(e){
     console.log("老板结账")
+    // console.log(e.currentTarget.dataset.foodnum)
+    let foodlist = JSON.stringify(e.currentTarget.dataset.foodlist)
+    let foodnum = e.currentTarget.dataset.foodnum
+    let totalprice = e.currentTarget.dataset.totalprice
+    let shopmsg = JSON.stringify(e.currentTarget.dataset.shopmsg)
+    wx.navigateTo({
+      url: `/pages/payInfo/payInfo?foodlist=${foodlist}&foodnum=${foodnum}&totalprice=${totalprice}&shopmsg=${shopmsg}`   
+    })
   },
   clickCart(e){
     this.setData({
@@ -202,9 +210,9 @@ Page({
     let Msg = JSON.parse(options.shopMsg)
     this.setData({
       shopMsg:Msg,
-      shopid:Msg.id
+      shopid:Msg.id,
     })
-    console.log(this.data.shopMsg.shopPhoto)
+    // console.log(this.data.shopMsg.shopName)
     this.getTypeliat()
     this.getFoods()
   },
