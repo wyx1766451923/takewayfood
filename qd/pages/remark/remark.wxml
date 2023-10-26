@@ -1,0 +1,27 @@
+<van-cell-group>
+  <van-field
+    type="textarea"
+    size="large"
+    value="{{ value }}"
+    placeholder="请输入备注，如：放门口，不要葱等"
+    bind:change="onChange"
+    maxlength="200"
+    show-word-limit
+    input-class="textarea"
+  />
+</van-cell-group>
+<van-icon name="close" bind:click="clear" size="20px" wx:if="{{value}}" class="clear"/>
+<view class="shortcut">
+  <view class="title">
+    快捷输入
+  </view>
+  <view class="cueWord">
+    <view class="worditem" wx:for="{{cueWord}}" wx:key="*this" bind:tap="selectword" data-word="{{item}}">
+      {{item}}
+    </view>
+  </view>
+</view>
+
+<view class="confirm">
+  <van-button type="primary" size="large" bind:click="confirmChange">确认</van-button>
+</view>

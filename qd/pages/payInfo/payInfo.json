@@ -2,7 +2,10 @@
   "usingComponents": {
     "van-icon": "@vant/weapp/icon/index",
     "van-popup": "@vant/weapp/popup/index",
-    "van-image": "@vant/weapp/image/index"
+    "van-image": "@vant/weapp/image/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
   },
   "navigationBarTitleText": "提交订单"
 }

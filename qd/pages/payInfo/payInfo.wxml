@@ -83,20 +83,24 @@
   </view>
   <view class="remark">
     <view class="remarkinput">
-      <view style="font-weight: bold;">
+      <view style="font-weight: bold;white-space: nowrap;" >
         备注
       </view>
       <view class="rebutton" bind:tap="modifyRemarks">
-        选填
-        <van-icon name="arrow" class="addarrow"/>
+        <view class="content">
+          {{remark==''?'选填':remark}}
+        </view>
+        <van-icon name="arrow" class="addarrow remarkicon"/>
       </view>
     </view>
     <view class="tableware">
-      <view style="font-weight: bold;">
+      <view style="font-weight: bold;white-space: nowrap;">
         餐具数量
       </view>
       <view class="rebutton" bind:tap="selectTableware">
-        默认
+        <view class="default">
+          {{tablewarenum==''?columns[1]:tablewarenum}}
+        </view>
         <van-icon name="arrow" class="addarrow"/>
       </view>
     </view>
@@ -120,6 +124,7 @@
         立即支付
       </view>
     </view>
+    <!-- 预计送达时间 -->
     <van-popup
       show="{{ show }}"
       closeable
@@ -141,6 +146,39 @@
             {{item}}
           </view>
         </view>
+      </view>
+    </van-popup>
+    <!-- 餐具选择 -->
+    <van-popup
+      show="{{ tablewareshow }}"
+      position="bottom"
+      custom-style="height: 62%"
+      bind:close="onTablewareClose"
+    >
+      <view class="wareselect">
+        <van-picker
+          show-toolbar
+          title="选择餐具份数"
+          columns="{{ columns }}"
+          default-index="{{ 1 }}"
+          bind:change="onChange"
+          bind:cancel="onCancel"
+          bind:confirm="onConfirm"
+        />
+      </view>
+    </van-popup>
+    <!-- 地址选择 -->
+    <van-popup
+      show="{{ addressshow }}"
+      position="bottom"
+      custom-style="height: 40%"
+      bind:close="onAddressClose"
+    >
+      <view class="addressSelect">
+        <van-radio-group value="{{ radio }}" bind:change="onChange">
+          <van-radio name="1">单选框 1</van-radio>
+          <van-radio name="2">单选框 2</van-radio>
+        </van-radio-group>
       </view>
     </van-popup>
 </view>

@@ -75,10 +75,24 @@ page{
   justify-content: space-between;
   border-bottom:1px solid rgb(247, 246, 246) ;
   padding: 10px 0 10px 0;
+  width: 100%;
 }
 .rebutton{
   font-size: 14px;
   color: gray;
+  display: flex;
+}
+.content{
+  margin:0 15px 0 10px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+.remarkicon{
+  position: absolute;
+  right: 20px;
 }
 .addarrow{
   font-size: 16px;
@@ -188,3 +202,6 @@ page{
 .foodprice{
   font-size: 14px;
 }
+/* .wareselect{
+  overflow-y: scroll;
+} */

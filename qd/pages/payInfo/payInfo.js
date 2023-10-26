@@ -13,12 +13,54 @@ Page({
     totalprice:0,
     shopname:'',
     shopmsg:[],
-    show:false,//底部弹出框控制
+    show:false,//备注底部弹出框控制
+    tablewareshow:false,//餐具数量底部弹出框控制
+    addressshow:false,//地址选择底部弹出框控制
+    tablewarenum:'',
     selectTime:[],
-    selectvalue:'',
+    selectvalue:'', 
+    remark:'',
+    radio: '1',
+    columns: ['无需餐具', 
+    '需要餐具，商家依据餐量提供', 
+    '1份', 
+    '2份', 
+    '3份',
+    '4份',
+    '5份',
+    '5份以上',
+  ],
+  },
+  onChange(e){
+  },
+  onChange(event) {
+    console.log(event.detail)
+    this.setData({
+      radio: event.detail,
+    });
+  },
+  onCancel(e){
+    this.setData({
+      tablewareshow:false
+    })
+  },
+  onConfirm(e){
+    let tablewarenum = e.detail.value
+    this.setData({
+      tablewareshow:false,
+      tablewarenum
+    })
   },
   modifyAddress(){//修改地址
-    console.log("修改地址")
+    this.setData({
+      addressshow:true
+    })
+  },
+  onAddressClose(){//关闭修改地址
+    this.setData({
+      addressshow:false
+    })
+    console.log("关闭修改地址")
   },
   modifyDeliveryTime(){//修改送达时间
     console.log("修改送达时间")
@@ -34,6 +76,9 @@ Page({
   },
   selectTableware(){//选择餐具数量
     console.log("选择餐具数量")
+    this.setData({
+      tablewareshow:true
+    })
   },
   pay(){
     console.log("payment")
@@ -41,6 +86,11 @@ Page({
   onClose(){
     this.setData({
       show:false
+    })
+  },
+  onTablewareClose(){
+    this.setData({
+      tablewareshow:false
     })
   },
   determineTime(e){
@@ -136,9 +186,9 @@ Page({
       foodlist,
       foodnum,
       totalprice,
-      shopmsg
+      shopmsg,
     })
-    console.log(typeof(this.data.totalprice))
+
     this.getNowTime()
     this.getSelectvalue()
   },
