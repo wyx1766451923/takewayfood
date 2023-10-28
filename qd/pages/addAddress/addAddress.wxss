@@ -1,0 +1,14 @@
+.input{
+  border-bottom: 1px solid rgb(241, 240, 240);
+  padding: 10px;
+}
+.confirm{
+  padding: 10px;
+}
+.van-button{
+  border-radius: 10px !important;
+
+}
+.delete{
+  padding: 10px;
+}

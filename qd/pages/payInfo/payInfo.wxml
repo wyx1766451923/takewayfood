@@ -13,8 +13,18 @@
 </wxs>
 <view class="subOrder">
   <view class="addressInfo">
-    <view class="address">
-      {{'重庆理工大学'}} 
+    <view class="catchaddress">
+      <view class="allAddress" wx:if="{{slectedAddress.length!=0}}">  
+        <view class="address"> 
+          {{slectedAddress.proAddress+' '+slectedAddress.detilAddress}}
+        </view>
+        <view class="nameAndPhone">
+          {{slectedAddress.consignee+' '+slectedAddress.phone}}
+        </view>
+      </view>
+      <view wx:else>
+        请选择你的地址
+      </view>
       <van-icon name="arrow" class="addarrow" bind:click="modifyAddress"/>
     </view>
     <view class="estimateTime">
@@ -161,7 +171,7 @@
           title="选择餐具份数"
           columns="{{ columns }}"
           default-index="{{ 1 }}"
-          bind:change="onChange"
+          bind:change="onTablewareChange"
           bind:cancel="onCancel"
           bind:confirm="onConfirm"
         />
@@ -170,15 +180,38 @@
     <!-- 地址选择 -->
     <van-popup
       show="{{ addressshow }}"
+      closeable
       position="bottom"
-      custom-style="height: 40%"
+      custom-style="height: 50%"
       bind:close="onAddressClose"
     >
-      <view class="addressSelect">
-        <van-radio-group value="{{ radio }}" bind:change="onChange">
-          <van-radio name="1">单选框 1</van-radio>
-          <van-radio name="2">单选框 2</van-radio>
+      <view class="title">
+        选择收货地址
+      </view>
+      <view class="addressSelect" wx:if="{{allAddress.length!=0}}">
+        <van-radio-group value="{{ radio }}" bind:change="onRadioChange" class="radiogroup">
+          <van-radio name="{{item.id}}" wx:for="{{allAddress}}" wx:key="id" bind:tap="selectAddress" data-address = "{{item}}">
+            <view class="radioitem">
+              <view class="info"> 
+                <view class="address">
+                  {{item.proAddress+' '+item.detilAddress}}
+                </view>
+                <view class="nameAndPhone">
+                  {{item.consignee+' '+item.phone}}
+                </view>
+              </view>
+              <view class="edit" catch:tap="edit" data-address="{{item}}">
+                <van-icon name="records-o" size="20px"/>
+              </view>
+            </view>
+          </van-radio>
         </van-radio-group>
+      </view>
+      <view class="noaddress" wx:else="allAddress.length==0">
+        <van-empty description="您当前还没有地址" />
+      </view>
+      <view class="addAddress"> 
+        <van-button type="primary" size="large" disabled="{{allAddress.length==2?true:false}}" bind:click="onAddAddress">新增收货地址</van-button>
       </view>
     </van-popup>
 </view>

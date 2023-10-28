@@ -20,7 +20,8 @@ Page({
     selectTime:[],
     selectvalue:'', 
     remark:'',
-    radio: '1',
+    radio: '',
+    slectedAddress:[],
     columns: ['无需餐具', 
     '需要餐具，商家依据餐量提供', 
     '1份', 
@@ -29,15 +30,45 @@ Page({
     '4份',
     '5份',
     '5份以上',
-  ],
+    ],
+    allAddress:[
+      {
+        id:1,
+        consignee:'陈桂金',
+        proAddress:'重庆理工大学花溪校区',
+        detilAddress:'B316',
+        phone:'15523081234'
+      }
+    ]
   },
-  onChange(e){
+  onTablewareChange(e){
+    console.log(e)
   },
-  onChange(event) {
-    console.log(event.detail)
+  onAddAddress(){
+    console.log("新增地址")
+    wx.navigateTo({
+      url: '/pages/addAddress/addAddress'
+    })
+  },
+  edit(e){
+    let address = JSON.stringify(e.currentTarget.dataset.address)
+    console.log("编辑地址",address)
+    wx.navigateTo({
+      url: `/pages/addAddress/addAddress?address=${address}`
+    })
+  },
+  onRadioChange(event) {
+    console.log(event)
     this.setData({
       radio: event.detail,
     });
+  },
+  selectAddress(e){
+    let slectedAddress = e.currentTarget.dataset.address
+    this.setData({
+      slectedAddress,
+      addressshow:false
+    })
   },
   onCancel(e){
     this.setData({
@@ -50,6 +81,7 @@ Page({
       tablewareshow:false,
       tablewarenum
     })
+
   },
   modifyAddress(){//修改地址
     this.setData({

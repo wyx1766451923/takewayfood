@@ -1,0 +1,43 @@
+<view class="editAddress">
+  <van-cell-group>
+    <van-field
+      value="{{ proAddress }}"
+      label="地址"
+      placeholder="如重庆理工大学花溪校区"
+      border="{{ false }}"
+      custom-class="input"
+      bind:blur="onProAddressChange"
+    />
+    <van-field
+      value="{{ detilAddress }}"
+      label="详细地址"
+      placeholder="如竹轩B栋B316"
+      border="{{ false }}"
+      custom-class="input"
+      bind:blur="onDetilAddressChange"
+    />
+    <van-field
+      value="{{ consignee }}"
+      label="收货人"
+      placeholder="你的名字或昵称"
+      border="{{ false }}"
+      custom-class="input"
+      bind:blur="onConsigneeChange"
+    />
+    <van-field
+      value="{{ phone }}"
+      label="手机号"
+      placeholder="你的11位手机号"
+      border="{{ false }}"
+      custom-class="input"
+      maxlength="11"
+      bind:blur="onPhoneChange"
+    />
+  </van-cell-group>
+  <view class="confirm" bind:tap="confirm">
+    <van-button type="primary" size="large">保存地址</van-button>
+  </view>
+  <view class="delete" bind:tap="delete" wx:if="{{addOrEdit=='edit'}}">
+    <van-button type="danger" size="large">删除地址</van-button>
+  </view>
+</view>

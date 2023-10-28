@@ -5,7 +5,9 @@
     "van-image": "@vant/weapp/image/index",
     "van-picker": "@vant/weapp/picker/index",
     "van-radio": "@vant/weapp/radio/index",
-    "van-radio-group": "@vant/weapp/radio-group/index"
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "navigationBarTitleText": "提交订单"
 }
