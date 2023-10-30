@@ -2,6 +2,8 @@
 const express = require('express');
 const app = express();
 const path = require('path')
+const axios = require('axios');
+let https = require("https");
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 /* 引入cors */
@@ -13,6 +15,12 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+/*
+小程序授权
+ */
+const appid = 'wx54932d7e715c6c43'
+const appsecret = '93ea39e726bc235f94add9b555bface1'
+let code = ''
 
 const connection = require('./db/db')
 app.listen(8080, () => {
@@ -23,6 +31,20 @@ app.get('/', (req, res) => {
     res.send('<p style="color:red">服务已启动</p>');
     
 })
+
+app.get('/getLoginInfo',(req,res)=>{
+  code = req.query
+  console.log(req.query)
+  axios.get(`https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid=${appid}&secret=${appsecret}&js_code=${req.query.code}`)
+  .then(res=>{
+    console.log(res.data)
+  })
+  .catch(err=>{
+    console.log(err) 
+  })
+
+  res.send('111')
+}) 
 app.get('/user',(req,res)=>{
     connection.query('select * from admin', (err, users) => {
         if (err) {

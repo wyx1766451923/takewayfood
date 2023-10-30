@@ -1,2 +1,26 @@
 <!--pages/my/my.wxml-->
-<text>pages/my/my.wxml</text>
+<view class="my">
+  <view class="userinfo">
+    <view class="avatar">
+      <van-image 
+        width="80px" 
+        height="80px"
+        fit="cover"
+        src="https://img.yzcdn.cn/vant/cat.jpeg" 
+      />
+
+    </view>
+    <view class="nickname">
+      {{"陈余烬"}}
+      <van-icon name="edit" size="20px" class="edit" bind:click="edit"/>
+    </view>
+  </view>
+  <view class="opoperate">
+    <view class="setting">
+        <van-cell title="我的地址" is-link bind:click="watchAddress"/>
+        <van-cell title="联系我们" is-link bind:click="contactus"/>
+        <van-cell title="关于我们" is-link bind:click="aboutus"/>
+    </view>
+  </view>
+  <van-button type="default" bind:click="login">授权登录</van-button>
+</view>
