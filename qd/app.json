@@ -6,7 +6,8 @@
     "pages/shopDetail/shopDetail",
     "pages/payInfo/payInfo",
     "pages/remark/remark",
-    "pages/addAddress/addAddress"
+    "pages/addAddress/addAddress",
+    "pages/changeInfo/changeInfo"
   ],
   "tabBar": {
     "list": [

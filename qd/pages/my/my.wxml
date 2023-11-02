@@ -11,7 +11,7 @@
 
     </view>
     <view class="nickname">
-      {{"陈余烬"}}
+      {{"微信用户"}}
       <van-icon name="edit" size="20px" class="edit" bind:click="edit"/>
     </view>
   </view>
@@ -22,5 +22,5 @@
         <van-cell title="关于我们" is-link bind:click="aboutus"/>
     </view>
   </view>
-  <van-button type="default" bind:click="login">授权登录</van-button>
+  <van-button type="default" bind:click="getuserinfo">授权登录</van-button>
 </view>

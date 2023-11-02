@@ -1,0 +1,39 @@
+page{
+  background: linear-gradient(rgb(156, 230, 156),white);
+}
+.editinfo{
+  padding: 20px;
+  text-align: center;
+}
+.title{
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.avatarinfo{
+  width: 100px;
+  height: 100px;
+  margin:20px auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.avatar-wrapper{
+  width: 100px;
+  height: 100px;
+  padding: 0; 
+}
+.avatar{
+  width: 100px;
+  height: 100px; 
+}
+.nickname{
+  margin-top: 10px;
+}
+.name-input{
+  margin:0 auto;
+  width: 100px;
+  border-bottom: 1px solid green;
+}
+.submit{
+  width: 100%;
+  margin-top: 20px;
+}

@@ -1,0 +1,17 @@
+<!--pages/changeInfo/changeInfo.wxml-->
+<view class="editinfo">
+  <view class="title">
+    请修改您的基础信息
+  </view>
+  <view class="avatarinfo">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{avatar}}"></image>
+      </button>
+  </view>
+  <view class="nickname">
+    <input type="nickname" class="name-input" name="nickname" value="{{nickname}}" bindchange="onInput" placeholder="请输入昵称" />
+  </view>
+  <view class="submit">
+    <van-button type="primary" size="large" bind:click="submit">提交</van-button>
+  </view>
+</view>
