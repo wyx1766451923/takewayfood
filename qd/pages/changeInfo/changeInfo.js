@@ -8,8 +8,8 @@ Page({
   data: {
     httpUrl:app.globalData.httpUrl,
     httpImageUrl:app.globalData.httpImageUrl,
-    avatar:'https://img.yzcdn.cn/vant/cat.jpeg',
-    nickname:'微信用户'
+    avatar:'',
+    nickname:''
 
   },
   onChooseAvatar(e){
@@ -27,7 +27,66 @@ Page({
     })
   },
  async submit(){
-  await this.uploadFile()
+    await this.uploadFile()
+    var that = this
+    let avatarurl = that.data.avatar.split('/')
+    let avataru = avatarurl[avatarurl.length-2]+'/'+avatarurl[avatarurl.length-1]
+    wx.request ({
+      url:  that.data.httpUrl + 'updateUserInfo' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        avatar:avataru,
+        nickname:that.data.nickname
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+          
+          console.log(res)
+          if(res.data.data == 'ok'){
+            let avatar = avataru
+            let nickname = that.data.nickname
+            let loginuser = {
+              avatar,
+              nickname
+            }
+            wx.setStorageSync('loginuser', loginuser)
+            wx.switchTab({
+              url: '/pages/my/my',
+              success: function () {
+                var page = getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad(); //重新刷新device-info页面
+              }
+              
+            })
+          }
+
+        }	else {
+          console.log('没有数据')
+        } 
+      },
+      fail(msg){
+
+      }
+    })
+
+    // let pages = getCurrentPages();//获取page
+    // let prevPage = pages[pages.length-2];//上一个页面
+    // prevPage.setData({
+    //   avatar,
+    //   nickname
+    // })
+    // wx.navigateBack({
+    //   delta: 1
+    // })
+  },
+  updateNickname(){
+    let that = this
   },
   uploadFile() {
     let that = this
@@ -39,8 +98,9 @@ Page({
         name: 'file',
         url: url,
         header: {
-          "content-type": "multipart/form-data"
+          "content-type": "multipart/form-data",
           // 'Authorization': wx.getStorageSync('token') || ''
+          'usertoken':wx.getStorageSync('userToken')
         },
         success(res) {
           // let result = JSON.parse(res.data)
@@ -51,6 +111,11 @@ Page({
           //     avatar: result.data.outsideUrl
           //   })
           // }
+          console.log(JSON.parse(res.data).newname);
+          let avatar = that.data.httpImageUrl+'avatar/'+JSON.parse(res.data).newname
+          that.setData({
+            avatar
+          })
           resolve()
         },
         fail(rej) {
@@ -65,14 +130,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    let avatar = wx.getStorageSync('userinfo').avatar
-    let nickname = wx.getStorageSync('userinfo').nickname
-    if(!avatar && !nickname){
-      this.setData({
-        avatar,
-        nickname
-      })
-    }
+    let loginuser = wx.getStorageSync('loginuser')
+    this.setData({
+      avatar:this.data.httpImageUrl+loginuser.avatar,
+      nickname:loginuser.nickname
+    })
+    // console.log(this.data.avatar)
   },
 
   /**

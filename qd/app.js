@@ -45,7 +45,53 @@ App({
       }
     })
   },
+  getUserInfo(){
+    var that = this
+    wx.request ({
+      url:  that.globalData.httpUrl + 'getUserInfo' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+
+          console.log(res.data.loginuser)
+          wx.setStorageSync('loginuser', res.data.loginuser)
+        }	else {
+          console.log('没有数据')
+        } 
+      },
+      fail(msg){
+
+      }
+    })
+  },
   onLaunch() {
-    this.login()
+    wx.checkSession({
+      success () {
+        console.log('sessionkey未过期')
+        //session_key 未过期，并且在本生命周期一直有效
+      },
+      fail () {
+        // session_key 已经失效，需要重新执行登录流程
+        console.log("sessionkey过期") //重新登录
+        this.login()
+        this.getUserInfo()
+      }
+    }) 
+    let loginuser = wx.getStorageSync('loginUser');
+    var usertoken = wx.getStorageSync('userToken');
+    if(loginuser && usertoken){
+      wx.setStorageSync('isLogined', true)
+    }else{
+      wx.setStorageSync('isLogined', false)
+    }
+    if(wx.getStorageSync('isLogined')==false){
+      this.login()
+      this.getUserInfo()
+    }
   }
 })

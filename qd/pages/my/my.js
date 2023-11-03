@@ -8,7 +8,9 @@ Page({
   data: {
     httpUrl:app.globalData.httpUrl,
     httpImageUrl:app.globalData.httpImageUrl,
-    code:''
+    code:'',
+    avatar:'',
+    nickname:''
   },
   edit(){
     wx.navigateTo({
@@ -32,7 +34,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    let loginuser = wx.getStorageSync('loginuser')
+    
+    this.setData({
+      avatar:this.data.httpImageUrl+loginuser.avatar,
+      nickname:loginuser.nickname
+    })
+    console.log(this.data.avatar)
   },
 
   /**

@@ -6,6 +6,9 @@ const axios = require('axios');
 let https = require("https");
 const jwt = require('jwt-simple');
 const formidable = require("formidable");
+const multiparty = require("multiparty");
+
+const fs = require("fs");
 const jwtSecret = 'wangyingxin'//
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
@@ -37,9 +40,11 @@ app.get('/', (req, res) => {
 })
 let session_key = ''
 let openid = ''
+let defaultAvatar = 'https://img.yzcdn.cn/vant/cat.jpeg'
+let defaultNickname = '微信用户'
 app.get('/getLoginInfo',(req,res)=>{
   code = req.query
-  console.log(req.query)
+  // console.log(req.query)
   axios.get(`https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid=${appid}&secret=${appsecret}&js_code=${req.query.code}`)
   .then(resp=>{
     session_key = resp.data.session_key
@@ -48,6 +53,26 @@ app.get('/getLoginInfo',(req,res)=>{
       session_key,
       openid
     }
+    connection.query(`select * from wxuser where openid = "${openid}"`, (err, list) => {
+      if (err) {
+
+        console.log("出现错误",err)
+      } else {
+        //新用户自动注册
+        if(list.length==0){
+          connection.query(`INSERT INTO wxuser (openid, avatar,nickname) VALUES ("${openid}", "avatar/cat.jpeg","微信用户")`, (err, list1) => {
+            if (err) {
+      
+              console.log("出现错误",err)
+            } else {
+              // 将 MySQL 查询结果作为路由返回值
+              console.log("添加成功")
+            }
+          })
+        }
+      }
+    })
+    // console.log(openid)
     let token = jwt.encode(usertoken, jwtSecret)
     res.send(token)
   })
@@ -56,15 +81,41 @@ app.get('/getLoginInfo',(req,res)=>{
   })
 
 }) 
-app.get('/user',(req,res)=>{
-    connection.query('select * from admin', (err, users) => {
+app.get('/getUserInfo',(req,res)=>{//查询用户信息
+    console.log(req.headers.usertoken)
+    let usertoken = req.headers.usertoken
+    let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+    console.log(userOpenid)
+    connection.query(`select * from wxuser where openid = "${userOpenid}"`, (err, user) => {
         if (err) {
           res.send('query error')
         } else {
           // 将 MySQL 查询结果作为路由返回值
-          res.send(users)
+          console.log(user[0].nickname)
+          let loginuser = {
+            avatar:user[0].avatar,
+            nickname:user[0].nickname
+          }
+          
+          res.send({loginuser})
         }
       })
+})
+app.get('/updateUserInfo',(req,res)=>{//修改用户信息
+  console.log(req.headers.usertoken)
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let avatar = req.query.avatar
+  let nickname = req.query.nickname
+  console.log(userOpenid)
+  connection.query(`UPDATE wxuser SET avatar = "${avatar}",nickname = "${nickname}" WHERE openid = "${userOpenid}"`, (err, user) => {
+      if (err) {
+        res.send({data:'error'})
+      } else {
+        // 将 MySQL 查询结果作为路由返回值     
+        res.send({data:'ok'})
+      }
+    })
 })
 app.get('/product',(req,res)=>{//查询所有餐品
     connection.query('select * from t_product', (err, products) => {
@@ -107,21 +158,21 @@ app.get('/food',(req,res)=>{//查询当前商家所有餐品
     })
 })
 
-app.post("/avatar", (req, res) => {
-//   var form = new formidable.IncomingForm();//既处理表单，又处理文件上传
-//  //设置文件上传文件夹/路径，__dirname是一个常量，为当前路径
-//   let uploadDir = path.join(__dirname, "/public/image/avatar");
-//   form.uploadDir = uploadDir;//本地文件夹目录路径
-
-//   form.parse(req, (err, fields, files) => {
-//     let oldPath = files.cover.path;//这里的路径是图片的本地路径
-//     console.log(files.cover.name)//图片传过来的名字
-//     let newPath = path.join(path.dirname(oldPath), files.cover.name);
-//      //这里我传回一个下载此图片的Url
-//     var downUrl = "http://localhost:" + listenNumber + "/upload/" + files.cover.name;//这里是想传回图片的链接
-//      fs.rename(oldPath, newPath, () => {//fs.rename重命名图片名称
-//          res.json({ downUrl: downUrl })
-//     })
-//   })
-  console.log(1111111,req.file)
-})
+app.post("/avatar", function (req, res) {//上传头像
+  let form = new multiparty.Form();
+  form.encoding = "utf-8";
+  form.uploadDir = "./public/image/avatar";
+  form.parse(req, function (err, fields, files) {
+    try {
+      let inputFile = files.file[0];
+      let newPath = form.uploadDir + "/" + inputFile.originalFilename;
+      fs.renameSync(inputFile.path, newPath);
+      let newname = files.file[0].originalFilename
+      res.send({ newname });
+      
+    } catch (err) {
+      console.log(err);
+      res.send({ err: "上传失败！" });
+    }
+  });
+});
