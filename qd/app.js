@@ -5,7 +5,8 @@ App({
     // httpImageUrl:"http://127.0.0.1:8080/static/img/",//开发
     // httpUrl:"http://127.0.0.1:8080/"//开发
     httpImageUrl:"http://127.0.0.1:8080/static/image/",//上线
-    httpUrl:"http://127.0.0.1:8080/"//上线
+    httpUrl:"http://127.0.0.1:8080/",//上线
+    address:[]
   },
   login(){//checksession
     let that = this
@@ -45,6 +46,38 @@ App({
       }
     })
   },
+  // getAddress(){
+    
+  // },
+  getUserAddress(){
+    var that = this
+    return new Promise(function(resolve, reject){
+      wx.request ({
+        url:  that.globalData.httpUrl + 'getUserAddress' , // 拼接接口地址(前面为公共部分)
+        method: 'get',
+        header: {
+          'content-type' : 'application/json',
+          'usertoken':wx.getStorageSync('userToken')
+        },
+        success (res) {
+          if (res) { 
+              // 打印查看是否请求到接口数据
+  
+            // console.log(res.data.loginuser)
+            resolve(res.data.addressres);
+            console.log(res.data.addressres)
+            // wx.setStorageSync('loginuser', res.data.loginuser)
+          }	else {
+            console.log('没有数据')
+          } 
+        },
+        fail(msg){
+          console.log(msg)
+        }
+      })
+    })
+  },
+    
   getUserInfo(){
     var that = this
     wx.request ({
@@ -65,7 +98,7 @@ App({
         } 
       },
       fail(msg){
-
+        console.log(msg)
       }
     })
   },

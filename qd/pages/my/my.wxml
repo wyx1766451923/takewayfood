@@ -46,4 +46,46 @@
       个人完成的一个垃圾小课设
     </van-popup>
   </view>
+  <!-- 我的地址 -->
+  <van-popup
+      show="{{ myAddressshow }}"
+      closeable
+      position="bottom"
+      custom-style="height: 50%"
+      bind:close="onMyAddressClose"
+    >
+      <view class="title">
+        我的收货地址
+      </view>
+      <view class="watchAddress" wx:if="{{allAddress.length!=0}}">
+        <view class="addressgroup">
+          <view wx:for="{{allAddress}}" wx:key="id" data-address = "{{item}}">
+            <view class="addressitem">
+              <view class="info"> 
+                <view class="address">
+                  {{item.proAddress+' '+item.detilAddress}}
+                </view>
+                <view class="nameAndPhone">
+                  {{item.consignee+' '+item.phone}}
+                </view>
+              </view>
+              <view class="operate">
+                <view class="delete" catch:tap="delete">
+                  <van-icon name="delete-o" size="20px"/>
+                </view>
+                <view class="edit" catch:tap="edit" data-address="{{item}}">
+                  <van-icon name="records-o" size="20px"/>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="noaddress" wx:else="allAddress.length==0">
+        <van-empty description="您当前还没有地址" />
+      </view>
+      <view class="addAddress"> 
+        <van-button type="primary" size="large" disabled="{{allAddress.length==2?true:false}}" bind:click="onAddAddress">新增收货地址</van-button>
+      </view>
+    </van-popup>
 </view>

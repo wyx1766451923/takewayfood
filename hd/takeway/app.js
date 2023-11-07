@@ -176,3 +176,54 @@ app.post("/avatar", function (req, res) {//上传头像
     }
   });
 });
+app.get('/addAddress',(req,res)=>{//添加地址信息
+  console.log(req.headers.usertoken)
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let address = JSON.parse(req.query.address)
+  let proAddress = address.proAddress
+  let detilAddress = address.detilAddress
+  let consignee = address.consignee
+  let phone = address.phone
+  console.log(address)
+  connection.query(`SELECT id FROM wxuser where openid = "${userOpenid}"`, (err, user) => {
+      if (err) {
+        res.send({data:'openid出现问题'})
+      } else {
+        let userid = user[0].id
+        console.log(userid)
+        connection.query(`INSERT INTO u_address (userid, proAddress,detilAddress,consignee,phone) VALUES (${userid},"${proAddress}","${detilAddress}","${consignee}","${phone}")`, (err, addres) => {
+          if (err) {
+    
+            res.send({data:'error'})
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            res.send({data:'ok'})
+          }
+        })
+      }
+    })
+})
+app.get('/getUserAddress',(req,res)=>{//获取地址信息
+  // console.log(req.headers.usertoken)
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  connection.query(`SELECT id FROM wxuser where openid = "${userOpenid}"`, (err, user) => {
+      if (err) {
+        res.send({data:'openid出现问题'})
+      } else {
+        let userid = user[0].id
+        console.log(userid)
+        connection.query(`SELECT * FROM u_address WHERE userid = ${userid}`, (err, addressres) => {
+          if (err) {
+    
+            res.send({data:'error'})
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            console.log(addressres)
+            res.send({addressres})
+          }
+        })
+      }
+    })
+})

@@ -1,11 +1,15 @@
 // pages/addAddress/addAddress.js
-var amapFile = require('../../utils/amap-wx.130.js')
+var app = getApp()
+// var amapFile = require('../../utils/amap-wx.130.js')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    httpUrl:app.globalData.httpUrl,
+    httpImageUrl:app.globalData.httpImageUrl,
     addOrEdit:'add',//
     address:{},
     orderid:0,
@@ -15,6 +19,36 @@ Page({
     phone:'',//手机号
 
   },
+  addAddress(address){
+    var that = this
+    wx.request ({
+      url: that.data.httpUrl + 'addAddress' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        address:address
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+          if(res.data.data == 'ok'){
+            console.log(res.data)
+          }else{
+            console.log('添加失败')
+          }
+
+        }	else {
+          console.log('没有数据')
+        } 
+      },
+      fail(msg){
+        console.log(msg)
+      }
+    })
+  },
   confirm(){
     let address = {
       proAddress:this.data.proAddress,
@@ -22,7 +56,15 @@ Page({
       consignee:this.data.consignee,
       phone:this.data.phone
     }
+    if(this.data.addOrEdit == 'add'){
+      this.addAddress(address)
+    }else{
+      console.log('修改')
+    }
     console.log(address)
+    wx.navigateBack({
+      delta:1
+    })
   },
   delete(){
     console.log("删除")

@@ -12,7 +12,17 @@ Page({
     avatar:'',
     nickname:'',
     contactShow:false,
-    aboutShow:false
+    aboutShow:false,
+    myAddressshow:false,
+    allAddress:[
+      // {
+      //   id:1,
+      //   consignee:'陈桂金',
+      //   proAddress:'重庆理工大学花溪校区',
+      //   detilAddress:'B316',
+      //   phone:'15523081234'
+      // }
+    ]
   },
   edit(){
     wx.navigateTo({
@@ -22,6 +32,14 @@ Page({
   },
   watchAddress(){
     console.log("打开地址页面")
+    this.setData({
+      myAddressshow:true
+    })
+  },
+  onMyAddressClose(){
+    this.setData({
+      myAddressshow:false
+    })
   },
   contactus(){
     console.log("联系我们")
@@ -45,15 +63,37 @@ Page({
       aboutShow:false
     })
   },
+  delete(){
+    console.log('删除地址')
+  },
+  edit(e){
+    console.log('编辑地址')
+    let address = JSON.stringify(e.currentTarget.dataset.address)
+    console.log("编辑地址",address)
+    wx.navigateTo({
+      url: `/pages/addAddress/addAddress?address=${address}`
+    })
+  },
+  onAddAddress(){
+    console.log('新增地址')
+    wx.navigateTo({
+      url: '/pages/addAddress/addAddress'
+    })
+  },
   getuserinfo(){
 
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
+  async onLoad(options) {
     let loginuser = wx.getStorageSync('loginuser')
+    let allAddress = []
+    app.getUserAddress().then(val=>{
+      console.log(val)
+    })
     
+    console.log(allAddress)
     this.setData({
       avatar:this.data.httpImageUrl+loginuser.avatar,
       nickname:loginuser.nickname
