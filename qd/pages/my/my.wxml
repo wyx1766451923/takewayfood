@@ -22,4 +22,28 @@
         <van-cell title="关于我们" is-link bind:click="aboutus"/>
     </view>
   </view>
+  <view class="contactus">
+    <van-popup 
+      show="{{ contactShow }}" 
+      bind:close="onContactClose"
+      closeable
+      round
+      custom-style="height: 30%"
+      custom-class="contactPopUp"
+    >
+      请添加我们的客服反馈问题哦：wx1111111
+    </van-popup>
+  </view>
+  <view class="aboutus">
+    <van-popup 
+      show="{{ aboutShow }}" 
+      bind:close="onAboutClose"
+      closeable
+      round
+      custom-style="height: 30%"
+      custom-class="AboutPopUp"
+    >
+      个人完成的一个垃圾小课设
+    </van-popup>
+  </view>
 </view>

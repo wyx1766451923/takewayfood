@@ -10,7 +10,9 @@ Page({
     httpImageUrl:app.globalData.httpImageUrl,
     code:'',
     avatar:'',
-    nickname:''
+    nickname:'',
+    contactShow:false,
+    aboutShow:false
   },
   edit(){
     wx.navigateTo({
@@ -23,9 +25,25 @@ Page({
   },
   contactus(){
     console.log("联系我们")
+    this.setData({
+      contactShow:true
+    })
+  },
+  onContactClose(){
+    this.setData({
+      contactShow:false
+    })    
   },
   aboutus(){
     console.log("关于我们")
+    this.setData({
+      aboutShow:true
+    })
+  },
+  onAboutClose(){
+    this.setData({
+      aboutShow:false
+    })
   },
   getuserinfo(){
 

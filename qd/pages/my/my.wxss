@@ -34,3 +34,17 @@ page{
   border-radius: 10px;
   overflow: hidden;
 }
+.contactPopUp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 200px;
+}
+.AboutPopUp{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 200px;  
+}
