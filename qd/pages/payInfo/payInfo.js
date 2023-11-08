@@ -1,5 +1,6 @@
 // pages/payInfo/payInfo.js
 var app = getApp()
+import Toast from '@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -16,7 +17,7 @@ Page({
     show:false,//备注底部弹出框控制
     tablewareshow:false,//餐具数量底部弹出框控制
     addressshow:false,//地址选择底部弹出框控制
-    tablewarenum:'',
+    tablewarenum:'需要餐具，商家依据餐量提供',
     selectTime:[],
     selectvalue:'', 
     remark:'',
@@ -32,13 +33,13 @@ Page({
     '5份以上',
     ],
     allAddress:[
-      {
-        id:1,
-        consignee:'陈桂金',
-        proAddress:'重庆理工大学花溪校区',
-        detilAddress:'B316',
-        phone:'15523081234'
-      }
+      // {
+      //   id:1,
+      //   consignee:'陈桂金',
+      //   proAddress:'重庆理工大学花溪校区',
+      //   detilAddress:'B316',
+      //   phone:'15523081234'
+      // }
     ]
   },
   onTablewareChange(e){
@@ -65,6 +66,7 @@ Page({
   },
   selectAddress(e){
     let slectedAddress = e.currentTarget.dataset.address
+    console.log(slectedAddress)
     this.setData({
       slectedAddress,
       addressshow:false
@@ -113,7 +115,12 @@ Page({
     })
   },
   pay(){
-    console.log("payment")
+    if(this.data.slectedAddress.length == 0){
+      Toast.fail('您还未选择地址');
+    }else{
+      console.log("payment")
+    }
+    
   },
   onClose(){
     this.setData({
@@ -214,6 +221,13 @@ Page({
     let foodnum = options.foodnum
     let totalprice = options.totalprice
     let shopmsg = JSON.parse(options.shopmsg)
+    app.getUserAddress().then(val=>{
+      // console.log(val)
+      this.setData({
+        allAddress:val
+      })
+      // console.log(this.data.allAddress)
+    })
     this.setData({
       foodlist,
       foodnum,

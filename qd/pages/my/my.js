@@ -1,5 +1,7 @@
 // pages/my/my.js
 const app = getApp()
+import Dialog from '@vant/weapp/dialog/dialog';
+import Toast from '@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -63,8 +65,53 @@ Page({
       aboutShow:false
     })
   },
-  delete(){
-    console.log('删除地址')
+  delete(e){
+    let addressId = e.currentTarget.dataset.id
+    var that = this
+    Dialog.confirm({
+      title: '删除此地址',
+      message: '确认删除此地址吗？',
+    })
+      .then(() => {
+        wx.request ({
+          url: that.data.httpUrl + 'deleteAddress' , // 拼接接口地址(前面为公共部分)
+          method: 'get',
+          data:{
+            addressId:addressId
+          },
+          header: {
+            'content-type' : 'application/json',
+            'usertoken':wx.getStorageSync('userToken')
+          },
+          success (res) {
+            if (res) { 
+                // 打印查看是否请求到接口数据
+              if(res.data.data == 'ok'){
+                console.log(res.data)
+                app.getUserAddress().then(val=>{
+                  that.setData({
+                    allAddress:val
+                  })
+                })
+                Toast.success('删除成功');
+              }else{
+                Toast.fail('删除失败');
+              }
+    
+            }	else {
+              console.log('没有数据')
+            } 
+          },
+          fail(msg){
+            console.log(msg)
+          }
+        })
+      })
+      .catch(() => {
+        // on cancel
+      });
+
+
   },
   edit(e){
     console.log('编辑地址')
@@ -88,12 +135,14 @@ Page({
    */
   async onLoad(options) {
     let loginuser = wx.getStorageSync('loginuser')
-    let allAddress = []
     app.getUserAddress().then(val=>{
-      console.log(val)
+      // console.log(val)
+      this.setData({
+        allAddress:val
+      })
+      // console.log(this.data.allAddress)
     })
     
-    console.log(allAddress)
     this.setData({
       avatar:this.data.httpImageUrl+loginuser.avatar,
       nickname:loginuser.nickname

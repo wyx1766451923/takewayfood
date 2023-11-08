@@ -40,4 +40,6 @@
   <view class="delete" bind:tap="delete" wx:if="{{addOrEdit=='edit'}}">
     <van-button type="danger" size="large">删除地址</van-button>
   </view>
+  <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
 </view>

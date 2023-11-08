@@ -227,3 +227,33 @@ app.get('/getUserAddress',(req,res)=>{//获取地址信息
       }
     })
 })
+app.get('/deleteAddress',(req,res)=>{//删除地址信息
+  let addressId = req.query.addressId
+  connection.query(`DELETE from u_address where id =${addressId}`, (err, delres) => {
+      if (err) {
+        res.send({data:'err'})
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        res.send({data:'ok'})
+      }
+    })  
+})
+app.get('/setAddress',(req,res)=>{//添加地址信息
+  console.log(req.headers.usertoken)
+  // let usertoken = req.headers.usertoken
+  // let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let address = JSON.parse(req.query.address)
+  let id = address.id
+  let proAddress = address.proAddress
+  let detilAddress = address.detilAddress
+  let consignee = address.consignee
+  let phone = address.phone
+  console.log(address)
+  connection.query(`UPDATE u_address set proAddress = "${proAddress}",detilAddress = "${detilAddress}",consignee = "${consignee}",phone = "${phone}" WHERE id = ${id}`, (err, addressinfo) => {
+      if (err) {
+        res.send({data:'err'})
+      } else {
+        res.send({addressinfo})
+      }
+    })
+})

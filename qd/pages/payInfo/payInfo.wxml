@@ -109,7 +109,7 @@
       </view>
       <view class="rebutton" bind:tap="selectTableware">
         <view class="default">
-          {{tablewarenum==''?columns[1]:tablewarenum}}
+          {{tablewarenum}}
         </view>
         <van-icon name="arrow" class="addarrow"/>
       </view>
@@ -214,4 +214,5 @@
         <van-button type="primary" size="large" disabled="{{allAddress.length==2?true:false}}" bind:click="onAddAddress">新增收货地址</van-button>
       </view>
     </van-popup>
+    <van-toast id="van-toast" />
 </view>

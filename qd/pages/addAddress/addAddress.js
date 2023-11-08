@@ -1,7 +1,8 @@
 // pages/addAddress/addAddress.js
 var app = getApp()
 // var amapFile = require('../../utils/amap-wx.130.js')
-
+import Dialog from '@vant/weapp/dialog/dialog';
+import Toast from '@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -17,6 +18,37 @@ Page({
     detilAddress:'',//详细地址
     consignee:'',//收货人
     phone:'',//手机号
+
+  },
+  setAddress(address){
+    var that = this
+    let id = that.data.orderid
+    let newAddress = {id,...address}
+    wx.request ({
+      url: that.data.httpUrl + 'setAddress' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        address:newAddress
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+          console.log(res.data)
+          Toast.success('修改成功');
+        }	else {
+          Toast.fail('修改失败');
+        } 
+      },
+      fail(msg){
+        Toast.fail('修改失败',msg);
+      }
+    })
+    // console.log(newAddress)
+
 
   },
   addAddress(address){
@@ -35,19 +67,21 @@ Page({
         if (res) { 
             // 打印查看是否请求到接口数据
           if(res.data.data == 'ok'){
-            console.log(res.data)
+            Toast.success('添加成功');
           }else{
-            console.log('添加失败')
+            Toast.fail('添加失败');
           }
 
         }	else {
-          console.log('没有数据')
+          Toast.fail('添加失败');
         } 
       },
       fail(msg){
-        console.log(msg)
+        Toast.fail('添加失败',msg);
       }
     })
+
+
   },
   confirm(){
     let address = {
@@ -56,18 +90,110 @@ Page({
       consignee:this.data.consignee,
       phone:this.data.phone
     }
-    if(this.data.addOrEdit == 'add'){
-      this.addAddress(address)
+    let that = this
+    if(that.data.addOrEdit == 'add'){
+      console.log('新增add')
+      Dialog.confirm({
+        title: '新增地址',
+        message: '确定要新增地址吗？',
+      })
+        .then(() => {
+          console.log("提示新增")
+          that.addAddress(address)
+          let pages = getCurrentPages() //获取当前页面js里面的pages里的所有信息。
+          let prevPage = pages[ pages.length - 2 ]
+          app.getUserAddress().then(val=>{
+            prevPage.setData({
+              allAddress:val
+            })
+            wx.navigateBack({
+              delta:1,
+            })
+          })
+
+        })
+        .catch(() => {
+          // on cancel
+        });
+      
     }else{
-      console.log('修改')
+      // console.log('修改')
+      Dialog.confirm({
+        title: '修改地址',
+        message: '确认修改地址吗？',
+      })
+        .then(() => {
+          that.setAddress(address)
+          let pages = getCurrentPages() //获取当前页面js里面的pages里的所有信息。
+          let prevPage = pages[ pages.length - 2 ]
+          app.getUserAddress().then(val=>{
+            prevPage.setData({
+              allAddress:val
+            })
+            wx.navigateBack({
+              delta:1,
+            })
+          })
+
+        })
+        .catch(() => {
+          
+        });
+
     }
-    console.log(address)
-    wx.navigateBack({
-      delta:1
-    })
+    // console.log(address)
+
   },
   delete(){
-    console.log("删除")
+    let addressId = this.data.orderid
+    var that = this
+    Dialog.confirm({
+      title: '删除地址',
+      message: '确认删除此地址吗？',
+    })
+      .then(() => {
+        // on confirm
+        wx.request ({
+          url: that.data.httpUrl + 'deleteAddress' , // 拼接接口地址(前面为公共部分)
+          method: 'get',
+          data:{
+            addressId:addressId
+          },
+          header: {
+            'content-type' : 'application/json',
+            'usertoken':wx.getStorageSync('userToken')
+          },
+          success (res) {
+            if (res) { 
+                // 打印查看是否请求到接口数据
+              if(res.data.data == 'ok'){
+                let pages = getCurrentPages() //获取当前页面js里面的pages里的所有信息。
+                let prevPage = pages[ pages.length - 2 ]
+                app.getUserAddress().then(val=>{
+                  prevPage.setData({
+                    allAddress:val
+                  })
+                  wx.navigateBack({
+                    delta:1,
+                  })
+                })
+              }else{
+                Toast.fail('删除失败');
+              }
+    
+            }	else {
+              Toast.fail('删除失败');
+            } 
+          },
+          fail(msg){
+            Toast.fail('删除失败',msg);
+          }
+        })
+      })
+      .catch(() => {
+        // on cancel
+      });
+
   },
   onProAddressChange(e){
     console.log(e.detail)
@@ -117,6 +243,7 @@ Page({
      })
       address = JSON.parse(address)
      let {id:orderid,proAddress,detilAddress,consignee,phone} = address
+     
       this.setData({
         address:address,
         addOrEdit:'edit',
@@ -126,6 +253,7 @@ Page({
         consignee,
         phone
       })
+      console.log(this.data.orderid)
     }
   },
 

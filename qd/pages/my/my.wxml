@@ -70,7 +70,7 @@
                 </view>
               </view>
               <view class="operate">
-                <view class="delete" catch:tap="delete">
+                <view class="delete" catch:tap="delete" data-id="{{item.id}}">
                   <van-icon name="delete-o" size="20px"/>
                 </view>
                 <view class="edit" catch:tap="edit" data-address="{{item}}">
@@ -88,4 +88,6 @@
         <van-button type="primary" size="large" disabled="{{allAddress.length==2?true:false}}" bind:click="onAddAddress">新增收货地址</van-button>
       </view>
     </van-popup>
+    <van-dialog id="van-dialog" />
+    <van-toast id="van-toast" />
 </view>
