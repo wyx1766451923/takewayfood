@@ -1,0 +1,131 @@
+page{
+  background: rgb(235, 234, 234);
+}
+.orderinfo{
+  padding-bottom: 50px;
+}
+.payinfo{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.shopname{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 3px 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+.toShop{
+  padding: 0 0 0 10px;
+}
+.foodlist{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 10px 0 10px 0;
+  height: 10.12rem;
+  overflow-y: scroll;
+}
+.fooditem{
+  display: flex;
+  justify-content: space-between;
+}
+.imgAndInfo{
+  display: flex;
+  padding-left: 5px;
+}
+.foodImg{
+  border-radius: 10px;
+  overflow: hidden;
+}
+.foodInfo{
+  padding-left: 5px;
+  font-size: 14px;
+}
+.foodnum{
+  padding-top: 10px;
+}
+.foodprice{
+  font-size: 14px;
+}
+.expensee{
+  border-bottom:1px solid rgb(247, 246, 246) ;
+  padding: 10px 0 10px 0;
+}
+.packfee{
+  padding: 0 0 8px 0;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+.deliveryfee{
+  font-size: 14px;
+  padding-top: 3px;
+  display: flex;
+  justify-content: space-between;
+}
+.totalprice{
+  padding:10px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+}
+.deliveryInfo{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px; 
+}
+.topic{
+  font-weight: bold;
+  padding: 0 0 8px 0;
+  border-bottom: 1px solid rgb(241, 239, 239);
+}
+.deliveryTime{
+  display: flex;
+  padding: 10px 0 10px 0;
+}
+.title{
+  font-size: 14px;
+  color: gray;
+  flex-shrink: 0;
+}
+.content{
+  font-size: 14px;
+  padding-left: 20px;
+}
+.deliveryAddress{
+  display: flex;
+  padding: 3px 0 5px 0;
+}
+.deliveryProcess{
+  padding: 3px 0 10px 0;
+}
+.processitem{
+  font-size: 14px;
+  padding: 10px 0 10px 0;
+}
+.orderDetail{
+  background: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px; 
+}
+.orderNumbering{
+  display: flex;
+  padding: 10px 0 10px 0;  
+}
+.orderTime{
+  display: flex;
+  padding: 5px 0 5px 0;
+}
+.payMethod{
+  display: flex;
+  padding: 5px 0 5px 0;
+}
+.remark{
+  display: flex;
+  padding: 5px 0 5px 0;
+}
+.tablewareNumber{
+  display: flex;
+  padding: 5px 0 5px 0;
+}

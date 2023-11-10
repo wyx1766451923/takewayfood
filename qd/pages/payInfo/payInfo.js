@@ -118,7 +118,21 @@ Page({
     if(this.data.slectedAddress.length == 0){
       Toast.fail('您还未选择地址');
     }else{
-      console.log("payment")
+      let foodlist = JSON.stringify(this.data.foodlist)
+      let slectedAddress = JSON.stringify(this.data.slectedAddress)
+      let shopmsg = JSON.stringify(this.data.shopmsg)
+      let remark = this.data.remark
+      let totalprice = this.data.totalprice
+      let tablewarenum = this.data.tablewarenum//餐具数量
+      let selectvalue = this.data.selectvalue//送达时间
+      let foodnum = this.data.foodnum
+      wx.navigateTo({
+        url: `/pages/orderInfo/orderInfo?foodlist=${foodlist}&slectedAddress=${slectedAddress}&shopmsg=${shopmsg}&remark=${remark}&totalprice=${totalprice}&tablewarenum=${tablewarenum}&selectvalue=${selectvalue}&foodnum=${foodnum}`,
+      })
+      console.log(totalprice,foodnum)
+      // console.log(foodlist,slectedAddress,shopmsg,remark,totalprice)
+      
+      
     }
     
   },

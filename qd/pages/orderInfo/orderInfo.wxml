@@ -1,0 +1,114 @@
+<!--pages/orderInfo/orderInfo.wxml-->
+<wxs module="shopModule">
+  var toFixNum = function(num){
+    var newNum = num.toFixed(2);
+    return newNum
+  }
+  var toNumber = function(str){
+    return Number(str)
+  }
+  module.exports = {
+    toFixNum:toFixNum,
+    toNumber:toNumber
+  }
+</wxs>
+<view class="orderinfo">
+  <view class="payinfo">
+    <view class="shopname">
+      {{shopmsg.shopName}}<van-icon name="arrow" bind:click="toShop" size="20px" class="toShop"/>
+    </view>
+    <view class="foodlist">
+      <view class="fooditem" wx:for="{{foodlist}}" wx:key="id">
+        <view class="imgAndInfo">
+          <view class="foodImg">
+            <van-image
+              width="50px"
+              height="50px"
+              fit="cover"
+              src="{{httpImageUrl+item.mainPhoto}}"
+            />
+          </view>
+          <view class="foodInfo">
+            <view class="foodName">
+              {{item.productName}}
+            </view>
+            <view class="foodnum">
+            x{{item.count}}
+            </view>
+          </view>
+        </view>
+        <view class="foodprice">
+          ￥{{shopModule.toFixNum(item.price*item.discount/10)}}
+        </view>
+      </view>
+    </view>
+    <view class="expensee">
+      <view class="packfee">
+        <view>
+          打包费
+        </view>
+        <view>
+          ￥{{foodnum*1}}
+        </view>
+      </view>
+      <view class="deliveryfee">
+        <view>
+          配送费
+        </view>
+        <view>
+          ￥{{shopmsg.deliveryFees}}
+        </view>
+      </view>
+    </view>
+    <view class="totalprice">
+      <view>
+        小计
+      </view>
+      <view>
+        ￥{{shopModule.toNumber(totalprice)+shopmsg.deliveryFees}}
+      </view>
+    </view>
+  </view>
+  <view class="deliveryInfo">
+    <view class="topic">
+      配送信息
+    </view>
+    <view class="deliveryTime">
+      <view class="title">预计送达</view>
+      <view class="content">{{selectvalue}}</view>
+    </view>
+    <view class="deliveryAddress">
+      <view class="title">配送地址</view>
+      <view class="content">{{slectedAddress.consignee+' '+slectedAddress.phone+' '+slectedAddress.proAddress+' '+slectedAddress.detilAddress}}</view>
+    </view>
+    <view class="deliveryProcess">
+      <view class="title">配送流程</view>
+      <view class="processitem">{{'商家已接单 2023-11-10 20:51'}}</view>
+    </view>    
+  </view>
+  <view class="orderDetail">
+    <view class="topic">
+      配送信息
+    </view>
+    <view class="orderNumbering">
+      <view class="title">订单编号</view>
+      <view class="content">{{'2023111015523083645'}}</view>
+    </view>
+    <view class="orderTime">
+      <view class="title">下单时间</view>
+      <view class="content">{{'2023-11-10 19:55:20'}}</view>
+    </view>
+    <view class="payMethod">
+      <view class="title">支付方式</view>
+      <view class="content">微信支付</view>
+    </view>
+    <view class="remark">
+      <view class="title">用户备注</view>
+      <view class="content">{{remark || '无'}}</view>
+    </view>
+    <view class="tablewareNumber">
+      <view class="title">餐具数量</view>
+      <view class="content">{{tablewarenum}}</view>
+    </view>
+  </view>
+</view>
