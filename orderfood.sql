@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 23/10/2023 19:08:47
+ Date: 13/11/2023 21:22:28
 */
 
 SET NAMES utf8mb4;
@@ -52,35 +52,30 @@ INSERT INTO `t_notice` VALUES (1, '小程序外卖送餐平台成立', '各位�
 INSERT INTO `t_notice` VALUES (2, '订餐多多，实惠多多', '大家多多来订餐，我们入住的都是最实惠的餐饮店', '2020-05-14 00:12:34');
 
 -- ----------------------------
--- Table structure for t_orderinfo
+-- Table structure for t_order
 -- ----------------------------
-DROP TABLE IF EXISTS `t_orderinfo`;
-CREATE TABLE `t_orderinfo`  (
-  `orderId` int NOT NULL AUTO_INCREMENT COMMENT '订单编号',
-  `productId` int NOT NULL COMMENT '商品id',
-  `orderNum` int NOT NULL COMMENT '订单数量',
-  `totalMoney` float NOT NULL COMMENT '订单总金额',
-  `payWay` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '支付方式',
-  `orderStateObj` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '订单状态',
-  `receiveName` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '收货人',
-  `telephone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '收货人电话',
-  `address` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '收货人地址',
-  `orderMemo` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '订单备注',
-  `userObj` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '下单用户',
-  `orderTime` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '下单时间',
-  PRIMARY KEY (`orderId`) USING BTREE,
-  INDEX `productObj`(`productId` ASC) USING BTREE,
-  INDEX `userObj`(`userObj` ASC) USING BTREE,
-  CONSTRAINT `t_orderinfo_ibfk_1` FOREIGN KEY (`productId`) REFERENCES `t_product` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `t_orderinfo_ibfk_2` FOREIGN KEY (`userObj`) REFERENCES `t_userinfo` (`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `t_order`;
+CREATE TABLE `t_order`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `foodlist` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '餐品列表',
+  `addressid` int NOT NULL COMMENT '所选地址id',
+  `shopid` int NOT NULL COMMENT '店铺id',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `totalprice` decimal(10, 2) NOT NULL COMMENT '总价',
+  `tablewarenum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '餐具数量',
+  `selectArriveTime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '选择送达时间',
+  `foodnum` int NOT NULL COMMENT '餐品数量',
+  `userid` int NOT NULL COMMENT '用户id',
+  `deliveryState` int NOT NULL COMMENT '配送状态',
+  `orderTime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '下单时间',
+  `orderNum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of t_orderinfo
+-- Records of t_order
 -- ----------------------------
-INSERT INTO `t_orderinfo` VALUES (1, 1, 2, 40, '微信', '已下单', '李晓彤', '13985012083', '芙蓉8宿舍224寝室', '快递送货，饿死了', '13910831234', '2020-05-10 11:20:11');
-INSERT INTO `t_orderinfo` VALUES (2, 2, 2, 44, '支付宝', '已下单', '黄小琥', '13980224234', '香樟小区4栋1203', '快哦', '13688886666', '2020-05-12 23:08:56');
-INSERT INTO `t_orderinfo` VALUES (3, 3, 3, 75, '支付宝', '送货中', '李明堂', '13598010834', '南校区12宿舍', '来吧', '13688886666', '2020-05-13 00:34:00');
+INSERT INTO `t_order` VALUES (27, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 3, 1, '不要香菜', 49.96, '需要餐具，商家依据餐量提供', '', 3, 3, 0, '2023-11-13 21:07:34', '2023111321073415523085678');
 
 -- ----------------------------
 -- Table structure for t_product
@@ -223,5 +218,42 @@ INSERT INTO `typeshop` VALUES (3, 2, 1);
 INSERT INTO `typeshop` VALUES (4, 3, 1);
 INSERT INTO `typeshop` VALUES (5, 4, 2);
 INSERT INTO `typeshop` VALUES (6, 5, 2);
+
+-- ----------------------------
+-- Table structure for u_address
+-- ----------------------------
+DROP TABLE IF EXISTS `u_address`;
+CREATE TABLE `u_address`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `userid` int NOT NULL COMMENT 'userid',
+  `proAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户大致地址',
+  `consignee` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户称呼',
+  `detilAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户详细地址',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户手机号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of u_address
+-- ----------------------------
+INSERT INTO `u_address` VALUES (3, 3, '重庆理工大学花溪校区', '龙东强', '竹轩B316', '15523085678');
+INSERT INTO `u_address` VALUES (17, 3, '重庆理工大学花溪校区', '陈成培', '3教210', '15529865496');
+
+-- ----------------------------
+-- Table structure for wxuser
+-- ----------------------------
+DROP TABLE IF EXISTS `wxuser`;
+CREATE TABLE `wxuser`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像',
+  `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'openid',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of wxuser
+-- ----------------------------
+INSERT INTO `wxuser` VALUES (3, '。。。', 'avatar/iFOANfZ4HFKx10344295ff1a6b74cf53724d165b3dbb.jpeg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
 
 SET FOREIGN_KEY_CHECKS = 1;

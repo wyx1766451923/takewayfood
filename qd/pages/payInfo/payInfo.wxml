@@ -30,7 +30,7 @@
     <view class="estimateTime">
       <text>预计送达</text>
       <view class="time">
-      {{selectvalue==0?'当前无法点餐':selectvalue}}
+      {{selectArriveTime==0?'当前无法点餐':selectArriveTime}}
       <van-icon name="arrow" class="addarrow" bind:click="modifyDeliveryTime"/>
       </view>
     </view>

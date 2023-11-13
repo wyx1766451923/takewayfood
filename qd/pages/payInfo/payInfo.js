@@ -19,7 +19,7 @@ Page({
     addressshow:false,//地址选择底部弹出框控制
     tablewarenum:'需要餐具，商家依据餐量提供',
     selectTime:[],
-    selectvalue:'', 
+    selectArriveTime:'', 
     remark:'',
     radio: '',
     slectedAddress:[],
@@ -114,22 +114,67 @@ Page({
       tablewareshow:true
     })
   },
-  pay(){
-    if(this.data.slectedAddress.length == 0){
-      Toast.fail('您还未选择地址');
+  setOrder(){
+    let foodlist = JSON.stringify(this.data.foodlist)      
+    let addressid = this.data.slectedAddress.id
+    let shopid = this.data.shopmsg.id
+    let remark = this.data.remark
+    let totalprice = this.data.totalprice
+    let tablewarenum = this.data.tablewarenum//餐具数量
+    let selectArriveTime = this.data.selectArriveTime//送达时间
+    let foodnum = this.data.foodnum
+    let that = this
+
+    wx.request ({
+      url: that.data.httpUrl + 'setOrder' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        foodlist:foodlist,
+        addressid:addressid,
+        shopid:shopid,
+        remark:remark,
+        totalprice:totalprice,
+        tablewarenum:tablewarenum,
+        selectArriveTime:selectArriveTime,
+        foodnum:foodnum
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+          let orderid = res.data.orderid
+
+          console.log(orderid)
+          wx.reLaunch({
+            url: `/pages/orderInfo/orderInfo?orderid=${orderid}`,
+          })
+          Toast.success('添加成功');
+        }	else {
+          Toast.fail('添加失败');
+        } 
+      },
+      fail(msg){
+        Toast.fail('添加失败',msg);
+      }
+    })    
+  },
+  async pay(){
+    if(this.data.slectedAddress.length == 0 || this.data.selectTime.length == 0){
+      if(this.data.slectedAddress.length == 0){
+        Toast.fail('您还未选择地址');
+      }else{
+        Toast.fail('超出点餐时间！');
+      }
     }else{
-      let foodlist = JSON.stringify(this.data.foodlist)
-      let slectedAddress = JSON.stringify(this.data.slectedAddress)
-      let shopmsg = JSON.stringify(this.data.shopmsg)
-      let remark = this.data.remark
-      let totalprice = this.data.totalprice
-      let tablewarenum = this.data.tablewarenum//餐具数量
-      let selectvalue = this.data.selectvalue//送达时间
-      let foodnum = this.data.foodnum
-      wx.navigateTo({
-        url: `/pages/orderInfo/orderInfo?foodlist=${foodlist}&slectedAddress=${slectedAddress}&shopmsg=${shopmsg}&remark=${remark}&totalprice=${totalprice}&tablewarenum=${tablewarenum}&selectvalue=${selectvalue}&foodnum=${foodnum}`,
-      })
-      console.log(totalprice,foodnum)
+      await this.setOrder()
+      // console.log(this.data.orderid)
+      // let orderid = this.data.orderid
+      // wx.navigateTo({
+      //   url: `/pages/orderInfo/orderInfo?orderid=${orderid}`,
+      // })
       // console.log(foodlist,slectedAddress,shopmsg,remark,totalprice)
       
       
@@ -147,22 +192,22 @@ Page({
     })
   },
   determineTime(e){
-    let selectvalue = e.currentTarget.dataset.select
-    console.log(selectvalue)
+    let selectArriveTime = e.currentTarget.dataset.select
+    console.log(selectArriveTime)
     this.setData({
-      selectvalue,
+      selectArriveTime,
       show:false
     })
   },
   getSelectvalue(){
-    let selectvalue = ''
+    let selectArriveTime = ''
     if(this.data.selectTime.length!=0){
       console.log("buwei 0") 
-      selectvalue = this.data.selectTime[0]
-      console.log(selectvalue)
+      selectArriveTime = this.data.selectTime[0]
+      console.log(selectArriveTime)
     } 
     this.setData({
-      selectvalue
+      selectArriveTime
     })
   },
   getNowTime(){

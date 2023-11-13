@@ -5,7 +5,8 @@ const conn = mysql.createConnection({
     user: 'root',
     password: 'root',
     database: 'orderfood',
-    multipleStatements: true
+    multipleStatements: true,
+    charset:'utf8mb4'
 })
 module.exports = conn
  

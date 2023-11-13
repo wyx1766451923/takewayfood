@@ -7,9 +7,18 @@
   var toNumber = function(str){
     return Number(str)
   }
+  var getDeliveryState = function(state){
+    switch(state){
+      case 0:return '已下单';break;
+      case 1:return '商家已接单';break;
+      case 2:return '配送中';break;
+      case 3:return '订单已完成';break;
+    }
+  }
   module.exports = {
     toFixNum:toFixNum,
-    toNumber:toNumber
+    toNumber:toNumber,
+    getDeliveryState:getDeliveryState
   }
 </wxs>
 <view class="orderinfo">
@@ -75,7 +84,7 @@
     </view>
     <view class="deliveryTime">
       <view class="title">预计送达</view>
-      <view class="content">{{selectvalue}}</view>
+      <view class="content">{{selectArriveTime}}</view>
     </view>
     <view class="deliveryAddress">
       <view class="title">配送地址</view>
@@ -83,7 +92,7 @@
     </view>
     <view class="deliveryProcess">
       <view class="title">配送流程</view>
-      <view class="processitem">{{'商家已接单 2023-11-10 20:51'}}</view>
+      <view class="processitem">{{shopModule.getDeliveryState(deliveryState)}}</view>
     </view>    
   </view>
   <view class="orderDetail">
@@ -92,11 +101,11 @@
     </view>
     <view class="orderNumbering">
       <view class="title">订单编号</view>
-      <view class="content">{{'2023111015523083645'}}</view>
+      <view class="content">{{orderNum}}</view>
     </view>
     <view class="orderTime">
       <view class="title">下单时间</view>
-      <view class="content">{{'2023-11-10 19:55:20'}}</view>
+      <view class="content">{{orderTime}}</view>
     </view>
     <view class="payMethod">
       <view class="title">支付方式</view>
@@ -111,4 +120,5 @@
       <view class="content">{{tablewarenum}}</view>
     </view>
   </view>
+  <van-toast id="van-toast" />
 </view>

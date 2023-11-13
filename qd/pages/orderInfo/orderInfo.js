@@ -1,5 +1,6 @@
 // pages/orderInfo/orderInfo.js
 var app = getApp()
+import Toast from '@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -14,9 +15,13 @@ Page({
     shopname:'',
     shopmsg:[],
     tablewarenum:'需要餐具，商家依据餐量提供',
-    selectvalue:'', 
+    selectArriveTime:'', 
+    orderid:0,
     remark:'',
+    orderTime:'',
     slectedAddress:[],
+    deliveryState:0,
+    orderNum:''
   },
   toShop(){
     let shopMsg = JSON.stringify(this.data.shopmsg)
@@ -27,26 +32,124 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
-    let foodlist = JSON.parse(options.foodlist)
-    let slectedAddress = JSON.parse(options.slectedAddress)
-    let shopmsg = JSON.parse(options.shopmsg)
-    let remark = options.remark
-    let totalprice = options.totalprice
-    let tablewarenum = options.tablewarenum//餐具数量
-    let selectvalue = options.selectvalue//送达时间
-    let foodnum = options.foodnum
-    this.setData({
-      foodlist,
-      slectedAddress,
-      shopmsg,
-      remark,
-      totalprice,
-      tablewarenum,
-      selectvalue,
-      foodnum
+  getShopMsg(shopid){
+    let that = this
+    wx.request ({
+      url: that.data.httpUrl + 'getShopMsg' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        shopid:shopid
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) {  
+          that.setData({
+            shopmsg:res.data
+          })
+          console.log(res.data)
+        }	else {
+          Toast.fail('失败',msg);
+        } 
+      },
+      fail(msg){
+        Toast.fail('添加失败',msg);
+      }
+    })    
+  },
+  getOrderAddress(addressid){
+    let that = this
+    wx.request ({
+      url: that.data.httpUrl + 'getOrderAddress' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        addressid:addressid
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) {
+          that.setData({
+            slectedAddress:res.data
+          })
+          console.log(res.data)
+        }	else {
+          Toast.fail('失败',msg);
+        } 
+      },
+      fail(msg){
+        Toast.fail('添加失败',msg);
+      }
     })
-    console.log(totalprice)
+  },
+  getOrder(orderid){
+    let that = this
+
+    wx.request ({
+      url: that.data.httpUrl + 'getOrder' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        orderid:orderid
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+          let addressid = res.data.addressid
+          let shopid = res.data.shopid
+          that.setData({
+            foodlist:JSON.parse(res.data.foodlist),
+            foodnum:res.data.foodnum,
+            remark:res.data.remark,
+            selectArriveTime:res.data.selectArriveTime,
+            tablewarenum:res.data.tablewarenum,
+            totalprice:res.data.totalprice,
+            orderTime:res.data.orderTime,
+            deliveryState:res.data.deliveryState,
+            orderNum:res.data.orderNum
+          })
+          that.getOrderAddress(addressid)
+          that.getShopMsg(shopid)
+          console.log(res.data)
+        }	else {
+          Toast.fail('失败',msg);
+        } 
+      },
+      fail(msg){
+        Toast.fail('添加失败',msg);
+      }
+    })  
+  },
+  onLoad(options) {
+
+    let orderid = Number(options.orderid)
+    this.getOrder(orderid)
+    console.log(orderid)
+    // let foodlist = JSON.parse(options.foodlist)
+    // let slectedAddress = JSON.parse(options.slectedAddress)
+    // let shopmsg = JSON.parse(options.shopmsg)
+    // let remark = options.remark
+    // let totalprice = options.totalprice
+    // let tablewarenum = options.tablewarenum//餐具数量
+    // let selectArriveTime = options.selectArriveTime//送达时间
+    // let foodnum = options.foodnum
+    // this.setData({
+    //   foodlist,
+    //   slectedAddress,
+    //   shopmsg,
+    //   remark,
+    //   totalprice,
+    //   tablewarenum,
+    //   selectArriveTime,
+    //   foodnum
+    // })
+
   },
 
   /**
