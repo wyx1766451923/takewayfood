@@ -213,7 +213,7 @@ Page({
       shopid:Msg.id,
     })
     // console.log(this.data.shopMsg.shopName)
-    this.getTypeliat()
+    this.getTypelist()
     this.getFoods()
   },
 
@@ -231,7 +231,7 @@ Page({
       success (res) {
         if (res) { 
             // 打印查看是否请求到接口数据
-          console.log(res.data)
+          // console.log(res.data)
           that.setData({
             foods:res.data
 
@@ -260,7 +260,7 @@ Page({
       delta: 1
     });  
   },
-  getTypeliat(){
+  getTypelist(){
     var that = this
     wx.request ({
       url:  that.data.httpUrl + 'type' , // 拼接接口地址(前面为公共部分)

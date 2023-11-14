@@ -325,7 +325,7 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
   // console.log(address)
 
 })
-app.get('/getOrder',(req,res)=>{//获取订单信息
+app.get('/getOrder',(req,res)=>{//获取订单信息（通过订单编号）
   // console.log(req.headers.usertoken)
   let usertoken = req.headers.usertoken
   let userOpenid = jwt.decode(usertoken,jwtSecret).openid
@@ -366,6 +366,44 @@ app.get('/getShopMsg',(req,res)=>{//获取订单商家信息
       } else {
         // console.log(userid)
         res.send(shopmsg[0])
+      }
+    })
+})
+app.get('/getAllOrder',(req,res)=>{//获取订单信息（通过订单编号）
+  // console.log(req.headers.usertoken)
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  connection.query(`SELECT id FROM wxuser where openid = "${userOpenid}"`, (err, user) => {
+      if (err) {
+
+        res.send({data:'openid err'})
+      } else {
+        // console.log(userid)
+        let userid = user[0].id
+        connection.query(`SELECT o.*,s.shopName,s.deliveryFees FROM t_order o JOIN t_shop s on o.shopid = s.id where userid = ${userid}`, (err, orders) => {
+          if (err) {
+            res.send({data:'openid err'})
+          } else {
+              // console.log(userid)
+            res.send({orders})
+              
+          }
+        })
+
+      }
+    })
+})
+app.get('/getShopMsg',(req,res)=>{//查询所有商家
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let shopid = req.query.shopid
+  connection.query(`select * from t_shop where id = ${shopid}`, (err, shop) => {
+      if (err) {
+        res.send('query error')
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        let shop = shop[0]
+        res.send({shop})
       }
     })
 })
