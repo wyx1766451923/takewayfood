@@ -32,6 +32,7 @@ App({
 
                 console.log(resp.data)
                 wx.setStorageSync('userToken', resp.data)
+                that.getUserInfo()
               }	else {
                 console.log('没有数据')
               } 
@@ -103,6 +104,7 @@ App({
     })
   },
   onLaunch() {
+    let that = this
     wx.checkSession({
       success () {
         console.log('sessionkey未过期')
@@ -111,20 +113,19 @@ App({
       fail () {
         // session_key 已经失效，需要重新执行登录流程
         console.log("sessionkey过期") //重新登录
-        this.login()
-        this.getUserInfo()
+        that.login()
+        
       }
     }) 
-    let loginuser = wx.getStorageSync('loginUser');
+    let loginuser = wx.getStorageSync('loginuser');
     var usertoken = wx.getStorageSync('userToken');
-    if(loginuser && usertoken){
+    if(!loginuser && !usertoken){
       wx.setStorageSync('isLogined', true)
     }else{
       wx.setStorageSync('isLogined', false)
     }
     if(wx.getStorageSync('isLogined')==false){
-      this.login()
-      this.getUserInfo()
+      that.login()
     }
   }
 })

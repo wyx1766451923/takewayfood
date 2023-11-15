@@ -1,6 +1,5 @@
 // pages/addAddress/addAddress.js
 var app = getApp()
-// var amapFile = require('../../utils/amap-wx.130.js')
 import Dialog from '@vant/weapp/dialog/dialog';
 import Toast from '@vant/weapp/toast/toast';
 Page({

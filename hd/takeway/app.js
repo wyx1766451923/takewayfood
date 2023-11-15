@@ -47,6 +47,7 @@ app.get('/getLoginInfo',(req,res)=>{
   // console.log(req.query)
   axios.get(`https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid=${appid}&secret=${appsecret}&js_code=${req.query.code}`)
   .then(resp=>{
+    console.log(resp)
     session_key = resp.data.session_key
     openid = resp.data.openid
     let usertoken = {
