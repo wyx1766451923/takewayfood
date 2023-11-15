@@ -26,7 +26,7 @@ Page({
       // }
     ]
   },
-  edit(){
+  editUserInfo(){
     wx.navigateTo({
       url: '/pages/changeInfo/changeInfo',
     })
@@ -113,7 +113,7 @@ Page({
 
 
   },
-  edit(e){
+  editAddress(e){
     console.log('编辑地址')
     let address = JSON.stringify(e.currentTarget.dataset.address)
     console.log("编辑地址",address)

@@ -208,6 +208,23 @@ Page({
    */
   onLoad(options) {
     let Msg = JSON.parse(options.shopMsg)
+    let foodlist = options.foodlist || []
+    if(foodlist.length>0){
+      
+      JSON.parse(foodlist).forEach(item=>{
+        let price = (item.price * (item.discount/10))+1
+
+        this.setData({
+          totalPrice:Number((this.data.totalPrice + price).toFixed(2)),
+          foodNum:this.data.foodNum+item.count
+        })
+      })
+      this.setData({
+        foodlist:JSON.parse(foodlist),
+        show:true
+
+      })
+    }
     this.setData({
       shopMsg:Msg,
       shopid:Msg.id,

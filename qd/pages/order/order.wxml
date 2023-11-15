@@ -53,7 +53,7 @@
         </view>
       </view>
       <view class="operate">
-        <van-button type="primary" size="small" bind:click="repay" data-shopid="{{orderitem.shopid}}"
+        <van-button type="primary" size="small" bind:click="repay" data-shopid="{{orderitem.shopid}}" data-foodlist="{{shopModule.toParse(orderitem.foodlist)}}"
         >再来一单</van-button>
       </view>
     </view>

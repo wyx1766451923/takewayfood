@@ -12,7 +12,7 @@
     </view>
     <view class="nickname">
       {{nickname}}
-      <van-icon name="edit" size="20px" class="edit" bind:click="edit"/>
+      <van-icon name="edit" size="20px" class="editUserInfo" bind:click="editUserInfo"/>
     </view>
   </view>
   <view class="opoperate">
@@ -73,7 +73,7 @@
                 <view class="delete" catch:tap="delete" data-id="{{item.id}}">
                   <van-icon name="delete-o" size="20px"/>
                 </view>
-                <view class="edit" catch:tap="edit" data-address="{{item}}">
+                <view class="editAddress" catch:tap="editAddress" data-address="{{item}}">
                   <van-icon name="records-o" size="20px"/>
                 </view>
               </view>

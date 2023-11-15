@@ -21,7 +21,7 @@ page{
   border-radius: 50%;
   overflow: hidden;
 }
-.edit{
+.editUserInfo{
   position: absolute;
   padding-left: 10px;
 
@@ -88,8 +88,8 @@ page{
 
 
 }
-.edit{
-  margin-left: 20px;
+.editAddress{
+  margin-left: 5px;
   padding-top: 15px;
 }
 .addAddress{

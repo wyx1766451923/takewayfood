@@ -18,7 +18,38 @@ Page({
     })
   },
   repay(e){
-    this.toShop(e)
+    let shopid = e.currentTarget.dataset.shopid
+    let foodlist = JSON.stringify(e.currentTarget.dataset.foodlist)
+    console.log(foodlist)
+    var that = this
+    wx.request ({
+      url:  that.data.httpUrl + 'getShopMsg' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        shopid:shopid
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+            // 打印查看是否请求到接口数据
+            
+          let shopMsg = JSON.stringify(res.data)
+          console.log(res.data)
+          wx.navigateTo({
+            url: `/pages/shopDetail/shopDetail?shopMsg=${shopMsg}&foodlist=${foodlist}`,
+          })
+
+        }	else {
+          console.log('没有数据')
+        } 
+      },
+      fail(msg){
+
+      }
+    })
   },
   toShop(e){
     console.log(e.currentTarget.dataset.shopid)
@@ -66,7 +97,7 @@ Page({
       success (res) {
         if (res) {  
           that.setData({
-            allOrder:res.data.orders
+            allOrder:res.data.orders.reverse()
           })
           console.log(res.data.orders)
         }	else {

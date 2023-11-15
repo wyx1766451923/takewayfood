@@ -23,8 +23,8 @@
 </wxs>
 <view class="orderinfo">
   <view class="payinfo">
-    <view class="shopname">
-      {{shopmsg.shopName}}<van-icon name="arrow" bind:click="toShop" size="20px" class="toShop"/>
+    <view class="shopname" bind:tap="toShop">
+      {{shopmsg.shopName}}<van-icon name="arrow" size="20px" class="toShop"/>
     </view>
     <view class="foodlist">
       <view class="fooditem" wx:for="{{foodlist}}" wx:key="id">
