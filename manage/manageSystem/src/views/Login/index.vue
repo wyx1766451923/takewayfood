@@ -13,7 +13,7 @@
                 <el-input v-model="formLabelAlign.password" placeholder="请输入密码"/>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">登录</el-button>
+                <el-button type="primary" @click="onLogin">登录</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -22,11 +22,45 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router';
+import http from '../../api/http'
+import { ElMessage } from 'element-plus'
 const formLabelAlign = reactive({
   username: '',
   password: ''
 
 })
+const router = useRouter()
+const onLogin = ()=>{
+    http.post('/login',{
+        username:formLabelAlign.username,
+        password:formLabelAlign.password
+    }).then(function (response) {
+        if(response.data.login == 'ok'){
+            let token = response.data.token
+            localStorage.setItem('token',JSON.stringify(token))
+            ElMessage({
+                message: '登陆成功',
+                type: 'success',
+            })
+            router.push('/home')
+        }else if(response.data.login == 'pwdErro'){
+            ElMessage({
+                message: '密码错误，请检查您的密码',
+                type: 'error',
+            })
+        }else{
+            ElMessage({
+                message: '没有此管路员，您不是管理员！',
+                type: 'error',
+            })
+        }
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
 </script>
 
 <style lang="scss" scoped>

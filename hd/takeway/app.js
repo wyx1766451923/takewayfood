@@ -408,3 +408,27 @@ app.get('/getShopMsg',(req,res)=>{//查询所有商家
       }
     })
 })
+app.post('/login',(req,res)=>{
+  console.log(req.body)
+  let username = req.body.username
+  let password = req.body.password
+  connection.query(`SELECT * FROM admin where username = "${username}"`, (err, admin) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      if(admin.length>0){
+        if(admin[0].password == password){
+          res.send({
+            login:'ok',
+            token:{username:username,password:'*'}
+          })
+        }else{
+          res.send({login:'pwdErro'})
+        }
+      }else{
+        res.send({login:'noAdmin'})
+      }
+    }
+  })
+})

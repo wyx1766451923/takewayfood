@@ -12,14 +12,14 @@
         <div class="adminName">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    {{ 'admin' }}
+                    {{ admin }}
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>退出登录</el-dropdown-item>
+                        <el-dropdown-item @click="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -30,6 +30,18 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+const router = useRouter()
+const admin = ref('')
+const loginout = () =>{
+    localStorage.removeItem('token')
+    router.push('/login')
+}
+onMounted(()=>{
+    let username = JSON.parse(localStorage.getItem('token')).username
+    admin.value = username
+})
 </script>
 
 <style lang="scss" scoped>

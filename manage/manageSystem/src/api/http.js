@@ -6,7 +6,7 @@ import { ElMessage } from 'element-plus'
 // 1. 创建新的axios实例，
 const http = axios.create({
   // baseURL:"http://127.0.0.1:8080",
-  baseURL: 'http://localhost:3000',//开发环境
+  baseURL: 'http://localhost:8080',//开发环境
   // baseURL:'http://124.220.82.4:3000',//部署环境
   timeout: 3 * 1000
 })

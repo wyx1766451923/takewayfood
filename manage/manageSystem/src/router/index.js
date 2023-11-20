@@ -6,12 +6,18 @@ const routes = [
     },
     { 
       path: '/login',
-      component: ()=>import('../views/Login/index.vue') 
+      component: ()=>import('../views/Login/index.vue'),
+      meta: {
+        requireAuth: false // 不需要鉴权
+      }
     },
     { 
       path: '/home',
       redirect:'/home/index',
       component: ()=>import('../views/Home/index.vue') ,
+      meta: {
+        requireAuth: true // 不需要鉴权
+      },
       children:[
         { 
           path: 'index',
