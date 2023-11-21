@@ -3,7 +3,8 @@
     "van-toast": "@vant/weapp/toast/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-image": "@vant/weapp/image/index",
-    "van-button": "@vant/weapp/button/index"
+    "van-button": "@vant/weapp/button/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "navigationBarTitleText": "订单"
 }

@@ -18,7 +18,7 @@
   }
 </wxs>
 <view class="order">
-  <view class="orderContent">
+  <view class="orderContent" wx:if="{{allOrder.length > 0}}">
     <view class="orderitem" wx:for="{{allOrder}}" wx:key="id" wx:for-item="orderitem">
       <view class="shopAndState" bind:tap="toShop" data-shopid="{{orderitem.shopid}}">
         <view class="shopname">
@@ -57,5 +57,8 @@
         >再来一单</van-button>
       </view>
     </view>
+  </view>
+  <view class="noOrder" wx:else>
+    <van-empty description="当前没有订单" />
   </view>
 </view>

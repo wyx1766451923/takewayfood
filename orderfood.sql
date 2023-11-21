@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 15/11/2023 15:55:00
+ Date: 21/11/2023 18:04:59
 */
 
 SET NAMES utf8mb4;
@@ -26,12 +26,13 @@ CREATE TABLE `admin`  (
   `password` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
 INSERT INTO `admin` VALUES ('admin', 'admin', 1);
+INSERT INTO `admin` VALUES ('wyx', '123456', 2);
 
 -- ----------------------------
 -- Table structure for t_notice
@@ -70,7 +71,7 @@ CREATE TABLE `t_order`  (
   `orderTime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '下单时间',
   `orderNum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_order
@@ -80,6 +81,7 @@ INSERT INTO `t_order` VALUES (34, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\
 INSERT INTO `t_order` VALUES (35, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 3, 1, '不要香菜对骑手：对商家：', 64.96, '1份', '18:48', 4, 3, 2, '2023-11-14 17:38:42', '2023111417384215523085678');
 INSERT INTO `t_order` VALUES (36, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\"mainPhoto\":\"product/djyt.jpg\",\"price\":25,\"shopId\":2,\"sales\":63,\"discount\":10,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"}]', 17, 2, '快点儿快点儿快饿死了求求了求求了', 26.00, '无需餐具', '18:27', 1, 3, 1, '2023-11-14 17:42:52', '2023111417425215529865496');
 INSERT INTO `t_order` VALUES (37, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 17, 1, '大哥多加点儿肉', 64.96, '3份', '15:24', 4, 3, 0, '2023-11-15 14:44:51', '2023111514445115529865496');
+INSERT INTO `t_order` VALUES (38, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 18, 1, '放门口，不要敲门', 64.96, '1份', '15:01', 4, 4, 0, '2023-11-21 14:22:12', '2023112114221215523269584');
 
 -- ----------------------------
 -- Table structure for t_product
@@ -235,13 +237,14 @@ CREATE TABLE `u_address`  (
   `detilAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户详细地址',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户手机号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of u_address
 -- ----------------------------
 INSERT INTO `u_address` VALUES (3, 3, '重庆理工大学花溪校区', '龙东强', '竹轩B316', '15523085678');
 INSERT INTO `u_address` VALUES (17, 3, '重庆理工大学花溪校区', '菜就多练', '3教210', '15529865496');
+INSERT INTO `u_address` VALUES (18, 4, '重庆理工大学花溪校区', '尊嘟假嘟', '竹轩B316', '15523269584');
 
 -- ----------------------------
 -- Table structure for wxuser
@@ -253,11 +256,12 @@ CREATE TABLE `wxuser`  (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像',
   `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'openid',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wxuser
 -- ----------------------------
 INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/EbADoZJ36CJp06ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
+INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54');
 
 SET FOREIGN_KEY_CHECKS = 1;

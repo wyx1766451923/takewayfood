@@ -432,3 +432,14 @@ app.post('/login',(req,res)=>{
     }
   })
 })
+app.get('/getUserList',(req,res)=>{
+  connection.query(`SELECT id,nickname,avatar FROM wxuser `, (err, userlist) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      console.log(userlist)
+      res.send({userlist})
+    }
+  }) 
+})
