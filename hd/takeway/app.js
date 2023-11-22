@@ -433,7 +433,10 @@ app.post('/login',(req,res)=>{
   })
 })
 app.get('/getUserList',(req,res)=>{
-  connection.query(`SELECT id,nickname,avatar FROM wxuser `, (err, userlist) => {
+  let startIndex = req.query.startIndex
+  let size = req.query.size
+  //  limit ${startIndex},${size}
+  connection.query(`SELECT id,nickname,avatar FROM wxuser`, (err, userlist) => {
     if (err) {
       res.send('query error')
     } else {
@@ -442,4 +445,29 @@ app.get('/getUserList',(req,res)=>{
       res.send({userlist})
     }
   }) 
+})
+app.get('/getUserListCount',(req,res)=>{
+  connection.query(`SELECT COUNT(*) as count FROM wxuser`, (err, userListCount) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      let count = userListCount[0].count
+      console.log(count)
+      res.send({count})
+    }
+  }) 
+})
+app.post('/deleteUser',(req,res)=>{
+  console.log(req.body)
+  let id = req.body.id
+  connection.query(`delete FROM wxuser where id = "${id}"`, (err, result) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      console.log(result)
+      res.send({data:'ok'})
+    }
+  })
 })

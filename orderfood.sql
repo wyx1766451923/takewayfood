@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 21/11/2023 18:04:59
+ Date: 22/11/2023 19:14:24
 */
 
 SET NAMES utf8mb4;
@@ -256,12 +256,18 @@ CREATE TABLE `wxuser`  (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像',
   `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'openid',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of wxuser
 -- ----------------------------
 INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/EbADoZJ36CJp06ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
 INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54');
+INSERT INTO `wxuser` VALUES (6, '222', '333', '33333');
+INSERT INTO `wxuser` VALUES (7, '444', '444', '44444');
+INSERT INTO `wxuser` VALUES (13, '555', '555', '55555');
+INSERT INTO `wxuser` VALUES (14, '666', '666', '66666');
+INSERT INTO `wxuser` VALUES (15, '777', '777', '77777');
+INSERT INTO `wxuser` VALUES (17, '888', '888', '88888');
 
 SET FOREIGN_KEY_CHECKS = 1;
