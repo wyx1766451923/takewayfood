@@ -39,7 +39,7 @@ Page({
         if (res) { 
             // 打印查看是否请求到接口数据
           that.setData({
-            shopData:res.data
+            shopData:res.data.shops
           })
           // console.log(that.data.shopData)
         }	else {

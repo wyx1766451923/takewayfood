@@ -22,6 +22,7 @@ Page({
     totalPrice:0,//合计价格 每份打包费1元，配送费总计1元
     foodNum:0,//点餐数量,
     show:false,
+    mindeliveryPrice:0
   },
   getTopDistance(typeid){
     var that = this;
@@ -216,7 +217,7 @@ Page({
 
         this.setData({
           totalPrice:Number((this.data.totalPrice + price).toFixed(2)),
-          foodNum:this.data.foodNum+item.count
+          foodNum:this.data.foodNum+item.coun,
         })
       })
       this.setData({
@@ -228,8 +229,9 @@ Page({
     this.setData({
       shopMsg:Msg,
       shopid:Msg.id,
+      mindeliveryPrice:Msg.startPrice
     })
-    // console.log(this.data.shopMsg.shopName)
+    console.log(Msg.startPrice)
     this.getTypelist()
     this.getFoods()
   },

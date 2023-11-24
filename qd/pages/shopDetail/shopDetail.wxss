@@ -228,6 +228,14 @@ page{
 .total{
   padding-left: 10px;
 }
+.elderStaatPricechosen{
+  width: 65px;
+  background-color: gray;
+  text-align: center;
+  border-radius: 0 10px 10px 0;
+  overflow: hidden;
+  line-height: 50px;
+}
 .chosen{
   width: 65px;
   background-color: orange;

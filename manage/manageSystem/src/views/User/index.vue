@@ -71,10 +71,7 @@ let pageSize = ref(3)
 let total = ref(3)
 let centerDialogVisible = ref(false)
 let id = ref(0)
-// const pagination = () =>{
-//   tableData.value = allData.value.slice((currentPage.value-1)*pageSize.value,currentPage.value*pageSize.value)
-//   console.log(allData.value)
-// }
+
 const onDeleteUser = () =>{
   http.post('/deleteUser',{
     id:id.value
@@ -86,8 +83,7 @@ const onDeleteUser = () =>{
         type: 'success',
       })
       centerDialogVisible.value = false
-      getUserData(currentPage,pageSize)
-      getUserDataCount()
+      getUserData()
     }
   })
   .catch(err=>{
@@ -96,13 +92,10 @@ const onDeleteUser = () =>{
 }
 const handleSizeChange = (val) => {
   pageSize.value = val
-  // getUserData(currentPage,pageSize)
-  // pagination()
 }
 const handleCurrentChange = (val) => {
   currentPage.value = val
-  // getUserData(currentPage,pageSize)
-  // pagination()
+
 }
 const filterTableData = computed(() =>
   allData.value.filter(
@@ -116,36 +109,24 @@ const filterTableData = computed(() =>
       
   )
 ) 
-const getUserDataCount = () =>{
-  http.get(`/getUserListCount`)
-  .then(res=>{
-    // console.log(res)
-    total.value = res.data.count
-    console.log(res.data)
-  })
-  .catch(err=>{
-    console.log(err)
-  })
-}
-const getUserData = (/*currentPage,pageSize*/) =>{
-  // ?startIndex=${(currentPage.value-1)*pageSize.value}&size=${pageSize.value}
+
+const getUserData = () =>{
+
   http.get(`/getUserList`)
   .then(res=>{
     
-    // tableData.value = res.data.userlist
+
     allData.value = res.data.userlist
     
     total.value = res.data.userlist.length
     console.log(allData.value,total.value)
-    // pagination()
+
   })
   .catch(err=>{
     console.log(err)
   })
 }
-const handleEdit = (index, row) => {
-  console.log(index, row)
-}
+
 const handleDelete = (index, row) => {
   centerDialogVisible.value = true
   id.value = row.id
@@ -155,9 +136,9 @@ const handleDelete = (index, row) => {
 
 
 onMounted(()=>{
-  getUserData(/*currentPage,pageSize*/)
+  getUserData()
   
-  // getUserDataCount()
+
 })
 </script>
 

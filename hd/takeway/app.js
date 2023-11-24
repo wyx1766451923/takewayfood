@@ -124,7 +124,7 @@ app.get('/product',(req,res)=>{//查询所有餐品
           res.send('query error')
         } else {
           // 将 MySQL 查询结果作为路由返回值
-          res.send(products)
+          res.send({products})
         }
       })
 })
@@ -134,7 +134,7 @@ app.get('/shop',(req,res)=>{//查询所有商家
         res.send('query error')
       } else {
         // 将 MySQL 查询结果作为路由返回值
-        res.send(shops)
+        res.send({shops})
       }
     })
 })
@@ -458,10 +458,23 @@ app.get('/getUserListCount',(req,res)=>{
     }
   }) 
 })
-app.post('/deleteUser',(req,res)=>{
+app.post('/deleteUser',(req,res)=>{//删除用户信息
   console.log(req.body)
   let id = req.body.id
   connection.query(`delete FROM wxuser where id = "${id}"`, (err, result) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/deleteBusiness',(req,res)=>{
+  console.log(req.body)
+  let id = req.body.id
+  connection.query(`delete FROM t_shop where id = "${id}"`, (err, result) => {
     if (err) {
       res.send('query error')
     } else {

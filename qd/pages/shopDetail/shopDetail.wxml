@@ -196,11 +196,14 @@
           ￥{{totalPrice}}
         </view>
       </view>
-      <view class="chosen" bind:tap="Checkout" data-foodlist="{{foodlist}}" data-totalprice="{{totalPrice}}" data-foodnum="{{foodNum}}" data-shopmsg="{{shopMsg}}">
+      <view class="elderStaatPricechosen" wx:if="{{totalPrice<mindeliveryPrice}}">
+        选好了
+      </view>
+      <view class="chosen" bind:tap="Checkout" data-foodlist="{{foodlist}}" data-totalprice="{{totalPrice}}" data-foodnum="{{foodNum}}" data-shopmsg="{{shopMsg}}" wx:else>
         选好了
       </view>
     </view>
-    <view class="bugcard" wx:else="">
+    <view class="bugcard" wx:else>
       <view class="cardTotle" >
         <van-icon name="cart" size="40px" color="gray"/>
         <view class="badge" wx:if="{{foodNum!=0}}">
