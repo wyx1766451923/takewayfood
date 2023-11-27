@@ -78,12 +78,105 @@
       </span>
     </template>
   </el-dialog>
+  <el-dialog 
+    v-model="addDialogVisible" 
+    title="添加商家" 
+    width="40%" 
+    align-center
+  >
+    <div class="formdata">
+      <el-form
+        label-position="left"
+        label-width="80px"
+        :model="businessInfo"
+        style="width: 100%;"
+        :rules="rules"
+        ref="addRuleForm"
+      >
+        <el-form-item label="店名" required prop="shopName">
+          <el-input v-model="businessInfo.shopName" clearable/>
+        </el-form-item>
+        <el-form-item label="头像" required>
+          <el-upload
+            ref="uploadRef"
+            class="avatar-uploader"
+            action="http://localhost:8080/businessAvatar"
+            :show-file-list="false"
+
+            :on-success="handleAvatarSuccess"
+          >
+            <img v-if="businessInfo.shopPhoto" :src="httpImgUrl+businessInfo.shopPhoto" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="店主" required prop="connectPerson">
+          <el-input v-model="businessInfo.connectPerson" clearable/>
+        </el-form-item>
+        <el-form-item label="电话" required prop="telephone">
+          <el-input v-model="businessInfo.telephone" clearable maxlength="11"/>
+        </el-form-item>
+        <el-form-item label="地址" required prop="address">
+          <el-input v-model="businessInfo.address" clearable/>
+        </el-form-item>
+        <el-form-item label="起送价格">
+          <el-input-number v-model="businessInfo.startPrice" :min="1" :max="30" />
+        </el-form-item>
+        <el-form-item label="配送费">
+          <el-input-number v-model="businessInfo.deliveryFees" :min="0" :max="3" />
+        </el-form-item>
+        <el-form-item label="配送时间">
+          <el-input-number v-model="businessInfo.deliveryTime" :min="30"/>
+        </el-form-item>
+        <el-form-item label="是否营业" required>
+          <el-select v-model="businessInfo.isOpen" class="m-2" placeholder="Select" size="large">
+            <el-option
+              :key="1"
+              label="营业中"
+              :value="1"
+            />
+            <el-option
+              :key="0"
+              label="未营业"
+              :value="0"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="描述" required prop="description">
+          <el-input
+            v-model="businessInfo.description"
+            maxlength="30"
+            type="textarea"
+            placeholder="输入本店描述"
+            show-word-limit
+          />
+        </el-form-item>
+        <el-form-item label="公告">
+          <el-input
+            v-model="businessInfo.announcement"
+            maxlength="30"
+            type="textarea"
+            placeholder="输入本店公告"
+            show-word-limit
+          />
+        </el-form-item>
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="cancel">取消</el-button>
+        <el-button type="primary" @click="submit">
+          提交
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
-import { ref,reactive, onMounted ,computed} from 'vue';
+import { ref,reactive,unref, onMounted ,computed} from 'vue';
 import http from '../../api/http';
-import { ElMessage } from 'element-plus'
+import { ElMessage,ElMessageBox } from 'element-plus'
+import axios from 'axios';
 const httpImgUrl = "http://127.0.0.1:8080/static/image/"
 let search = ref('')
 let tableData = ref([])
@@ -91,7 +184,73 @@ let currentPage = ref(1)
 let pageSize = ref(3)
 let total = ref(3)
 let centerDialogVisible = ref(false)
+let addDialogVisible = ref(false)
+const businessInfo = reactive({
+  shopName: '',
+  shopPhoto: '',
+  connectPerson: '',
+  telephone:'',
+  address:'',
+  startPrice:1,
+  deliveryFees:0,
+  deliveryTime:0,
+  isOpen:1,
+  description:'',
+  announcement:''
+})
+
+const addRuleForm = ref(null)
+const uploadRef = ref(null)
+const rules = {
+	  shopName: [{ required: true, message: "店名不能为空", trigger: "blur" }],
+    connectPerson: [{ required: true, message: "店主不能为空", trigger: "blur" }],
+    telephone: [{ required: true, message: "电话不能为空", trigger: "blur" }],
+    address: [{ required: true, message: "地址不能为空", trigger: "blur" }],
+    description: [{ required: true, message: "描述不能为空", trigger: "blur" }],
+    // shopPhoto: [{ required: true, message: "头像不能为空", trigger: "blur" }],
+	};
 let id = ref(0)
+const handleAvatarSuccess = (res)=>{
+  
+  businessInfo.shopPhoto = 'shop/'+res.newname
+  console.log(businessInfo.shopPhoto)
+}
+const deletePhoto=() =>{
+  http.post('/deletePhoto',{
+    photoname:businessInfo.shopPhoto
+  })
+  .then(res=>{
+    
+    if(res.data.data == 'ok'){
+      businessInfo.shopPhoto=''
+      console.log('删除未提交照片')
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+const cancel = () =>{
+  if(businessInfo.shopPhoto!=''){
+    console.log(111)
+    deletePhoto()
+  }
+  console.log(businessInfo.shopPhoto)
+  addDialogVisible.value = false
+}
+const submit = async () =>{
+  
+
+  try {
+	    await addRuleForm.value.validate(); 
+	    console.log("验证成功");
+      // uploadRef.value.submit()
+      addDialogVisible.value = false
+	  } catch (err) {
+	    console.log("失败" + err);
+	  }
+  
+}
 const onDeleteBusiness = () =>{
   http.post('/deleteBusiness',{
     id:id.value
@@ -147,6 +306,7 @@ const getShopData = () =>{
   })
 }
 const handleAdd = () =>{
+  addDialogVisible.value = true
   console.log('增加')
 }
 const handleEdit = (index, row)=>{
@@ -167,8 +327,36 @@ onMounted(()=>{
 </script>
 
 <style lang="scss" scoped>
+.avatar-uploader .avatar{
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: gray;
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+}
+.el-form{
+  display: flex;
+  flex-wrap: wrap;
+}
+.el-form-item{
+  width: 40%;
+  padding-left: 20px;
+}
 .business{
   width: 100%;
+  .formdata{
+
+  }
   .addBusiness{
     display: flex;
     justify-content: right;

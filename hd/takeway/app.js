@@ -177,6 +177,39 @@ app.post("/avatar", function (req, res) {//上传头像
     }
   });
 });
+app.post("/businessAvatar", function (req, res) {//上传商家头像
+  let form = new multiparty.Form();
+  form.encoding = "utf-8";
+  form.uploadDir = "./public/image/shop";
+  form.parse(req, function (err, fields, files) {
+    try {
+      let inputFile = files.file[0];
+      let date = Date.now()
+      let newPath = form.uploadDir + "/" + date +'.png';
+      fs.renameSync(inputFile.path, newPath);
+      console.log(inputFile.path,newPath)
+      let newname = date +'.png'
+      res.send({ newname });
+      
+    } catch (err) {
+      console.log(err);
+      res.send({ err: "上传失败！" });
+    }
+  });
+});
+app.post("/deletePhoto", function (req, res) {//取消上传
+  let photoname = req.body.photoname
+  console.log(photoname)
+  fs.unlink(`./public/image/${photoname}`, (err) => {
+    if(err) {
+      console.log(err)
+      res.send({data:'err'})
+    }
+    res.send({data:'ok'})
+  })
+
+});
+
 app.get('/addAddress',(req,res)=>{//添加地址信息
   // console.log(req.headers.usertoken)
   let usertoken = req.headers.usertoken
