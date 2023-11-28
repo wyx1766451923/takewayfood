@@ -1,5 +1,6 @@
 // pages/index/index.js
 var app = getApp()
+import Toast from '@vant/weapp/toast/toast';
 Page({
 
   /**
@@ -14,9 +15,14 @@ Page({
   toDetail(e){
     var shopMsg = JSON.stringify(e.currentTarget.dataset.shopmsg)
     // console.log(shopMsg)
-    wx.navigateTo({
-      url: `/pages/shopDetail/shopDetail?shopMsg=${shopMsg}`   
-    })
+    if(JSON.parse(shopMsg).isOpen == 0){
+      Toast('当前店铺未开');
+    }else{
+      wx.navigateTo({
+        url: `/pages/shopDetail/shopDetail?shopMsg=${shopMsg}`   
+      })
+    }
+
 
   },
   getDataHour(){

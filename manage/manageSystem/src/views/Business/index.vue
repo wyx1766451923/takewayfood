@@ -96,7 +96,7 @@
         <el-form-item label="店名" required prop="shopName">
           <el-input v-model="businessInfo.shopName" clearable/>
         </el-form-item>
-        <el-form-item label="头像" required>
+        <el-form-item label="头像" required prop="shopPhoto">
           <el-upload
             ref="uploadRef"
             class="avatar-uploader"
@@ -118,16 +118,16 @@
         <el-form-item label="地址" required prop="address">
           <el-input v-model="businessInfo.address" clearable/>
         </el-form-item>
-        <el-form-item label="起送价格">
+        <el-form-item label="起送价格" prop="startPrice">
           <el-input-number v-model="businessInfo.startPrice" :min="1" :max="30" />
         </el-form-item>
-        <el-form-item label="配送费">
+        <el-form-item label="配送费" prop="deliveryFees">
           <el-input-number v-model="businessInfo.deliveryFees" :min="0" :max="3" />
         </el-form-item>
-        <el-form-item label="配送时间">
+        <el-form-item label="配送时间" prop="deliveryTime">
           <el-input-number v-model="businessInfo.deliveryTime" :min="30"/>
         </el-form-item>
-        <el-form-item label="是否营业" required>
+        <el-form-item label="是否营业" required prop="isOpen">
           <el-select v-model="businessInfo.isOpen" class="m-2" placeholder="Select" size="large">
             <el-option
               :key="1"
@@ -150,7 +150,7 @@
             show-word-limit
           />
         </el-form-item>
-        <el-form-item label="公告">
+        <el-form-item label="公告" prop="announcement">
           <el-input
             v-model="businessInfo.announcement"
             maxlength="30"
@@ -185,35 +185,40 @@ let pageSize = ref(3)
 let total = ref(3)
 let centerDialogVisible = ref(false)
 let addDialogVisible = ref(false)
-const businessInfo = reactive({
-  shopName: '',
-  shopPhoto: '',
-  connectPerson: '',
-  telephone:'',
-  address:'',
-  startPrice:1,
-  deliveryFees:0,
-  deliveryTime:0,
-  isOpen:1,
-  description:'',
-  announcement:''
-})
+
+const initdata = ()=>{
+  return {
+    id:0,
+    shopName: '',
+    shopPhoto: '',
+    connectPerson: '',
+    telephone:'',
+    address:'',
+    startPrice:1,
+    deliveryFees:0,
+    deliveryTime:0,
+    isOpen:1,
+    description:'',
+    announcement:''
+  }
+}
+let businessInfo = reactive(initdata())
 
 const addRuleForm = ref(null)
 const uploadRef = ref(null)
 const rules = {
-	  shopName: [{ required: true, message: "店名不能为空", trigger: "blur" }],
+    shopName: [{ required: true, message: "店名不能为空", trigger: "blur" }],
     connectPerson: [{ required: true, message: "店主不能为空", trigger: "blur" }],
     telephone: [{ required: true, message: "电话不能为空", trigger: "blur" }],
     address: [{ required: true, message: "地址不能为空", trigger: "blur" }],
     description: [{ required: true, message: "描述不能为空", trigger: "blur" }],
-    // shopPhoto: [{ required: true, message: "头像不能为空", trigger: "blur" }],
+      // formshopPhoto: [{ required: true, message: "头像不能为空", trigger: "blur" }],
 	};
 let id = ref(0)
+let imageUrl = ref('')
 const handleAvatarSuccess = (res)=>{
   
   businessInfo.shopPhoto = 'shop/'+res.newname
-  console.log(businessInfo.shopPhoto)
 }
 const deletePhoto=() =>{
   http.post('/deletePhoto',{
@@ -223,7 +228,6 @@ const deletePhoto=() =>{
     
     if(res.data.data == 'ok'){
       businessInfo.shopPhoto=''
-      console.log('删除未提交照片')
     }
   })
   .catch(err=>{
@@ -231,24 +235,92 @@ const deletePhoto=() =>{
   })
 }
 const cancel = () =>{
-  if(businessInfo.shopPhoto!=''){
-    console.log(111)
-    deletePhoto()
+  if(businessInfo.shopPhoto!='' && businessInfo.id==0){
+    console.log('图片会被删除')
+    
+    // deletePhoto()
   }
-  console.log(businessInfo.shopPhoto)
+  Object.assign(businessInfo, initdata());
+  // addRuleForm.value.resetFields()
+  console.log(businessInfo,initdata(),tableData)
   addDialogVisible.value = false
 }
-const submit = async () =>{
-  
+const addBusiness = () =>{
+  http.post('/addBusiness',{
+    businessInfo:businessInfo
+  })
+  .then(res=>{
+    if(res.data.data == 'ok'){
+      addRuleForm.value.resetFields()
+      businessInfo.shopPhoto=''
+      // uploadRef.value
+      getShopData()
 
-  try {
+    }
+    
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+const setBusiness = () =>{
+  http.post('/setBusiness',{
+    businessInfo:businessInfo
+  })
+  .then(res=>{
+    if(res.data.data == 'ok'){
+      addRuleForm.value.resetFields()
+      businessInfo.shopPhoto=''
+      // uploadRef.value
+      getShopData()
+
+    }
+    
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
+const submit = async () =>{
+  if(businessInfo.id == 0){
+    try {
 	    await addRuleForm.value.validate(); 
 	    console.log("验证成功");
-      // uploadRef.value.submit()
+      console.log(businessInfo)
+      addBusiness()
       addDialogVisible.value = false
+      ElMessage({
+        message: '添加成功',
+        type: 'success',
+      })
 	  } catch (err) {
 	    console.log("失败" + err);
+      ElMessage({
+        message: '添加失败',
+        type: 'error',
+      })
 	  }
+  }else{
+    try {
+	    await addRuleForm.value.validate(); 
+	    console.log("验证成功");
+      console.log(businessInfo)
+      setBusiness()
+      addDialogVisible.value = false
+      ElMessage({
+        message: '添加成功',
+        type: 'success',
+      })
+	  } catch (err) {
+	    console.log("失败",err);
+      ElMessage({
+        message: '添加失败',
+        type: 'error',
+      })
+	  }   
+  }
+
+
   
 }
 const onDeleteBusiness = () =>{
@@ -260,6 +332,18 @@ const onDeleteBusiness = () =>{
       ElMessage({
         message: '删除成功',
         type: 'success',
+      })
+      http.post('/deletePhoto',{
+        photoname:imageUrl.value
+      })
+      .then(res=>{
+        
+        if(res.data.data == 'ok'){
+          console.log('图片被删除')
+        }
+      })
+      .catch(err=>{
+        console.log(err)
       })
       centerDialogVisible.value = false
       getShopData()
@@ -309,12 +393,17 @@ const handleAdd = () =>{
   addDialogVisible.value = true
   console.log('增加')
 }
+// let echoData = reactive(null)
 const handleEdit = (index, row)=>{
-  console.log(row)
+  addDialogVisible.value = true
+  Object.assign(businessInfo, row);
+  console.log(businessInfo)
+  // console.log(row)
 }
 const handleDelete = (index, row) => {
   centerDialogVisible.value = true
   id.value = row.id
+  imageUrl.value = row.shopPhoto
   console.log(index, row)
 
 }
@@ -327,10 +416,12 @@ onMounted(()=>{
 </script>
 
 <style lang="scss" scoped>
+.el-icon{
+  border: 1px solid black;
+}
 .avatar-uploader .avatar{
   width: 100px;
   height: 100px;
-  border: 1px solid black;
 }
 
 .avatar-uploader .el-upload:hover {

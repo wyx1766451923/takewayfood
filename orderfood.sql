@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 24/11/2023 19:23:27
+ Date: 28/11/2023 19:57:04
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `admin`  (
   `password` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin
@@ -44,7 +44,7 @@ CREATE TABLE `t_notice`  (
   `content` varchar(800) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '公告内容',
   `publishDate` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发布时间',
   PRIMARY KEY (`noticeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_notice
@@ -99,7 +99,7 @@ CREATE TABLE `t_product`  (
   `count` int NULL DEFAULT NULL COMMENT '初始数量',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `shopId`(`shopId` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_product
@@ -129,14 +129,14 @@ CREATE TABLE `t_shop`  (
   `description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '描述',
   `announcement` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '公告',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_shop
 -- ----------------------------
 INSERT INTO `t_shop` VALUES (1, '躺平菜馆', 'shop/tp.png', '王先生', '13420182861', '理工大学中门', 10, 1, 30, 1, '你可以选择躺平，但是你不能不吃饭', '本店为新店，欢迎各位品尝啊');
 INSERT INTO `t_shop` VALUES (2, '摆烂传统餐馆', 'shop/bl.png', '李先生', '13784504082', '理工大学后门', 15, 1, 35, 1, '摆摆烂吧，顺便吃吃好吃有营养的饭，等你的订单到天荒地老', NULL);
-INSERT INTO `t_shop` VALUES (3, '1', '1', '1', '1', '1', 1, 1, 1, 1, '1', '1');
+INSERT INTO `t_shop` VALUES (6, '寄了大饭店', 'shop/1701153714493.png', '陈寄了', '15523084596', '理工大学后门', 10, 1, 45, 0, '寄了就来吃饭，寄了寄了', '寄了寄了寄了');
 
 -- ----------------------------
 -- Table structure for t_type
@@ -146,7 +146,7 @@ CREATE TABLE `t_type`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '分类id',
   `typeName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名字',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_type
@@ -174,7 +174,7 @@ CREATE TABLE `t_userinfo`  (
   `regTime` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '注册时间',
   `openid` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`user_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_userinfo
@@ -191,7 +191,7 @@ CREATE TABLE `typeproduct`  (
   `typeid` int NOT NULL COMMENT '分类id',
   `productid` int NOT NULL COMMENT '餐品id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of typeproduct
@@ -212,7 +212,7 @@ CREATE TABLE `typeshop`  (
   `typeid` int NOT NULL COMMENT '分类id',
   `shopid` int NOT NULL COMMENT '餐厅id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of typeshop
@@ -236,7 +236,7 @@ CREATE TABLE `u_address`  (
   `detilAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户详细地址',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户手机号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of u_address
@@ -255,12 +255,12 @@ CREATE TABLE `wxuser`  (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像',
   `openid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'openid',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of wxuser
 -- ----------------------------
-INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/EbADoZJ36CJp06ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
+INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/60ynsIs0Dno506ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
 INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54');
 INSERT INTO `wxuser` VALUES (6, '222', '333', '33333');
 INSERT INTO `wxuser` VALUES (7, '444', '444', '44444');

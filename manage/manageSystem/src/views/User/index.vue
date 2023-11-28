@@ -71,7 +71,7 @@ let pageSize = ref(3)
 let total = ref(3)
 let centerDialogVisible = ref(false)
 let id = ref(0)
-
+let imageUrl = ref('')
 const onDeleteUser = () =>{
   http.post('/deleteUser',{
     id:id.value
@@ -81,6 +81,18 @@ const onDeleteUser = () =>{
       ElMessage({
         message: '删除成功',
         type: 'success',
+      })
+      http.post('/deletePhoto',{
+        photoname:imageUrl.value
+      })
+      .then(res=>{
+        
+        if(res.data.data == 'ok'){
+          console.log('图片被删除')
+        }
+      })
+      .catch(err=>{
+        console.log(err)
       })
       centerDialogVisible.value = false
       getUserData()
@@ -130,6 +142,7 @@ const getUserData = () =>{
 const handleDelete = (index, row) => {
   centerDialogVisible.value = true
   id.value = row.id
+  imageUrl.value = row.avatar
   console.log(index, row)
 
 }

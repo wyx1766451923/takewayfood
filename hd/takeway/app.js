@@ -47,7 +47,7 @@ app.get('/getLoginInfo',(req,res)=>{
   // console.log(req.query)
   axios.get(`https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid=${appid}&secret=${appsecret}&js_code=${req.query.code}`)
   .then(resp=>{
-    console.log(resp)
+    // console.log(resp)
     session_key = resp.data.session_key
     openid = resp.data.openid
     let usertoken = {
@@ -187,23 +187,23 @@ app.post("/businessAvatar", function (req, res) {//上传商家头像
       let date = Date.now()
       let newPath = form.uploadDir + "/" + date +'.png';
       fs.renameSync(inputFile.path, newPath);
-      console.log(inputFile.path,newPath)
+      // console.log(inputFile.path,newPath)
       let newname = date +'.png'
       res.send({ newname });
       
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       res.send({ err: "上传失败！" });
     }
   });
 });
 app.post("/deletePhoto", function (req, res) {//取消上传
   let photoname = req.body.photoname
-  console.log(photoname)
+  // console.log(photoname)
   fs.unlink(`./public/image/${photoname}`, (err) => {
     if(err) {
-      console.log(err)
-      res.send({data:'err'})
+      // console.log(err)
+      res.send({data:'err'}) 
     }
     res.send({data:'ok'})
   })
@@ -331,9 +331,9 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
     if (err) {
       console.log(err)
     } else {
-      console.log(phone[0].phone)
+      // console.log(phone[0].phone)
       let orderNum = moment(new Date()).format('YYYYMMDDHHmmss')+phone[0].phone
-      console.log(orderNum)
+      // console.log(orderNum)
       connection.query(`SELECT id FROM wxuser where openid = "${userOpenid}"`, (err, user) => {
         if (err) {
           res.send({data:'openid出现问题'})
@@ -342,7 +342,7 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
           // console.log(userid)
           connection.query(`INSERT INTO t_order (userid,foodlist,addressid,shopid,remark,totalprice,tablewarenum,selectArriveTime,foodnum,deliveryState,orderTime,orderNum) VALUES (${userid},"${toLiteral(foodlist)}",${addressid},${shopid},"${remark}",${totalprice},"${tablewarenum}","${selectArriveTime}",${foodnum},${deliveryState},"${orderTime}","${orderNum}")`, (err, orderinfo) => {
             if (err) {
-              console.log(err)
+              // console.log(err)
               res.send({data:'error'})
             } else {
               // 将 MySQL 查询结果作为路由返回值
@@ -364,14 +364,14 @@ app.get('/getOrder',(req,res)=>{//获取订单信息（通过订单编号）
   let usertoken = req.headers.usertoken
   let userOpenid = jwt.decode(usertoken,jwtSecret).openid
   let orderid = req.query.orderid
-  console.log(orderid)
+  // console.log(orderid)
   connection.query(`SELECT * FROM t_order where id = ${orderid}`, (err, orderinfo) => {
       if (err) {
         res.send({data:'err'})
       } else {
         // console.log(userid)
         res.send(orderinfo[0])
-        console.log(orderinfo[0])
+        // console.log(orderinfo[0])
       }
     })
 })
@@ -442,7 +442,7 @@ app.get('/getShopMsg',(req,res)=>{//查询所有商家
     })
 })
 app.post('/login',(req,res)=>{
-  console.log(req.body)
+  // console.log(req.body)
   let username = req.body.username
   let password = req.body.password
   connection.query(`SELECT * FROM admin where username = "${username}"`, (err, admin) => {
@@ -474,7 +474,7 @@ app.get('/getUserList',(req,res)=>{
       res.send('query error')
     } else {
       // 将 MySQL 查询结果作为路由返回值
-      console.log(userlist)
+      // console.log(userlist)
       res.send({userlist})
     }
   }) 
@@ -486,15 +486,54 @@ app.get('/getUserListCount',(req,res)=>{
     } else {
       // 将 MySQL 查询结果作为路由返回值
       let count = userListCount[0].count
-      console.log(count)
+      // console.log(count)
       res.send({count})
     }
   }) 
 })
 app.post('/deleteUser',(req,res)=>{//删除用户信息
-  console.log(req.body)
+  // console.log(req.body)
   let id = req.body.id
   connection.query(`delete FROM wxuser where id = "${id}"`, (err, result) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/deleteBusiness',(req,res)=>{
+  // console.log(req.body)
+  let id = req.body.id
+  connection.query(`delete FROM t_shop where id = "${id}"`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/addBusiness',(req,res)=>{
+  let businessInfo = req.body.businessInfo
+  console.log(businessInfo)
+  let shopName = businessInfo.shopName
+  let shopPhoto = businessInfo.shopPhoto
+  let connectPerson = businessInfo.connectPerson
+  let telephone = businessInfo.telephone
+  let address = businessInfo.address
+  let startPrice = businessInfo.startPrice
+  let deliveryFees = businessInfo.deliveryFees
+  let deliveryTime = businessInfo.deliveryTime
+  let isOpen = businessInfo.isOpen
+  let description = businessInfo.description
+  let announcement = businessInfo.announcement
+
+  connection.query(`INSERT into t_shop(shopName,shopPhoto,connectPerson,telephone,address,startPrice,deliveryFees,deliveryTime,isOpen,description,announcement) values("${shopName}","${shopPhoto}","${connectPerson}","${telephone}","${address}",${startPrice},${deliveryFees},${deliveryTime},${isOpen},"${description}","${announcement}")`, (err, result) => {
     if (err) {
       res.send('query error')
     } else {
@@ -504,10 +543,23 @@ app.post('/deleteUser',(req,res)=>{//删除用户信息
     }
   })
 })
-app.post('/deleteBusiness',(req,res)=>{
-  console.log(req.body)
-  let id = req.body.id
-  connection.query(`delete FROM t_shop where id = "${id}"`, (err, result) => {
+app.post('/setBusiness',(req,res)=>{
+  let businessInfo = req.body.businessInfo
+  console.log(businessInfo)
+  let id = businessInfo.id
+  let shopName = businessInfo.shopName
+  let shopPhoto = businessInfo.shopPhoto
+  let connectPerson = businessInfo.connectPerson
+  let telephone = businessInfo.telephone
+  let address = businessInfo.address
+  let startPrice = businessInfo.startPrice
+  let deliveryFees = businessInfo.deliveryFees
+  let deliveryTime = businessInfo.deliveryTime
+  let isOpen = businessInfo.isOpen
+  let description = businessInfo.description
+  let announcement = businessInfo.announcement
+
+  connection.query(`UPDATE t_shop SET shopName="${shopName}",shopPhoto="${shopPhoto}",connectPerson="${connectPerson}",telephone="${telephone}",address="${address}",startPrice=${startPrice},deliveryFees=${deliveryFees},deliveryTime=${deliveryTime},isOpen=${isOpen},description="${description}",announcement="${announcement}" where id = ${id}`, (err, result) => {
     if (err) {
       res.send('query error')
     } else {
