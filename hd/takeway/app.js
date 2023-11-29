@@ -197,7 +197,7 @@ app.post("/businessAvatar", function (req, res) {//上传商家头像
     }
   });
 });
-app.post("/deletePhoto", function (req, res) {//取消上传
+app.post("/deletePhoto", function (req, res) {//取消上传/删除图片
   let photoname = req.body.photoname
   // console.log(photoname)
   fs.unlink(`./public/image/${photoname}`, (err) => {
@@ -504,7 +504,7 @@ app.post('/deleteUser',(req,res)=>{//删除用户信息
     }
   })
 })
-app.post('/deleteBusiness',(req,res)=>{
+app.post('/deleteBusiness',(req,res)=>{//删除商家
   // console.log(req.body)
   let id = req.body.id
   connection.query(`delete FROM t_shop where id = "${id}"`, (err, result) => {
@@ -543,7 +543,7 @@ app.post('/addBusiness',(req,res)=>{
     }
   })
 })
-app.post('/setBusiness',(req,res)=>{
+app.post('/setBusiness',(req,res)=>{//修改商家
   let businessInfo = req.body.businessInfo
   console.log(businessInfo)
   let id = businessInfo.id
@@ -568,4 +568,214 @@ app.post('/setBusiness',(req,res)=>{
       res.send({data:'ok'})
     }
   })
+})
+app.get('/getAllFood',(req,res)=>{//查询当所有餐品
+  connection.query(`select p.*,tp.typeid,t.typeName,s.shopName from t_product p join typeproduct tp on p.id = tp.productId join t_type t on t.id = tp.typeid join t_shop s on s.id = p.shopId`, (err, foodList) => {
+      if (err) {
+        res.send('query error')
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        res.send({foodList})
+      }
+    })
+})
+app.post('/deleteFood',(req,res)=>{//删除餐品
+  // console.log(req.body)
+  let id = req.body.id
+  connection.query(`delete FROM t_product where id = ${id};delete FROM typeproduct where productid = "${id}"`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/searchFood',(req,res)=>{//按条件搜索餐品
+  // console.log(req.body)
+  let shopName = req.body.shopName
+  let typeName = req.body.typeName
+  connection.query(`select p.*,tp.typeid,t.typeName,s.shopName from t_product p join typeproduct tp on p.id = tp.productId join t_type t on t.id = tp.typeid join t_shop s on s.id = p.shopId where s.shopName like "%${shopName}%" and t.typeName like "%${typeName}%"`, (err, searchFoodlist) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({searchFoodlist})
+    }
+  })
+})
+app.get('/getAlltype',(req,res)=>{//查询餐品分类
+  connection.query(`select * from t_type `, (err, typeList) => {
+      if (err) {
+        res.send('query error')
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        res.send({typeList})
+      }
+    })  
+})
+app.post("/foodPhoto", function (req, res) {//上传菜品图片
+  let form = new multiparty.Form();
+  form.encoding = "utf-8";
+  form.uploadDir = "./public/image/product";
+  form.parse(req, function (err, fields, files) {
+    try {
+      let inputFile = files.file[0];
+      let date = Date.now()
+      let newPath = form.uploadDir + "/" + date +'.png';
+      fs.renameSync(inputFile.path, newPath);
+      // console.log(inputFile.path,newPath)
+      let newname = date +'.png'
+      res.send({ newname });
+      
+    } catch (err) {
+      // console.log(err);
+      res.send({ err: "上传失败！" });
+    }
+  });
+});
+app.post('/addFood',(req,res)=>{
+  let foodInfo = req.body.foodInfo
+  // console.log(foodInfo)
+  let productName = foodInfo.productName
+  let mainPhoto = foodInfo.mainPhoto
+  let shopId = foodInfo.shopId
+  let sales = 0
+  let typeid = foodInfo.typeid
+  let price = foodInfo.price
+  let discount = foodInfo.discount
+  connection.query(`SELECT * FROM typeshop where shopid = ${shopId} and typeid = ${typeid}`, (err, hastype) => {
+    if (err) {
+      console.log(err)
+      res.send('query error') 
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      console.log(hastype.length)
+      // res.send({data:'ok'})
+      if(hastype.length==0){
+        connection.query(`INSERT into typeshop(typeid,shopid) values(${typeid},${shopId})`, (err, insertType) => {
+          if (err) {
+            console.log(err)
+            res.send('query error') 
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            // res.send({data:'ok'})
+            connection.query(`INSERT into t_product(productName,mainPhoto,price,shopId,sales,discount) values("${productName}","${mainPhoto}","${price}","${shopId}","${sales}","${discount}")`, (err, result) => {
+              if (err) {
+                console.log(err)
+                res.send('query error') 
+              } else {
+                // 将 MySQL 查询结果作为路由返回值
+                let proid = result.insertId
+                connection.query(`INSERT into typeproduct(typeid,productid) values(${typeid},${proid})`, (err, tpInsertRes) => {
+                  if (err) {
+                    console.log(err)
+                    res.send('query error') 
+                  } else {
+                    // 将 MySQL 查询结果作为路由返回值                   
+                    res.send({data:'ok'})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }else{
+        connection.query(`INSERT into t_product(productName,mainPhoto,price,shopId,sales,discount) values("${productName}","${mainPhoto}","${price}","${shopId}","${sales}","${discount}")`, (err, result) => {
+          if (err) {
+            console.log(err)
+            res.send('query error') 
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            let proid = result.insertId
+            connection.query(`INSERT into typeproduct(typeid,productid) values(${typeid},${proid})`, (err, tpInsertRes) => {
+              if (err) {
+                console.log(err)
+                res.send('query error') 
+              } else {
+                // 将 MySQL 查询结果作为路由返回值                   
+                res.send({data:'ok'})
+              }
+            })
+          }
+        })
+      }
+    }
+  })
+
+})
+app.post('/setFood',(req,res)=>{//修改餐品
+  let foodInfo = req.body.foodInfo
+  // console.log(foodInfo)
+  let id = foodInfo.id
+  let productName = foodInfo.productName
+  let mainPhoto = foodInfo.mainPhoto
+  let shopId = foodInfo.shopId
+  // let sales = 0
+  let typeid = foodInfo.typeid
+  let price = foodInfo.price
+  let discount = foodInfo.discount
+  connection.query(`SELECT * FROM typeshop where shopid = ${shopId} and typeid = ${typeid}`, (err, hastype) => {
+    if (err) {
+      console.log(err)
+      res.send('query error') 
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      console.log(hastype.length)
+      // res.send({data:'ok'})
+      if(hastype.length==0){
+        connection.query(`INSERT into typeshop(typeid,shopid) values(${typeid},${shopId})`, (err, insertType) => {
+          if (err) {
+            console.log(err)
+            res.send('query error') 
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            // res.send({data:'ok'})
+            connection.query(`UPDATE t_product SET productName="${productName}",mainPhoto="${mainPhoto}",price=${price},shopId=${shopId},discount=${discount} where id = ${id}`, (err, result) => {
+              if (err) {
+                console.log(err)
+                res.send('query error') 
+              } else {
+                // 将 MySQL 查询结果作为路由返回值
+                
+                connection.query(`UPDATE typeproduct SET typeid = ${typeid} where productid=${id}`, (err, tpInsertRes) => {
+                  if (err) {
+                    console.log(err)
+                    res.send('query error') 
+                  } else {
+                    // 将 MySQL 查询结果作为路由返回值                   
+                    res.send({data:'ok'})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }else{
+        connection.query(`UPDATE t_product SET productName="${productName}",mainPhoto="${mainPhoto}",price=${price},shopId=${shopId},discount=${discount} where id = ${id}`, (err, result) => {
+          if (err) {
+            console.log(err)
+            res.send('query error') 
+          } else {
+            // 将 MySQL 查询结果作为路由返回值
+            
+            connection.query(`UPDATE typeproduct SET typeid = ${typeid} where productid=${id}`, (err, tpInsertRes) => {
+              if (err) {
+                console.log(err)
+                res.send('query error') 
+              } else {
+                // 将 MySQL 查询结果作为路由返回值                   
+                res.send({data:'ok'})
+              }
+            })
+          }
+        })
+      }
+    }
+  })
+
 })

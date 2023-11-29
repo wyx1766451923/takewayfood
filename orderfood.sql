@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 28/11/2023 19:57:04
+ Date: 29/11/2023 19:25:46
 */
 
 SET NAMES utf8mb4;
@@ -99,7 +99,7 @@ CREATE TABLE `t_product`  (
   `count` int NULL DEFAULT NULL COMMENT '初始数量',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `shopId`(`shopId` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_product
@@ -110,6 +110,8 @@ INSERT INTO `t_product` VALUES (3, '剁椒鱼头', 'product/djyt.jpg', 25, 2, 63
 INSERT INTO `t_product` VALUES (4, '腊肉抄豆腐', 'product/nrcdf.jpg', 18, 1, 26, 10, NULL);
 INSERT INTO `t_product` VALUES (5, '土豆红烧肉', 'product/tdhsr.jpg', 16, 2, 86, 8, NULL);
 INSERT INTO `t_product` VALUES (6, '经典猪脚饭', 'product/zjf.jpg', 15, 2, 103, 9, NULL);
+INSERT INTO `t_product` VALUES (7, '猫猫头', 'product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 18, 1, 11, 10, NULL);
+INSERT INTO `t_product` VALUES (13, '红烧猫猫头', 'product/1701255686991.png', 14, 2, 0, 8, NULL);
 
 -- ----------------------------
 -- Table structure for t_shop
@@ -158,31 +160,6 @@ INSERT INTO `t_type` VALUES (4, '满满的肉');
 INSERT INTO `t_type` VALUES (5, '回味经典');
 
 -- ----------------------------
--- Table structure for t_userinfo
--- ----------------------------
-DROP TABLE IF EXISTS `t_userinfo`;
-CREATE TABLE `t_userinfo`  (
-  `user_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'user_name',
-  `password` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '登录密码',
-  `name` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '姓名',
-  `gender` varchar(4) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '性别',
-  `birthDate` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '出生日期',
-  `userPhoto` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '用户照片',
-  `telephone` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '联系电话',
-  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '邮箱',
-  `address` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '家庭地址',
-  `regTime` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '注册时间',
-  `openid` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`user_name`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_userinfo
--- ----------------------------
-INSERT INTO `t_userinfo` VALUES ('13688886666', '--', '鼠鼠', '男', '2020-01-01', 'upload/4b68b224b63d4c92a9e63916ebf1ca1f', '13688886666', '--', '--', '2020-05-10 23:14:39', 'oM7Mu5XyeVJSc8roaUCRlcz_IP9k');
-INSERT INTO `t_userinfo` VALUES ('13910831234', '123', '张若曦', '女', '2020-05-06', 'upload/9e6cca88-d7c6-46df-8eb4-5a9dd12840a5.jpg', '13910831234', 'wagnxiagging@126.com', '四川成都红星路', '2020-05-10 18:00:45', NULL);
-
--- ----------------------------
 -- Table structure for typeproduct
 -- ----------------------------
 DROP TABLE IF EXISTS `typeproduct`;
@@ -191,7 +168,7 @@ CREATE TABLE `typeproduct`  (
   `typeid` int NOT NULL COMMENT '分类id',
   `productid` int NOT NULL COMMENT '餐品id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of typeproduct
@@ -202,6 +179,8 @@ INSERT INTO `typeproduct` VALUES (3, 2, 2);
 INSERT INTO `typeproduct` VALUES (4, 3, 4);
 INSERT INTO `typeproduct` VALUES (5, 4, 5);
 INSERT INTO `typeproduct` VALUES (6, 5, 6);
+INSERT INTO `typeproduct` VALUES (7, 1, 7);
+INSERT INTO `typeproduct` VALUES (9, 5, 13);
 
 -- ----------------------------
 -- Table structure for typeshop
@@ -212,7 +191,7 @@ CREATE TABLE `typeshop`  (
   `typeid` int NOT NULL COMMENT '分类id',
   `shopid` int NOT NULL COMMENT '餐厅id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of typeshop
@@ -223,6 +202,7 @@ INSERT INTO `typeshop` VALUES (3, 2, 1);
 INSERT INTO `typeshop` VALUES (4, 3, 1);
 INSERT INTO `typeshop` VALUES (5, 4, 2);
 INSERT INTO `typeshop` VALUES (6, 5, 2);
+INSERT INTO `typeshop` VALUES (11, 5, 1);
 
 -- ----------------------------
 -- Table structure for u_address

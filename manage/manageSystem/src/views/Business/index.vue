@@ -83,6 +83,7 @@
     title="添加商家" 
     width="40%" 
     align-center
+    :before-close="dialogClose"
   >
     <div class="formdata">
       <el-form
@@ -234,15 +235,18 @@ const deletePhoto=() =>{
     console.log(err)
   })
 }
+const dialogClose = () =>{
+  cancel()
+}
 const cancel = () =>{
   if(businessInfo.shopPhoto!='' && businessInfo.id==0){
     console.log('图片会被删除')
     
-    // deletePhoto()
+    deletePhoto()
   }
   Object.assign(businessInfo, initdata());
   // addRuleForm.value.resetFields()
-  console.log(businessInfo,initdata(),tableData)
+  // console.log(businessInfo,initdata(),tableData)
   addDialogVisible.value = false
 }
 const addBusiness = () =>{
@@ -308,13 +312,13 @@ const submit = async () =>{
       setBusiness()
       addDialogVisible.value = false
       ElMessage({
-        message: '添加成功',
+        message: '修改成功',
         type: 'success',
       })
 	  } catch (err) {
 	    console.log("失败",err);
       ElMessage({
-        message: '添加失败',
+        message: '修改失败',
         type: 'error',
       })
 	  }   
