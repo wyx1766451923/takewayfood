@@ -779,3 +779,44 @@ app.post('/setFood',(req,res)=>{//修改餐品
   })
 
 })
+app.get('/getOrderData',(req,res)=>{//查询所有订单信息
+  connection.query('SELECT o.*,a.proAddress,a.detilAddress,a.consignee,a.phone,s.shopName FROM t_order o join  u_address a on o.addressid = a.id join t_shop s on o.shopid = s.id', (err, orderList) => {
+      if (err) {
+        res.send('query error')
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        res.send({orderList})
+      }
+    })
+})
+app.post('/deleteOrderfood',(req,res)=>{//从订单中移除餐品
+  // console.log(req.body)
+  let id = req.body.id
+  let foodlist = req.body.foodlist
+  let totalprice = req.body.totalprice
+  let foodnum = req.body.foodnum
+  connection.query(`UPDATE t_order SET foodlist = '${foodlist}',totalprice = "${totalprice}",foodnum = "${foodnum}" WHERE id = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/deleteOrder',(req,res)=>{//根据id删除订单
+  // console.log(req.body)
+  let id = req.body.id
+  connection.query(`DELETE from t_order where id =${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})

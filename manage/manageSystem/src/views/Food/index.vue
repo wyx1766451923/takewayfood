@@ -16,7 +16,7 @@
         <el-button type="primary" @click="handleAdd">新增</el-button>
       </div>
     </div>
-    <el-table :data="filterTableData" style="width: 100%">
+    <el-table :data="filterTableData" style="width: 100%" height="450">
       <el-table-column label="id" prop="id" width="70px"/>
       <el-table-column label="图片" >
         <template #default="scope">

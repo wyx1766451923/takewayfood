@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <el-table :data="filterTableData" style="width: 100%">
+    <el-table :data="filterTableData" style="width: 100%" height="450">
       <el-table-column label="id" prop="id" />
       <el-table-column label="头像" >
         <template #default="scope">
