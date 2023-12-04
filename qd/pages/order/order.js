@@ -1,6 +1,7 @@
 // pages/order/order.js
 var app = getApp()
 import Toast from '@vant/weapp/toast/toast';
+import Dialog from '@vant/weapp/dialog/dialog';
 Page({
 
   /**
@@ -16,6 +17,47 @@ Page({
     wx.navigateTo({
       url: `/pages/orderInfo/orderInfo?orderid=${orderid}`,
     })
+  },
+  cancelOrder(e){
+    console.log(e.currentTarget.dataset.id)
+    let orderid = e.currentTarget.dataset.id
+    var that = this
+    Dialog.confirm({
+      title: '取消订单',
+      message: '确定要取消订单吗？',
+    })
+      .then(() => {
+        console.log("提示取消")
+        wx.request ({
+          url:  that.data.httpUrl + 'cancelOrder' , // 拼接接口地址(前面为公共部分)
+          method: 'get',
+          data:{
+            orderid:orderid
+          },
+          header: {
+            'content-type' : 'application/json',
+            'usertoken':wx.getStorageSync('userToken')
+          },
+          success (res) {
+            if (res) { 
+                // 打印查看是否请求到接口数据
+              that.getAllOrder()
+              console.log(res.data)
+              Toast.success('取消成功');
+            }	else {
+              console.log('没有数据')
+            } 
+          },
+          fail(msg){
+            console.log(msg)
+          }
+        })
+      })
+      .catch(() => {
+        // on cancel
+      });
+    
+
   },
   repay(e){
     let shopid = e.currentTarget.dataset.shopid
@@ -47,7 +89,7 @@ Page({
         } 
       },
       fail(msg){
-
+        console.log(msg)
       }
     })
   },

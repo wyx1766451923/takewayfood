@@ -29,6 +29,7 @@
                     size="small"
                     type="danger"
                     @click="handleFoodDelete(scope.$index, props.row,JSON.parse(props.row.foodlist))"
+                    v-if="props.row.deliveryState<=1"
                     >删除</el-button
                   >
                 </template>
@@ -249,7 +250,7 @@ const getOrderData=()=>{
   .then(res=>{
     
 
-    tableData.value = res.data.orderList
+    tableData.value = res.data.orderList.reverse()
     
     total.value = res.data.orderList.length
     console.log(tableData.value,total.value)

@@ -48,5 +48,6 @@ const toAbout = ()=>{
         box-shadow: 0px 0px 10px rgb(226, 223, 223);
         margin: 5px 10px 10px 10px;
         border-radius: 10px;
+        background: rgb(240, 238, 238);
     }
 </style>

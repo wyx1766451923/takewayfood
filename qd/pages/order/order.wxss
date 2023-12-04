@@ -72,6 +72,9 @@ page{
 .operate{
   text-align: right;
 }
+.cancel{
+  padding-right: 10px;
+}
 .noOrder{
   margin-top: 100px;
 }

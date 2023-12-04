@@ -10,6 +10,7 @@
       case 1:return '商家已接单';break;
       case 2:return '配送中';break;
       case 3:return '订单已完成';break;
+      case 4:return '订单已取消';break;
     }
   }
   module.exports = {
@@ -53,6 +54,8 @@
         </view>
       </view>
       <view class="operate">
+        <van-button type="primary" size="small" bind:click="cancelOrder" class="cancel" data-id="{{orderitem.id}}" wx:if="{{orderitem.deliveryState==0 || orderitem.deliveryState==1}}"
+        >取消订单</van-button>
         <van-button type="primary" size="small" bind:click="repay" data-shopid="{{orderitem.shopid}}" data-foodlist="{{shopModule.toParse(orderitem.foodlist)}}"
         >再来一单</van-button>
       </view>
@@ -61,4 +64,7 @@
   <view class="noOrder" wx:else>
     <van-empty description="当前没有订单" />
   </view>
+  <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
 </view>
+

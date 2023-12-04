@@ -177,7 +177,6 @@
 import { ref,reactive,unref, onMounted ,computed} from 'vue';
 import http from '../../api/http';
 import { ElMessage,ElMessageBox } from 'element-plus'
-import axios from 'axios';
 const httpImgUrl = "http://127.0.0.1:8080/static/image/"
 let search = ref('')
 let tableData = ref([])

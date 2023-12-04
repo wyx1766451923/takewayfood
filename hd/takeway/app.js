@@ -403,6 +403,20 @@ app.get('/getShopMsg',(req,res)=>{//获取订单商家信息
       }
     })
 })
+app.get('/cancelOrder',(req,res)=>{//获取订单商家信息
+  // console.log(req.headers.usertoken)
+  let usertoken = req.headers.usertoken
+  let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let orderid = req.query.orderid
+  connection.query(`update t_order set deliveryState = 4 where id = "${orderid}"`, (err, result) => {
+      if (err) {
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        res.send({data:'ok'})
+      }
+    })
+})
 app.get('/getAllOrder',(req,res)=>{//获取订单信息（通过订单编号）
   // console.log(req.headers.usertoken)
   let usertoken = req.headers.usertoken
