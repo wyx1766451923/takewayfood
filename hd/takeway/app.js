@@ -834,3 +834,15 @@ app.post('/deleteOrder',(req,res)=>{//根据id删除订单
     }
   })
 })
+app.get('/getFoodTop5Sales',(req,res)=>{
+  //  limit ${startIndex},${size}
+  connection.query(`SELECT * FROM t_product order by sales desc limit 0,5`, (err, toplist) => {
+    if (err) {
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(userlist)
+      res.send({toplist})
+    }
+  }) 
+})

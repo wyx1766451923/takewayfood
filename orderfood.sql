@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 04/12/2023 17:11:36
+ Date: 06/12/2023 18:00:56
 */
 
 SET NAMES utf8mb4;
@@ -71,7 +71,7 @@ CREATE TABLE `t_order`  (
   `orderTime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '下单时间',
   `orderNum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_order
@@ -83,6 +83,7 @@ INSERT INTO `t_order` VALUES (36, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\
 INSERT INTO `t_order` VALUES (37, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 17, 1, '大哥多加点儿肉', 64.96, '3份', '15:24', 4, 3, 0, '2023-11-15 14:44:51', '2023111514445115529865496');
 INSERT INTO `t_order` VALUES (38, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 18, 1, '放门口，不要敲门', 64.96, '1份', '15:01', 4, 4, 0, '2023-11-21 14:22:12', '2023112114221215523269584');
 INSERT INTO `t_order` VALUES (39, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"}]', 3, 1, '不要香菜', 30.96, '1份', '17:49', 2, 3, 4, '2023-11-24 16:00:10', '2023112416001015523085678');
+INSERT INTO `t_order` VALUES (43, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\"mainPhoto\":\"product/djyt.jpg\",\"price\":25,\"shopId\":2,\"sales\":63,\"discount\":10,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":13,\"productName\":\"红烧猫猫头\",\"mainPhoto\":\"product/1701255686991.png\",\"price\":14,\"shopId\":2,\"sales\":0,\"discount\":8,\"count\":1,\"typeid\":5,\"typeName\":\"回味经典\"}]', 3, 2, '不要香菜', 38.20, '2份', '14:40', 2, 3, 0, '2023-12-06 13:55:37', '2023120613553715523085678');
 
 -- ----------------------------
 -- Table structure for t_product

@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div ref="main" class="main"></div>
+    <div ref="main" class="main" style="height: 500px;width: 100%;"></div>
   </div>
 </template>
 
@@ -67,11 +67,31 @@ let userCount = ref(0)
 let businessCount = ref(0)
 let orderCount = ref(0)
 let foodCount = ref(0)
+let foodSalesData = ref([])
+let xdata = ref([])
+let seriedata = ref([])
+const getFoodTop5Sales=()=>{
+    http.get(`/getFoodTop5Sales`)
+    .then(res=>{
+      console.log(res.data.toplist)
+      foodSalesData.value = res.data.toplist 
+      xdata.value = foodSalesData.value.map(item=>{
+        return item.productName
+      })
+      seriedata.value = foodSalesData.value.map(item=>{
+        return item.sales
+      })
+      init()
+
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+}
 const getUserCount = ()=>{
   http.get(`/getUserList`)
   .then(res=>{
     userCount.value = res.data.userlist.length
-    console.log( res.data.userlist)
   })
   .catch(err=>{
     console.log(err)
@@ -106,20 +126,64 @@ const getFoodCount=()=>{
 }
 const init=()=>{
   var myChart = echarts.init(main.value);
+  console.log(xdata.value)
+
   let optionline = {
     title: {
-      text: 'ECharts 入门示例'
+      text: '销量前五热榜'
     },
     tooltip: {},
     xAxis: {
-      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+      type: "value",
+      axisLine: {
+        show:false
+      },
+      axisTick: {
+        show: false,
+      },
+          //不显示X轴刻度线和数字
+      splitLine: { show: false },
+      axisLabel: { show: false },
     },
-    yAxis: {},
+    yAxis: {
+      type: "category",
+      splitLine: { show: false },
+      axisLine: {
+        show: false,
+      },
+      axisTick: {
+         show: false,
+      },
+      data: xdata.value.reverse()
+    },
     series: [
       {
+        barWidth: 30,
+        label: {
+          normal: {
+            show: true,
+            position: "right",
+            valueAnimation: true,
+
+          },
+        },
+        itemStyle: {
+          emphasis: {
+            
+          },
+              //颜色样式部分
+          normal: {
+            barBorderRadius: 18,
+            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+              { offset: 0, color: "#3977E6" },
+              { offset: 1, color: "#37BBF8" },
+            ]),
+          },
+        },
+        smooth: true,
         name: '销量',
         type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
+        data: seriedata.value.reverse()
       }
     ]
   }
@@ -127,12 +191,13 @@ const init=()=>{
 }
 // 绘制图表
 
-onMounted(() => {
+onMounted(async () => {
   getUserCount()
   getBusinessCount()
   getOrderCount()
   getFoodCount()
-  init()
+  getFoodTop5Sales()
+  
   
 })
 </script>
@@ -250,10 +315,6 @@ onMounted(() => {
         border-radius: 10px;
       }
     }
-  .main{
-    height: 100%;
-    width: 100%;
-  }
 }
 
 </style>
