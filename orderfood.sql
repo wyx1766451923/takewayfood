@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 06/12/2023 18:00:56
+ Date: 07/12/2023 16:39:50
 */
 
 SET NAMES utf8mb4;
@@ -71,7 +71,7 @@ CREATE TABLE `t_order`  (
   `orderTime` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '下单时间',
   `orderNum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_order
@@ -110,9 +110,9 @@ INSERT INTO `t_product` VALUES (2, '宫保鸡丁', 'product/gbjd.jpg', 22, 1, 37
 INSERT INTO `t_product` VALUES (3, '剁椒鱼头', 'product/djyt.jpg', 25, 2, 63, 10, NULL);
 INSERT INTO `t_product` VALUES (4, '腊肉抄豆腐', 'product/nrcdf.jpg', 18, 1, 26, 10, NULL);
 INSERT INTO `t_product` VALUES (5, '土豆红烧肉', 'product/tdhsr.jpg', 16, 2, 86, 8, NULL);
-INSERT INTO `t_product` VALUES (6, '经典猪脚饭', 'product/zjf.jpg', 15, 2, 103, 9, NULL);
-INSERT INTO `t_product` VALUES (7, '猫猫头', 'product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 18, 1, 11, 10, NULL);
-INSERT INTO `t_product` VALUES (13, '红烧猫猫头', 'product/1701255686991.png', 14, 2, 0, 8, NULL);
+INSERT INTO `t_product` VALUES (6, '经典猪脚饭', 'product/zjf.jpg', 15, 2, 104, 9, NULL);
+INSERT INTO `t_product` VALUES (7, '猫猫头', 'product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 18, 1, 12, 10, NULL);
+INSERT INTO `t_product` VALUES (13, '红烧猫猫头', 'product/1701255686991.png', 14, 2, 1, 8, NULL);
 
 -- ----------------------------
 -- Table structure for t_shop
@@ -243,9 +243,5 @@ CREATE TABLE `wxuser`  (
 -- ----------------------------
 INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/60ynsIs0Dno506ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ');
 INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54');
-INSERT INTO `wxuser` VALUES (6, '222', '333', '33333');
-INSERT INTO `wxuser` VALUES (7, '444', '444', '44444');
-INSERT INTO `wxuser` VALUES (13, '555', '555', '55555');
-INSERT INTO `wxuser` VALUES (14, '666', '666', '66666');
 
 SET FOREIGN_KEY_CHECKS = 1;

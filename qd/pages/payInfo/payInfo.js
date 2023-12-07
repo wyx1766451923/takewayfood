@@ -108,6 +108,35 @@ Page({
       url: '/pages/remark/remark'
     })
   },
+  setSales(foodlist){
+    let that = this
+    foodlist.forEach(item=>{
+      wx.request ({
+        url: that.data.httpUrl + 'setSales' , // 拼接接口地址(前面为公共部分)
+        method: 'get',
+        data:{
+          id:item.id,
+          sales:item.sales+item.count
+        },
+        header: {
+          'content-type' : 'application/json',
+          'usertoken':wx.getStorageSync('userToken')
+        },
+        success (res) {
+          if (res) { 
+              // 打印查看是否请求到接口数据
+  
+            console.log(res)
+          }	else {
+            Toast.fail('出现错误');
+          } 
+        },
+        fail(msg){
+          Toast.fail('出现错误',msg);
+        }
+      })
+    })
+  },
   selectTableware(){//选择餐具数量
     console.log("选择餐具数量")
     this.setData({
@@ -144,6 +173,7 @@ Page({
       },
       success (res) {
         if (res) { 
+          that.setSales(JSON.parse(foodlist))
             // 打印查看是否请求到接口数据
           let orderid = res.data.orderid
 
@@ -151,13 +181,13 @@ Page({
           wx.reLaunch({
             url: `/pages/orderInfo/orderInfo?orderid=${orderid}`,
           })
-          Toast.success('添加成功');
+          Toast.success('支付成功');
         }	else {
-          Toast.fail('添加失败');
+          Toast.fail('支付失败失败');
         } 
       },
       fail(msg){
-        Toast.fail('添加失败',msg);
+        Toast.fail('出现错误',msg);
       }
     })    
   },

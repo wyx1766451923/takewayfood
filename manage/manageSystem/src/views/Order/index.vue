@@ -283,6 +283,9 @@ onMounted(()=>{
 }
 .order{
   width: 100%;
+  .foodlist{
+    margin-left:50px ;
+  }
   .pagination{
     width: 100%;
     margin: 20px 0;

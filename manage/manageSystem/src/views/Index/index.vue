@@ -160,25 +160,17 @@ const init=()=>{
       {
         barWidth: 30,
         label: {
-          normal: {
-            show: true,
-            position: "right",
-            valueAnimation: true,
-
-          },
+          show: true,
+          position: "right",
+          valueAnimation: true,
         },
         itemStyle: {
-          emphasis: {
-            
-          },
               //颜色样式部分
-          normal: {
-            barBorderRadius: 18,
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-              { offset: 0, color: "#3977E6" },
-              { offset: 1, color: "#37BBF8" },
-            ]),
-          },
+          borderRadius: 18,
+          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: "#3977E6" },
+            { offset: 1, color: "#37BBF8" },
+          ]),
         },
         smooth: true,
         name: '销量',

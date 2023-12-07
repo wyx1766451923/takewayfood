@@ -846,3 +846,19 @@ app.get('/getFoodTop5Sales',(req,res)=>{
     }
   }) 
 })
+app.get('/setSales',(req,res)=>{//控制销量变化
+  //  limit ${startIndex},${size}
+  let id = req.query.id
+  let sales = req.query.sales
+  console.log(id,sales)
+  connection.query(`UPDATE t_product SET sales = ${sales} WHERE id = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('err')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(userlist)
+      res.send({data:'ok'})
+    }
+  }) 
+})

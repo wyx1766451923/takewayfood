@@ -75,7 +75,7 @@
           {{vtabitem.title}}
         </view>
         <view class="foods">
-          <view class="fooditem" wx:for="{{shopModule.getTypeFoodInfo(vtabitem.title,foods)}}" wx:key="*this" wx:for-item="fooditem">
+          <view class="fooditem" wx:for="{{shopModule.getTypeFoodInfo(vtabitem.title,foods)}}" wx:key="id" wx:for-item="fooditem">
             <view class="foodImg">
               <van-image
                 width="80px"
