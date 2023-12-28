@@ -1,0 +1,193 @@
+<!--pages/riderOrders/riderOrders.wxml-->
+<wxs module="shopModule">
+  var toParse = function(object){
+    var newobject = JSON.parse(object);
+    return newobject
+  }
+  var getDeliveryState = function(state){
+    switch(state){
+      case 0:return '已下单';break;
+      case 1:return '商家已接单';break;
+      case 2:return '配送中';break;
+      case 3:return '订单已完成';break;
+      case 4:return '订单已取消';break;
+    }
+  }
+  module.exports = {
+    toParse:toParse,
+    getDeliveryState:getDeliveryState
+  }
+</wxs>
+<view class="riderOrder">
+  <view class="topbar">
+    <van-tabs sticky bind:click="onClick">
+      <van-tab title="待接单">
+        <view class="order">
+          <view class="orderContent" wx:if="{{pendingOrders.length > 0}}">
+            <view class="orderitem" wx:for="{{pendingOrders}}" wx:key="id" wx:for-item="orderitem">
+              <view class="shopAndState" bind:tap="toShop" data-shopid="{{orderitem.shopid}}">
+                <view class="shopname">
+                  {{orderitem.shopName}}<van-icon name="arrow"  size="20px" class="toShop"/>
+                </view>
+              </view>
+              <view class="foodlsit" bind:tap="toOderInfo" data-orderid="{{orderitem.id}}">
+                <view class="fooditem" wx:for="{{shopModule.toParse(orderitem.foodlist)}}" wx:for-item="fooditem" wx:key="id">
+                  <view class="foodimage">
+                    <van-image
+                      width="50px"
+                      height="50px"
+                      fit="cover"
+                      src="{{httpImageUrl+fooditem.mainPhoto}}"
+                    />
+                  </view>
+
+                    <view class="foodname">
+                      {{fooditem.productName}}
+                    </view>
+                </view>
+              </view>
+              <view class="consignee">
+                收货人：{{orderitem.consignee}}
+              </view>
+              <view class="consignee">
+                收货地址：{{orderitem.proAddress+' '+orderitem.detilAddress}}
+              </view>
+              <view class="consignee">
+                电话：{{orderitem.phone}}
+              </view>
+              <view class="consignee">
+                备注：{{orderitem.remark}}
+              </view>
+              <view class="ordertimeAndpay">
+                <view class="time">
+                  下单时间 {{orderitem.orderTime}}
+                </view>
+                <view class="pay">
+                  实付：<text class="paytotal">￥{{orderitem.totalprice+orderitem.deliveryFees}}</text>
+                </view>
+              </view>
+              <view class="operate">
+                <van-button type="primary" size="small" bind:click="takeOrder" data-orderid="{{orderitem.id}}"
+                >接单</van-button>
+              </view>
+            </view>
+          </view>
+          <view class="noOrder" wx:else>
+            <van-empty description="当前没有订单" />
+          </view>
+
+        </view>
+      </van-tab>
+      <van-tab title="已接单">
+        <view class="order">
+          <view class="orderContent" wx:if="{{tokenOrders.length > 0}}">
+            <view class="orderitem" wx:for="{{tokenOrders}}" wx:key="id" wx:for-item="orderitem">
+              <view class="shopAndState" bind:tap="toShop" data-shopid="{{orderitem.shopid}}">
+                <view class="shopname">
+                  {{orderitem.shopName}}<van-icon name="arrow"  size="20px" class="toShop"/>
+                </view>
+              </view>
+              <view class="foodlsit" bind:tap="toOderInfo" data-orderid="{{orderitem.id}}">
+                <view class="fooditem" wx:for="{{shopModule.toParse(orderitem.foodlist)}}" wx:for-item="fooditem" wx:key="*this">
+                  <view class="foodimage">
+                    <van-image
+                      width="50px"
+                      height="50px"
+                      fit="cover"
+                      src="{{httpImageUrl+fooditem.mainPhoto}}"
+                    />
+                  </view>
+
+                    <view class="foodname">
+                      {{fooditem.productName}}
+                    </view>
+                </view>
+              </view>
+              <view class="consignee">
+                收货人：{{orderitem.consignee}}
+              </view>
+              <view class="consignee">
+                收货地址：{{orderitem.proAddress+' '+orderitem.detilAddress}}
+              </view>
+              <view class="consignee">
+                电话：{{orderitem.phone}}
+              </view>
+              <view class="consignee">
+                备注：{{orderitem.remark}}
+              </view>
+              <view class="ordertimeAndpay">
+                <view class="time">
+                  下单时间 {{orderitem.orderTime}}
+                </view>
+                <view class="pay">
+                  实付：<text class="paytotal">￥{{orderitem.totalprice+orderitem.deliveryFees}}</text>
+                </view>
+              </view>
+              <view class="operate">
+                <van-button type="primary" size="small" bind:click="completeOrder" data-orderid="{{orderitem.id}}"
+                >完成订单</van-button>
+              </view>
+            </view>
+          </view>
+          <view class="noOrder" wx:else>
+            <van-empty description="当前没有订单" />
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="已完成">
+        <view class="order">
+          <view class="orderContent" wx:if="{{completeOrders.length > 0}}">
+            <view class="orderitem" wx:for="{{completeOrders}}" wx:key="id" wx:for-item="orderitem">
+              <view class="shopAndState" bind:tap="toShop" data-shopid="{{orderitem.shopid}}">
+                <view class="shopname">
+                  {{orderitem.shopName}}<van-icon name="arrow"  size="20px" class="toShop"/>
+                </view>
+              </view>
+              <view class="foodlsit" bind:tap="toOderInfo" data-orderid="{{orderitem.id}}">
+                <view class="fooditem" wx:for="{{shopModule.toParse(orderitem.foodlist)}}" wx:for-item="fooditem" wx:key="*this">
+                  <view class="foodimage">
+                    <van-image
+                      width="50px"
+                      height="50px"
+                      fit="cover"
+                      src="{{httpImageUrl+fooditem.mainPhoto}}"
+                    />
+                  </view>
+
+                    <view class="foodname">
+                      {{fooditem.productName}}
+                    </view>
+                </view>
+              </view>
+              <view class="consignee">
+                收货人：{{orderitem.consignee}}
+              </view>
+              <view class="consignee">
+                收货地址：{{orderitem.proAddress+' '+orderitem.detilAddress}}
+              </view>
+              <view class="consignee">
+                电话：{{orderitem.phone}}
+              </view>
+              <view class="consignee">
+                备注：{{orderitem.remark}}
+              </view>
+              <view class="ordertimeAndpay">
+                <view class="time">
+                  下单时间 {{orderitem.orderTime}}
+                </view>
+                <view class="pay">
+                  实付：<text class="paytotal">￥{{orderitem.totalprice+orderitem.deliveryFees}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="noOrder" wx:else>
+            <van-empty description="当前没有订单" />
+          </view>
+        </view>        
+      </van-tab>
+    </van-tabs>
+  </view>
+  <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
+</view>

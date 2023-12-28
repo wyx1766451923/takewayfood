@@ -18,8 +18,11 @@
   <view class="opoperate">
     <view class="setting">
         <van-cell title="我的地址" is-link bind:click="watchAddress"/>
+        <van-cell wx:if="{{isRider==0 || isRider==1}}" data-id="{{id}}" title="成为骑手" is-link bind:click="becomeRider"/>
+        <van-cell wx:if="{{isRider==2}}" data-id="{{id}}" title="接单列表" is-link bind:click="toOrderlist"/>
         <van-cell title="联系我们" is-link bind:click="contactus"/>
         <van-cell title="关于我们" is-link bind:click="aboutus"/>
+
     </view>
   </view>
   <view class="contactus">
@@ -43,7 +46,7 @@
       custom-style="height: 30%"
       custom-class="AboutPopUp"
     >
-      个人完成的一个垃圾小课设
+      个人完成的一个小课设
     </van-popup>
   </view>
   <!-- 我的地址 -->

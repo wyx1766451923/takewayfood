@@ -1,0 +1,26 @@
+<view class="editAddress">
+  <van-cell-group>
+    <van-field
+      value="{{ riderName }}"
+      label="姓名"
+      placeholder="你的名字"
+      border="{{ false }}"
+      custom-class="input"
+      bind:blur="onRiderNameChange"
+    />
+    <van-field
+      value="{{ riderPhone }}"
+      label="手机号"
+      placeholder="你的11位手机号"
+      border="{{ false }}"
+      custom-class="input"
+      maxlength="11"
+      bind:blur="onPhoneChange"
+    />
+  </van-cell-group>
+  <view class="confirm" bind:tap="confirm">
+    <van-button type="primary" size="large">提交申请</van-button>
+  </view>
+  <van-dialog id="van-dialog" />
+  <van-toast id="van-toast" />
+</view>

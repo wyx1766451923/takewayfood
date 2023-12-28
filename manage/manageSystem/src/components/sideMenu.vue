@@ -27,6 +27,10 @@
           <el-icon><Document /></el-icon>
           <span>订单管理</span>
       </el-menu-item>
+      <el-menu-item index="/home/rider">
+          <el-icon><Bicycle /></el-icon>
+          <span>骑手管理</span>
+      </el-menu-item>
     </el-menu>
 </template>
 

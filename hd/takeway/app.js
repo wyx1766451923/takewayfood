@@ -94,8 +94,10 @@ app.get('/getUserInfo',(req,res)=>{//查询用户信息
           // 将 MySQL 查询结果作为路由返回值
           // console.log(user[0].nickname)
           let loginuser = {
+            id:user[0].id,
             avatar:user[0].avatar,
-            nickname:user[0].nickname
+            nickname:user[0].nickname,
+            isRider:user[0].isRider
           }
           
           res.send({loginuser})
@@ -417,7 +419,7 @@ app.get('/cancelOrder',(req,res)=>{//获取订单商家信息
       }
     })
 })
-app.get('/getAllOrder',(req,res)=>{//获取订单信息（通过订单编号）
+app.get('/getAllOrder',(req,res)=>{//获取订单信息
   // console.log(req.headers.usertoken)
   let usertoken = req.headers.usertoken
   let userOpenid = jwt.decode(usertoken,jwtSecret).openid
@@ -861,4 +863,154 @@ app.get('/setSales',(req,res)=>{//控制销量变化
       res.send({data:'ok'})
     }
   }) 
+})
+app.get('/applyRider',(req,res)=>{//申请成为骑手
+  // console.log(req.headers.usertoken)
+  // let usertoken = req.headers.usertoken
+  // let userOpenid = jwt.decode(usertoken,jwtSecret).openid
+  let riderInfo = JSON.parse(req.query.riderInfo)
+  console.log(riderInfo)
+  let userid = riderInfo.userid
+  let riderName = riderInfo.riderName
+  let riderPhone = riderInfo.riderPhone
+  connection.query(`INSERT INTO deliveryguy (userid, riderName,riderPhone) VALUES ("${userid}", "${riderName}","${riderPhone}");UPDATE wxuser SET isRider = 1 WHERE id = "${userid}"`, (err, riderRes) => {
+      if (err) {
+        console.log(err)
+        res.send({data:'err'})
+
+      } else {
+        res.send({data:'ok'})
+      }
+    })
+})
+app.get('/rider',(req,res)=>{//查询所有骑手信息
+  connection.query('SELECT w.avatar,w.nickname,w.isRider,d.* FROM deliveryguy d JOIN wxuser w on d.userid = w.id', (err, riders) => {
+      if (err) {
+        res.send('query error')
+      } else {
+        // 将 MySQL 查询结果作为路由返回值
+        res.send({riders})
+      }
+    })
+})
+app.post('/passRiderApply',(req,res)=>{//通过骑手申请信息
+  // console.log(req.body)
+  let id = req.body.id
+  connection.query(`UPDATE wxuser SET isRider = 2 WHERE id = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.post('/deleteRider',(req,res)=>{//根据id删除骑手申请信息和修改骑手当前申请状态
+  // console.log(req.body)
+  let id = req.body.id
+  let userid = req.body.userid
+  connection.query(`DELETE from deliveryguy where id =${id};UPDATE wxuser SET isRider = 0 WHERE id = ${userid}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.get('/getPendingOrders',(req,res)=>{//获取待接单订单信息
+  // console.log(req.headers.usertoken)
+  connection.query(`SELECT o.*,s.shopName,s.deliveryFees,a.proAddress,a.detilAddress,a.phone,a.consignee FROM t_order o JOIN t_shop s on o.shopid = s.id join u_address a on a.id = o.addressid where deliveryState = 1`, (err, pendingOrders) => {
+      if (err) {
+
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        
+        res.send({pendingOrders})
+
+      }
+    })
+})
+app.post('/takeOrder',(req,res)=>{//骑手接单
+  // console.log(req.body)
+  let id = req.body.id
+  let riderid = req.body.riderid
+  // console.log(id)
+  connection.query(`UPDATE t_order SET deliveryState = 2,riderid = ${riderid} WHERE id = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.get('/getRiderid',(req,res)=>{//获取骑手信息
+  // console.log(req.headers.usertoken)
+  let id = req.query.id
+  connection.query(`SELECT id FROM deliveryguy where userid = ${id}`, (err, id) => {
+      if (err) {
+
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        let riderid = id[0].id
+        res.send({riderid})
+
+      }
+    })
+})
+app.get('/getTokenOrders',(req,res)=>{//获取已接单订单信息
+  // console.log(req.headers.usertoken)
+  let riderid = req.query.riderid
+  console.log(riderid)
+  connection.query(`SELECT o.*,s.shopName,s.deliveryFees,a.proAddress,a.detilAddress,a.phone,a.consignee FROM t_order o JOIN t_shop s on o.shopid = s.id join u_address a on a.id = o.addressid where deliveryState = 2 and riderid = ${riderid}`, (err, tokenOrders) => {
+      if (err) {
+ 
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        
+        res.send({tokenOrders})
+
+      }
+    })
+})
+app.post('/completeOrder',(req,res)=>{//骑手接单
+  // console.log(req.body)
+  let id = req.body.id
+  // console.log(id)
+  connection.query(`UPDATE t_order SET deliveryState = 3 WHERE id = ${id}`, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.send('query error')
+    } else {
+      // 将 MySQL 查询结果作为路由返回值
+      // console.log(result)
+      res.send({data:'ok'})
+    }
+  })
+})
+app.get('/getCompleteOrders',(req,res)=>{//获取已完成订单信息
+  // console.log(req.headers.usertoken)
+  let riderid = req.query.riderid
+  console.log(riderid)
+  connection.query(`SELECT o.*,s.shopName,s.deliveryFees,a.proAddress,a.detilAddress,a.phone,a.consignee FROM t_order o JOIN t_shop s on o.shopid = s.id join u_address a on a.id = o.addressid where deliveryState = 3 and riderid = ${riderid}`, (err, completeOrders) => {
+      if (err) {
+ 
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        
+        res.send({completeOrders})
+
+      }
+    })
 })

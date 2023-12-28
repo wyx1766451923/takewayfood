@@ -10,9 +10,11 @@ Page({
   data: {
     httpUrl:app.globalData.httpUrl,
     httpImageUrl:app.globalData.httpImageUrl,
+    id:'',
     code:'',
     avatar:'',
     nickname:'',
+    isRider:0,
     contactShow:false,
     aboutShow:false,
     myAddressshow:false,
@@ -37,6 +39,26 @@ Page({
     this.setData({
       myAddressshow:true
     })
+  },
+  becomeRider(e){
+    if(this.data.isRider==0){
+      let id = e.currentTarget.dataset.id
+      console.log('成为骑手',id)
+      wx.navigateTo({
+        url: `/pages/becomeRider/becomeRider?id=${id}`,
+      })
+    }else{
+      Toast.fail('审核中');
+    }
+    
+  },
+  toOrderlist(e){
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `/pages/riderOrders/riderOrders?id=${id}`,
+    })
+    console.log('跳转接单列表',id)
+    
   },
   onMyAddressClose(){
     this.setData({
@@ -127,13 +149,12 @@ Page({
       url: '/pages/addAddress/addAddress'
     })
   },
-  getuserinfo(){
 
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   async onLoad(options) {
+    app.getUserInfo()
     let loginuser = wx.getStorageSync('loginuser')
     app.getUserAddress().then(val=>{
       // console.log(val)
@@ -144,10 +165,12 @@ Page({
     })
     
     this.setData({
+      id:loginuser.id,
       avatar:this.data.httpImageUrl+loginuser.avatar,
-      nickname:loginuser.nickname
+      nickname:loginuser.nickname,
+      isRider:loginuser.isRider
     })
-    console.log(this.data.avatar)
+    console.log(this.data.id)
   },
 
   /**
@@ -161,7 +184,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    // app.getUserInfo()
+    // this.onLoad()
   },
 
   /**

@@ -50,6 +50,9 @@ App({
   // getAddress(){
     
   // },
+  getat(){
+    console.log(1111)
+  },
   getUserAddress(){
     var that = this
     return new Promise(function(resolve, reject){
@@ -127,5 +130,6 @@ App({
     if(wx.getStorageSync('isLogined')==false){
       that.login()
     }
+    // that.getUserInfo()
   }
 })

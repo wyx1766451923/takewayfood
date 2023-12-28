@@ -8,7 +8,9 @@
     "pages/remark/remark",
     "pages/addAddress/addAddress",
     "pages/changeInfo/changeInfo",
-    "pages/orderInfo/orderInfo"
+    "pages/orderInfo/orderInfo",
+    "pages/becomeRider/becomeRider",
+    "pages/riderOrders/riderOrders"
   ],
   "tabBar": {
     "list": [

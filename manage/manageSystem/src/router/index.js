@@ -39,6 +39,10 @@ const routes = [
           path: 'order',
           component: ()=>import('../views/Order/index.vue') 
         },
+        { 
+          path: 'rider',
+          component: ()=>import('../views/Rider/index.vue') 
+        },
       ]
     }
     

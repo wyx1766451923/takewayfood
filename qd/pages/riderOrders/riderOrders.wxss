@@ -1,0 +1,84 @@
+page{
+  background: rgb(235, 234, 234);
+}
+.order{
+  padding-bottom: 10px;
+}
+/* .orderContent{
+
+} */
+.orderitem{
+  background: white;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 10px;
+}
+.shopAndState{
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid rgb(233, 230, 230);
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.shopname{
+  width: 70%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.deliverystate{
+  font-size: 14px;
+  color: gray;
+}
+.toShop{
+  padding-left: 15px;
+}
+.foodlsit{
+  display: flex;
+  padding: 10px 0 10px 0;
+  overflow: scroll;
+  width: 90%;
+}
+.fooditem{
+  margin: 0 10px 0 0;
+}
+.foodimage{
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.foodname{
+  font-size: 12px;
+  color: gray;
+  width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+}
+.ordertimeAndpay{
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: gray;
+  margin: 0 0 10px 0;
+}
+.paytotal{
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+.operate{
+  text-align: right;
+}
+
+.noOrder{
+  margin-top: 100px;
+}
+.consignee{
+  font-size: 12px;
+  color: gray;
+  padding: 2px 0;
+}
+
