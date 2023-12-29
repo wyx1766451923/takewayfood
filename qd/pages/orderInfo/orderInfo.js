@@ -22,6 +22,7 @@ Page({
     slectedAddress:[],
     deliveryState:0,
     orderNum:'',
+    riderid:0,
     riderInfo:[]
   },
   toShop(){
@@ -140,7 +141,8 @@ Page({
             totalprice:res.data.totalprice,
             orderTime:res.data.orderTime,
             deliveryState:res.data.deliveryState,
-            orderNum:res.data.orderNum
+            orderNum:res.data.orderNum,
+            riderid:res.data.riderid
           })
           if(res.data.riderid!=0){
             that.getRiderInfo(res.data.riderid)

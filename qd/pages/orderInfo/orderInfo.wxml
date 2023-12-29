@@ -90,7 +90,7 @@
       <view class="title">配送地址</view>
       <view class="content">{{slectedAddress.consignee+' '+slectedAddress.phone+' '+slectedAddress.proAddress+' '+slectedAddress.detilAddress}}</view>
     </view>
-    <view class="riderInfo">
+    <view class="riderInfo" wx:if="{{riderid!=0}}">
       <view class="title">骑手信息</view>
       <view class="content">{{riderInfo.riderName+' '+riderInfo.riderPhone}}</view>
     </view>
