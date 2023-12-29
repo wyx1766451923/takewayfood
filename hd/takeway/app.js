@@ -1001,7 +1001,7 @@ app.post('/completeOrder',(req,res)=>{//骑手接单
 app.get('/getCompleteOrders',(req,res)=>{//获取已完成订单信息
   // console.log(req.headers.usertoken)
   let riderid = req.query.riderid
-  console.log(riderid)
+  // console.log(riderid)
   connection.query(`SELECT o.*,s.shopName,s.deliveryFees,a.proAddress,a.detilAddress,a.phone,a.consignee FROM t_order o JOIN t_shop s on o.shopid = s.id join u_address a on a.id = o.addressid where deliveryState = 3 and riderid = ${riderid}`, (err, completeOrders) => {
       if (err) {
  
@@ -1010,6 +1010,22 @@ app.get('/getCompleteOrders',(req,res)=>{//获取已完成订单信息
         // console.log(userid)
         
         res.send({completeOrders})
+
+      }
+    })
+})
+app.get('/getRiderInfo',(req,res)=>{//获取骑手信息
+  // console.log(req.headers.usertoken)
+  let riderid = req.query.riderid
+  // console.log(riderid)
+  connection.query(`SELECT id,riderName,riderPhone FROM deliveryguy where id = ${riderid}`, (err, result) => {
+      if (err) {
+ 
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        let riderInfo = result[0]
+        res.send({riderInfo})
 
       }
     })

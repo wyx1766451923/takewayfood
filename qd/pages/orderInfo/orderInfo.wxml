@@ -90,6 +90,10 @@
       <view class="title">配送地址</view>
       <view class="content">{{slectedAddress.consignee+' '+slectedAddress.phone+' '+slectedAddress.proAddress+' '+slectedAddress.detilAddress}}</view>
     </view>
+    <view class="riderInfo">
+      <view class="title">骑手信息</view>
+      <view class="content">{{riderInfo.riderName+' '+riderInfo.riderPhone}}</view>
+    </view>
     <view class="deliveryProcess">
       <view class="title">配送流程</view>
       <view class="processitem">{{shopModule.getDeliveryState(deliveryState)}}</view>
@@ -97,7 +101,7 @@
   </view>
   <view class="orderDetail">
     <view class="topic">
-      配送信息
+      订单信息
     </view>
     <view class="orderNumbering">
       <view class="title">订单编号</view>

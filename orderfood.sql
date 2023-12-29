@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 28/12/2023 22:00:11
+ Date: 29/12/2023 15:13:01
 */
 
 SET NAMES utf8mb4;
@@ -50,7 +50,7 @@ CREATE TABLE `deliveryguy`  (
 -- Records of deliveryguy
 -- ----------------------------
 INSERT INTO `deliveryguy` VALUES (11, '王大锤', '15523096345', 3);
-INSERT INTO `deliveryguy` VALUES (12, '111', '11111111111', 4);
+INSERT INTO `deliveryguy` VALUES (12, '王二锤', '14496849632', 4);
 INSERT INTO `deliveryguy` VALUES (14, '333', '33333333333', 19);
 
 -- ----------------------------

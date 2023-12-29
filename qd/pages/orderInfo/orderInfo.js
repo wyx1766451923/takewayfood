@@ -21,7 +21,8 @@ Page({
     orderTime:'',
     slectedAddress:[],
     deliveryState:0,
-    orderNum:''
+    orderNum:'',
+    riderInfo:[]
   },
   toShop(){
     let shopMsg = JSON.stringify(this.data.shopmsg)
@@ -49,7 +50,6 @@ Page({
           that.setData({
             shopmsg:res.data
           })
-          console.log(res.data)
         }	else {
           Toast.fail('失败',msg);
         } 
@@ -76,7 +76,6 @@ Page({
           that.setData({
             slectedAddress:res.data
           })
-          console.log(res.data)
         }	else {
           Toast.fail('失败',msg);
         } 
@@ -86,6 +85,35 @@ Page({
       }
     })
   },
+  getRiderInfo(id){
+    let that = this
+    let riderid = id
+    wx.request ({
+      url: that.data.httpUrl + 'getRiderInfo' , // 拼接接口地址(前面为公共部分)
+      method: 'get',
+      data:{
+        riderid:riderid
+      },
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success (res) {
+        if (res) { 
+          that.setData({
+            riderInfo:res.data.riderInfo
+          })
+          console.log(that.data.riderInfo)
+        }	else {
+          Toast.fail('失败',msg);
+        } 
+      },
+      fail(msg){
+        Toast.fail('添加失败',msg);
+      }
+    })  
+  },    
+  
   getOrder(orderid){
     let that = this
 
@@ -114,6 +142,9 @@ Page({
             deliveryState:res.data.deliveryState,
             orderNum:res.data.orderNum
           })
+          if(res.data.riderid!=0){
+            that.getRiderInfo(res.data.riderid)
+          }
           that.getOrderAddress(addressid)
           that.getShopMsg(shopid)
           console.log(res.data)

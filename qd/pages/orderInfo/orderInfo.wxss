@@ -130,3 +130,7 @@ page{
   display: flex;
   padding: 5px 0 5px 0;
 }
+.riderInfo{
+  display: flex;
+  padding: 3px 0 5px 0;
+}
