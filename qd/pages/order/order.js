@@ -2,6 +2,7 @@
 var app = getApp()
 import Toast from '@vant/weapp/toast/toast';
 import Dialog from '@vant/weapp/dialog/dialog';
+const myRequest = require('../../utils/myRequest')
 Page({
 
   /**
@@ -128,28 +129,45 @@ Page({
   },
   getAllOrder(){
     let that = this
-    
-    wx.request ({
-      url: that.data.httpUrl + 'getAllOrder' , // 拼接接口地址(前面为公共部分)
+    myRequest.request({
+      url:that.data.httpUrl + 'getAllOrder',
+      data:{},
       method: 'get',
       header: {
         'content-type' : 'application/json',
         'usertoken':wx.getStorageSync('userToken')
       },
-      success (res) {
-        if (res) {  
+      success:function(res){
+        if (res) { 
           that.setData({
             allOrder:res.data.orders.reverse()
           })
-          console.log(res.data.orders)
         }	else {
           Toast.fail('失败',msg);
-        } 
-      },
-      fail(msg){
-        Toast.fail('添加失败',msg);
+        }
       }
-    })    
+    })
+    // wx.request ({
+    //   url: that.data.httpUrl + 'getAllOrder' , // 拼接接口地址(前面为公共部分)
+    //   method: 'get',
+    //   header: {
+    //     'content-type' : 'application/json',
+    //     'usertoken':wx.getStorageSync('userToken')
+    //   },
+    //   success (res) {
+    //     if (res) {  
+    //       that.setData({
+    //         allOrder:res.data.orders.reverse()
+    //       })
+    //       console.log(res.data.orders)
+    //     }	else {
+    //       Toast.fail('失败',msg);
+    //     } 
+    //   },
+    //   fail(msg){
+    //     Toast.fail('添加失败',msg);
+    //   }
+    // })    
   },
   /**
    * 生命周期函数--监听页面加载

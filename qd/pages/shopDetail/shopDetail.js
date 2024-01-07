@@ -1,3 +1,5 @@
+const myRequest = require("../../utils/myRequest");
+
 // pages/shopDetail/shopDetail.js
 var app = getApp()
 Page({
@@ -217,7 +219,7 @@ Page({
 
         this.setData({
           totalPrice:Number((this.data.totalPrice + price).toFixed(2)),
-          foodNum:this.data.foodNum+item.coun,
+          foodNum:this.data.foodNum+item.count,
         })
       })
       this.setData({
@@ -238,31 +240,27 @@ Page({
 
   getFoods(){
     var that = this
-    wx.request ({
-      url:  that.data.httpUrl + 'food' , // 拼接接口地址(前面为公共部分)
-      method: 'get',
-      header: {
-        'content-type' : 'application/json'
-      },
+    myRequest.request({
+      url:that.data.httpUrl + 'food',
       data:{
         id:that.data.shopid
       },
-      success (res) {
+      method: 'get',
+      header: {
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
+      },
+      success:function(res){
         if (res) { 
-            // 打印查看是否请求到接口数据
-          // console.log(res.data)
           that.setData({
             foods:res.data
-
           })
-        }	else {
-          console.log('没有数据')
-        } 
-      },
-      fail(msg){
-        console.log(msg)
+            }	else {
+              console.log('没有数据')
+          }
       }
     })
+
   },
   close(){
     this.setData({

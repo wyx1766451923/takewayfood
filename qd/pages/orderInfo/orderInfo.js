@@ -1,6 +1,7 @@
 // pages/orderInfo/orderInfo.js
 var app = getApp()
 import Toast from '@vant/weapp/toast/toast';
+const myRequest = require("../../utils/myRequest");
 Page({
 
   /**
@@ -117,18 +118,17 @@ Page({
   
   getOrder(orderid){
     let that = this
-
-    wx.request ({
-      url: that.data.httpUrl + 'getOrder' , // 拼接接口地址(前面为公共部分)
-      method: 'get',
+    myRequest.request({
+      url:that.data.httpUrl + 'getOrder',
       data:{
         orderid:orderid
       },
+      method: 'get',
       header: {
         'content-type' : 'application/json',
         'usertoken':wx.getStorageSync('userToken')
       },
-      success (res) {
+      success:function(res){
         if (res) { 
           let addressid = res.data.addressid
           let shopid = res.data.shopid
@@ -153,11 +153,48 @@ Page({
         }	else {
           Toast.fail('失败',msg);
         } 
-      },
-      fail(msg){
-        Toast.fail('添加失败',msg);
       }
-    })  
+    })
+    // wx.request ({
+    //   url: that.data.httpUrl + 'getOrder' , // 拼接接口地址(前面为公共部分)
+    //   method: 'get',
+    //   data:{
+    //     orderid:orderid
+    //   },
+    //   header: {
+    //     'content-type' : 'application/json',
+    //     'usertoken':wx.getStorageSync('userToken')
+    //   },
+    //   success (res) {
+    //     if (res) { 
+    //       let addressid = res.data.addressid
+    //       let shopid = res.data.shopid
+    //       that.setData({
+    //         foodlist:JSON.parse(res.data.foodlist),
+    //         foodnum:res.data.foodnum,
+    //         remark:res.data.remark,
+    //         selectArriveTime:res.data.selectArriveTime,
+    //         tablewarenum:res.data.tablewarenum,
+    //         totalprice:res.data.totalprice,
+    //         orderTime:res.data.orderTime,
+    //         deliveryState:res.data.deliveryState,
+    //         orderNum:res.data.orderNum,
+    //         riderid:res.data.riderid
+    //       })
+    //       if(res.data.riderid!=0){
+    //         that.getRiderInfo(res.data.riderid)
+    //       }
+    //       that.getOrderAddress(addressid)
+    //       that.getShopMsg(shopid)
+    //       console.log(res.data)
+    //     }	else {
+    //       Toast.fail('失败',msg);
+    //     } 
+    //   },
+    //   fail(msg){
+    //     Toast.fail('添加失败',msg);
+    //   }
+    // })  
   },
   onLoad(options) {
 

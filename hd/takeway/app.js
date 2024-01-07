@@ -327,7 +327,7 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
   let tablewarenum = req.query.tablewarenum
   let selectArriveTime = req.query.selectArriveTime
   let foodnum = req.query.foodnum
-
+  let riderid = 0
 
   connection.query(`SELECT phone FROM u_address where id = ${addressid}`, (err, phone) => {
     if (err) {
@@ -342,9 +342,9 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
         } else {
           let userid = user[0].id
           // console.log(userid)
-          connection.query(`INSERT INTO t_order (userid,foodlist,addressid,shopid,remark,totalprice,tablewarenum,selectArriveTime,foodnum,deliveryState,orderTime,orderNum) VALUES (${userid},"${toLiteral(foodlist)}",${addressid},${shopid},"${remark}",${totalprice},"${tablewarenum}","${selectArriveTime}",${foodnum},${deliveryState},"${orderTime}","${orderNum}")`, (err, orderinfo) => {
+          connection.query(`INSERT INTO t_order (userid,foodlist,addressid,shopid,remark,totalprice,tablewarenum,selectArriveTime,foodnum,deliveryState,orderTime,orderNum,riderid) VALUES (${userid},"${toLiteral(foodlist)}",${addressid},${shopid},"${remark}",${totalprice},"${tablewarenum}","${selectArriveTime}",${foodnum},${deliveryState},"${orderTime}","${orderNum}",${riderid})`, (err, orderinfo) => {
             if (err) {
-              // console.log(err)
+              console.log(err)
               res.send({data:'error'})
             } else {
               // 将 MySQL 查询结果作为路由返回值
@@ -354,7 +354,6 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
           })
         }
       })
-      // return phone[0].phone
     }
   })
   // console.log(typeof foodlist,JSON.parse(foodlist))
@@ -970,7 +969,7 @@ app.get('/getRiderid',(req,res)=>{//获取骑手信息
 app.get('/getTokenOrders',(req,res)=>{//获取已接单订单信息
   // console.log(req.headers.usertoken)
   let riderid = req.query.riderid
-  console.log(riderid)
+  // console.log(riderid)
   connection.query(`SELECT o.*,s.shopName,s.deliveryFees,a.proAddress,a.detilAddress,a.phone,a.consignee FROM t_order o JOIN t_shop s on o.shopid = s.id join u_address a on a.id = o.addressid where deliveryState = 2 and riderid = ${riderid}`, (err, tokenOrders) => {
       if (err) {
  
@@ -1026,6 +1025,21 @@ app.get('/getRiderInfo',(req,res)=>{//获取骑手信息
         // console.log(userid)
         let riderInfo = result[0]
         res.send({riderInfo})
+
+      }
+    })
+})
+app.get('/getAllRider',(req,res)=>{//获取骑手信息
+  // console.log(req.headers.usertoken)
+  // console.log(riderid)
+  connection.query(`SELECT id,riderName,riderPhone FROM deliveryguy`, (err, result) => {
+      if (err) {
+ 
+        res.send({data:'err'})
+      } else {
+        // console.log(userid)
+        let allRider = result
+        res.send({allRider})
 
       }
     })

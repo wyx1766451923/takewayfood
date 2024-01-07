@@ -2,6 +2,7 @@
 const app = getApp()
 import Dialog from '@vant/weapp/dialog/dialog';
 import Toast from '@vant/weapp/toast/toast';
+const myRequest = require("../../utils/myRequest");
 Page({
 
   /**
@@ -86,15 +87,15 @@ Page({
   },
   getPendingOrders(){//待接单
     let that = this
-    
-    wx.request ({
-      url: that.data.httpUrl + 'getPendingOrders' , // 拼接接口地址(前面为公共部分)
+    myRequest.request({
+      url:that.data.httpUrl + 'getPendingOrders',
+      data:{},
       method: 'get',
       header: {
         'content-type' : 'application/json',
         'usertoken':wx.getStorageSync('userToken')
       },
-      success (res) {
+      success:function(res){
         if (res) {  
           that.setData({
             pendingOrders:res.data.pendingOrders.reverse()
@@ -103,11 +104,8 @@ Page({
         }	else {
           Toast.fail('失败',msg);
         } 
-      },
-      fail(msg){
-        Toast.fail('添加失败',msg);
       }
-    })   
+    })    
   },
   getTokenOrders(){//已接单
     let that = this

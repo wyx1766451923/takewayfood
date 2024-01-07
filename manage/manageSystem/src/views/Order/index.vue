@@ -61,6 +61,13 @@
       <el-table-column label="餐具份数" prop="tablewarenum" width="80"/>
       <el-table-column label="预计送达" prop="selectArriveTime" />
       <el-table-column label="下单时间" prop="orderTime" />
+      <el-table-column label="配送骑手" >
+        <template #default="scope">
+          <div :class="scope.row.riderid==0?'nodelivery':'hasdelivery'">
+            {{scope.row.riderid==0?'暂无配送':riderlist[scope.row.riderid]}}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column align="right" fixed="right" width="75">
           <template #header>
             <el-input v-model="search" size="small" placeholder="按订单号查找" />
@@ -143,6 +150,7 @@ let foodlist = ref([])
 let orderid = ref(0)
 let totalprice = ref(0)
 let foodnum = ref(0)
+let riderlist = ref([])
 const onDeletefood = ()=>{
   let outFoodlist = foodlist.value[foodindex.value]
   let newTotalPrice = totalprice.value-(Number((outFoodlist.price*outFoodlist.discount*0.1).toFixed(2)*outFoodlist.count+outFoodlist.count))
@@ -197,6 +205,19 @@ const onDeleteOrder = ()=>{
 const checkOrderState=(state)=>{
   switch(state){
     case 0:return '已下单';    case 1:return '商家已接单';    case 2:return '配送中';    case 3:return '订单已完成';    case 4:return '订单取消';  }
+}
+const getAllRider=()=>{
+  http.get('/getAllRider')
+  .then(res=>{
+    let arr = res.data.allRider
+    arr.forEach(e => {
+      riderlist.value[e.id] = e.riderName
+    })
+   console.log(riderlist.value)
+  })
+  .catch(err=>{
+    console.log(err)
+  })
 }
 const deliverystatecolor=(state)=>{
   switch(state){
@@ -262,10 +283,17 @@ const getOrderData=()=>{
 }
 onMounted(()=>{
   getOrderData()
+  getAllRider()
 })
 </script>
 
 <style lang="scss" scoped>
+.nodelivery{
+  color: blue;
+}
+.hasdelivery{
+  color: green;
+}
 .state0{
   color: rgb(237, 143, 221);
 }

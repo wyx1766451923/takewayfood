@@ -1,6 +1,7 @@
 // pages/index/index.js
 var app = getApp()
 import Toast from '@vant/weapp/toast/toast';
+const myRequest = require("../../utils/myRequest");
 Page({
 
   /**
@@ -35,25 +36,22 @@ Page({
   },
   getShopData(){
     var that = this
-    wx.request ({
-      url:  that.data.httpUrl + 'shop' , // 拼接接口地址(前面为公共部分)
+    myRequest.request({
+      url:that.data.httpUrl + 'shop',
+      data:{},
       method: 'get',
       header: {
-        'content-type' : 'application/json'
+        'content-type' : 'application/json',
+        'usertoken':wx.getStorageSync('userToken')
       },
-      success (res) {
+      success:function(res){
         if (res) { 
-            // 打印查看是否请求到接口数据
           that.setData({
             shopData:res.data.shops
           })
-          // console.log(that.data.shopData)
         }	else {
           console.log('没有数据')
-        } 
-      },
-      fail(msg){
-
+        }
       }
     })
   },
