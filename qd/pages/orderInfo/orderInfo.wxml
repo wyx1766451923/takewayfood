@@ -88,7 +88,8 @@
     </view>
     <view class="deliveryAddress">
       <view class="title">配送地址</view>
-      <view class="content">{{slectedAddress.consignee+' '+slectedAddress.phone+' '+slectedAddress.proAddress+' '+slectedAddress.detilAddress}}</view>
+      <view class="content" wx:if="{{slectedAddress!=[]}}">{{slectedAddress.consignee+' '+slectedAddress.phone+' '+slectedAddress.proAddress+' '+slectedAddress.detilAddress}}</view>
+      <view class="content" wx:else="">暂无地址信息</view>
     </view>
     <view class="riderInfo" wx:if="{{riderid!=0}}">
       <view class="title">骑手信息</view>

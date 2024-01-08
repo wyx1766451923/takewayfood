@@ -81,7 +81,7 @@
   </el-dialog>
   <el-dialog 
     v-model="addDialogVisible" 
-    title="添加食品" 
+    title="添加/编辑食品" 
     width="40%" 
     align-center
     :before-close="dialogClose"

@@ -80,7 +80,7 @@
   </el-dialog>
   <el-dialog 
     v-model="addDialogVisible" 
-    title="添加商家" 
+    title="添加/编辑商家" 
     width="40%" 
     align-center
     :before-close="dialogClose"
