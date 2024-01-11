@@ -13,6 +13,7 @@
       case 1:return '商家已接单';break;
       case 2:return '配送中';break;
       case 3:return '订单已完成';break;
+      case 4:return '订单已取消';break;
     }
   }
   module.exports = {
@@ -93,7 +94,8 @@
     </view>
     <view class="riderInfo" wx:if="{{riderid!=0}}">
       <view class="title">骑手信息</view>
-      <view class="content">{{riderInfo.riderName+' '+riderInfo.riderPhone}}</view>
+      <view class="content" wx:if="{{riderInfo.length!=0}}">{{riderInfo.riderName+' '+riderInfo.riderPhone}}</view>
+      <view class="content" wx:else>暂无骑手信息</view>
     </view>
     <view class="deliveryProcess">
       <view class="title">配送流程</view>

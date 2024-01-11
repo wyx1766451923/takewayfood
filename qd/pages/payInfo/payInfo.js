@@ -231,8 +231,7 @@ Page({
   },
   getSelectvalue(){
     let selectArriveTime = ''
-    if(this.data.selectTime.length!=0){
-      console.log("buwei 0") 
+    if(this.data.selectTime.length!=0){ 
       selectArriveTime = this.data.selectTime[0]
       console.log(selectArriveTime)
     } 
@@ -300,7 +299,6 @@ Page({
     this.setData({
       selectTime
     })
-    console.log(this.data.selectTime)
   },
   /**
    * 生命周期函数--监听页面加载

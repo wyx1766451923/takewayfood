@@ -1,5 +1,5 @@
 <template>
-    <div class="business">
+    <div class="rider">
       <el-table :data="filterTableData" style="width: 100%" height="450">
         <el-table-column label="id" prop="id" width="70px"/>
         <el-table-column label="头像" >
@@ -90,127 +90,15 @@
     console.log(userid,status)
   }
   const addRuleForm = ref(null)
-  const uploadRef = ref(null)
-  const rules = {
-      shopName: [{ required: true, message: "店名不能为空", trigger: "blur" }],
-      connectPerson: [{ required: true, message: "店主不能为空", trigger: "blur" }],
-      telephone: [{ required: true, message: "电话不能为空", trigger: "blur" }],
-      address: [{ required: true, message: "地址不能为空", trigger: "blur" }],
-      description: [{ required: true, message: "描述不能为空", trigger: "blur" }],
-        // formshopPhoto: [{ required: true, message: "头像不能为空", trigger: "blur" }],
-      };
+
   let id = ref(0)
   let userid = ref(0)
-  const handleAvatarSuccess = (res)=>{
-    
-    businessInfo.shopPhoto = 'shop/'+res.newname
-  }
-  const deletePhoto=() =>{
-    http.post('/deletePhoto',{
-      photoname:businessInfo.shopPhoto
-    })
-    .then(res=>{
-      
-      if(res.data.data == 'ok'){
-        businessInfo.shopPhoto=''
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
-  const dialogClose = () =>{
-    cancel()
-  }
-  const cancel = () =>{
-    if(businessInfo.shopPhoto!='' && businessInfo.id==0){
-      console.log('图片会被删除')
-      
-      deletePhoto()
-    }
-    Object.assign(businessInfo, initdata());
-    // addRuleForm.value.resetFields()
-    // console.log(businessInfo,initdata(),tableData)
-    addDialogVisible.value = false
-  }
-  const addBusiness = () =>{
-    http.post('/addBusiness',{
-      businessInfo:businessInfo
-    })
-    .then(res=>{
-      if(res.data.data == 'ok'){
-        addRuleForm.value.resetFields()
-        businessInfo.shopPhoto=''
-        // uploadRef.value
-        getShopData()
-  
-      }
-      
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
-  const setBusiness = () =>{
-    http.post('/setBusiness',{
-      businessInfo:businessInfo
-    })
-    .then(res=>{
-      if(res.data.data == 'ok'){
-        addRuleForm.value.resetFields()
-        businessInfo.shopPhoto=''
-        // uploadRef.value
-        getShopData()
-  
-      }
-      
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
-  const submit = async () =>{
-    if(businessInfo.id == 0){
-      try {
-          await addRuleForm.value.validate(); 
-          console.log("验证成功");
-        console.log(businessInfo)
-        addBusiness()
-        addDialogVisible.value = false
-        ElMessage({
-          message: '添加成功',
-          type: 'success',
-        })
-        } catch (err) {
-          console.log("失败" + err);
-        ElMessage({
-          message: '添加失败',
-          type: 'error',
-        })
-        }
-    }else{
-      try {
-          await addRuleForm.value.validate(); 
-          console.log("验证成功");
-        console.log(businessInfo)
-        setBusiness()
-        addDialogVisible.value = false
-        ElMessage({
-          message: '修改成功',
-          type: 'success',
-        })
-        } catch (err) {
-          console.log("失败",err);
-        ElMessage({
-          message: '修改失败',
-          type: 'error',
-        })
-        }   
-    }
-  
-  
-    
-  }
+
+
+
+
+
+
   const onDeleteRider = () =>{
     console.log(id.value,userid.value)
     http.post('/deleteRider',{
@@ -308,31 +196,8 @@
   .el-icon{
     border: 1px solid black;
   }
-  .avatar-uploader .avatar{
-    width: 100px;
-    height: 100px;
-  }
-  
-  .avatar-uploader .el-upload:hover {
-    border-color: gray;
-  }
-  
-  .el-icon.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    text-align: center;
-  }
-  .el-form{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .el-form-item{
-    width: 40%;
-    padding-left: 20px;
-  }
-  .business{
+
+  .rider{
     width: 100%;
     .formdata{
   

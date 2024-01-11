@@ -11,7 +11,7 @@
  Target Server Version : 80032
  File Encoding         : 65001
 
- Date: 07/01/2024 17:48:14
+ Date: 10/01/2024 17:42:45
 */
 
 SET NAMES utf8mb4;
@@ -53,24 +53,6 @@ INSERT INTO `deliveryguy` VALUES (11, '王大锤', '15523096345', 3);
 INSERT INTO `deliveryguy` VALUES (12, '王二锤', '14496849632', 4);
 
 -- ----------------------------
--- Table structure for t_notice
--- ----------------------------
-DROP TABLE IF EXISTS `t_notice`;
-CREATE TABLE `t_notice`  (
-  `noticeId` int NOT NULL AUTO_INCREMENT COMMENT '公告id',
-  `title` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '标题',
-  `content` varchar(800) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '公告内容',
-  `publishDate` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '发布时间',
-  PRIMARY KEY (`noticeId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_notice
--- ----------------------------
-INSERT INTO `t_notice` VALUES (1, '小程序外卖送餐平台成立', '各位同学，欢迎来这里选择订餐', '2020-05-10 18:05:00');
-INSERT INTO `t_notice` VALUES (2, '订餐多多，实惠多多', '大家多多来订餐，我们入住的都是最实惠的餐饮店', '2020-05-14 00:12:34');
-
--- ----------------------------
 -- Table structure for t_order
 -- ----------------------------
 DROP TABLE IF EXISTS `t_order`;
@@ -90,7 +72,7 @@ CREATE TABLE `t_order`  (
   `orderNum` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单编号',
   `riderid` int NOT NULL COMMENT '接单骑手，默认为0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_order
@@ -102,8 +84,9 @@ INSERT INTO `t_order` VALUES (36, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\
 INSERT INTO `t_order` VALUES (37, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 17, 1, '大哥多加点儿肉', 64.96, '3份', '15:24', 4, 3, 1, '2023-11-15 14:44:51', '2023111514445115529865496', 0);
 INSERT INTO `t_order` VALUES (38, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":2,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"},{\"id\":4,\"productName\":\"腊肉抄豆腐\",\"mainPhoto\":\"product/nrcdf.jpg\",\"price\":18,\"shopId\":1,\"sales\":26,\"discount\":10,\"count\":1,\"typeid\":3,\"typeName\":\"店长推荐\"}]', 18, 1, '放门口，不要敲门', 64.96, '1份', '15:01', 4, 4, 3, '2023-11-21 14:22:12', '2023112114221215523269584', 11);
 INSERT INTO `t_order` VALUES (39, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":51,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":2,\"productName\":\"宫保鸡丁\",\"mainPhoto\":\"product/gbjd.jpg\",\"price\":22,\"shopId\":1,\"sales\":37,\"discount\":6.8,\"count\":1,\"typeid\":2,\"typeName\":\"正在热卖\"}]', 3, 1, '不要香菜', 30.96, '1份', '17:49', 2, 3, 3, '2023-11-24 16:00:10', '2023112416001015523085678', 11);
-INSERT INTO `t_order` VALUES (43, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\"mainPhoto\":\"product/djyt.jpg\",\"price\":25,\"shopId\":2,\"sales\":63,\"discount\":10,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":13,\"productName\":\"红烧猫猫头\",\"mainPhoto\":\"product/1701255686991.png\",\"price\":14,\"shopId\":2,\"sales\":0,\"discount\":8,\"count\":1,\"typeid\":5,\"typeName\":\"回味经典\"}]', 3, 2, '不要香菜', 38.20, '2份', '14:40', 2, 3, 0, '2023-12-06 13:55:37', '2023120613553715523085678', 0);
-INSERT INTO `t_order` VALUES (50, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":55,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"}]', 3, 1, '不要香菜', 15.00, '无需餐具', '17:37', 1, 3, 1, '2024-01-07 16:57:42', '2024010716574215523085678', 0);
+INSERT INTO `t_order` VALUES (43, '[{\"id\":3,\"productName\":\"剁椒鱼头\",\"mainPhoto\":\"product/djyt.jpg\",\"price\":25,\"shopId\":2,\"sales\":63,\"discount\":10,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":13,\"productName\":\"红烧猫猫头\",\"mainPhoto\":\"product/1701255686991.png\",\"price\":14,\"shopId\":2,\"sales\":0,\"discount\":8,\"count\":1,\"typeid\":5,\"typeName\":\"回味经典\"}]', 3, 2, '不要香菜', 38.20, '2份', '14:40', 2, 3, 4, '2023-12-06 13:55:37', '2023120613553715523085678', 0);
+INSERT INTO `t_order` VALUES (50, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":55,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"}]', 3, 1, '不要香菜', 15.00, '无需餐具', '17:37', 1, 3, 3, '2024-01-07 16:57:42', '2024010716574215523085678', 11);
+INSERT INTO `t_order` VALUES (52, '[{\"id\":1,\"productName\":\"鱼香肉丝\",\"mainPhoto\":\"product/yxrs.jpg\",\"price\":20,\"shopId\":1,\"sales\":57,\"discount\":7,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"},{\"id\":7,\"productName\":\"猫猫头\",\"mainPhoto\":\"product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg\",\"price\":18,\"shopId\":1,\"sales\":12,\"discount\":10,\"count\":1,\"typeid\":1,\"typeName\":\"本店特色\"}]', 3, 1, '不要香菜不要葱11', 34.00, '1份', '11:39', 2, 3, 4, '2024-01-09 10:01:03', '2024010910010315523085678', 0);
 
 -- ----------------------------
 -- Table structure for t_product
@@ -125,13 +108,13 @@ CREATE TABLE `t_product`  (
 -- ----------------------------
 -- Records of t_product
 -- ----------------------------
-INSERT INTO `t_product` VALUES (1, '鱼香肉丝', 'product/yxrs.jpg', 20, 1, 57, 7, NULL);
+INSERT INTO `t_product` VALUES (1, '鱼香肉丝', 'product/yxrs.jpg', 20, 1, 58, 7, NULL);
 INSERT INTO `t_product` VALUES (2, '宫保鸡丁', 'product/gbjd.jpg', 22, 1, 37, 6.8, NULL);
 INSERT INTO `t_product` VALUES (3, '剁椒鱼头', 'product/djyt.jpg', 25, 2, 63, 10, NULL);
 INSERT INTO `t_product` VALUES (4, '腊肉抄豆腐', 'product/nrcdf.jpg', 18, 1, 26, 10, NULL);
 INSERT INTO `t_product` VALUES (5, '土豆红烧肉', 'product/tdhsr.jpg', 16, 2, 86, 8, NULL);
 INSERT INTO `t_product` VALUES (6, '经典猪脚饭', 'product/zjf.jpg', 15, 2, 104, 9, NULL);
-INSERT INTO `t_product` VALUES (7, '猫猫头', 'product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 18, 1, 12, 10, NULL);
+INSERT INTO `t_product` VALUES (7, '猫猫头', 'product/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 18, 1, 13, 10, NULL);
 INSERT INTO `t_product` VALUES (13, '红烧猫猫头', 'product/1701255686991.png', 14, 2, 1, 8, NULL);
 
 -- ----------------------------
@@ -159,7 +142,6 @@ CREATE TABLE `t_shop`  (
 -- ----------------------------
 INSERT INTO `t_shop` VALUES (1, '躺平菜馆', 'shop/tp.png', '王先生', '13420182861', '理工大学中门', 10, 1, 30, 1, '你可以选择躺平，但是你不能不吃饭', '本店为新店，欢迎各位品尝啊');
 INSERT INTO `t_shop` VALUES (2, '摆烂传统餐馆', 'shop/bl.png', '李先生', '13784504082', '理工大学后门', 15, 1, 35, 1, '摆摆烂吧，顺便吃吃好吃有营养的饭，等你的订单到天荒地老', NULL);
-INSERT INTO `t_shop` VALUES (6, '寄了大饭店', 'shop/1701153714493.png', '陈寄了', '15523084596', '理工大学后门', 10, 1, 45, 0, '寄了就来吃饭，寄了寄了', '寄了寄了寄了');
 
 -- ----------------------------
 -- Table structure for t_type
@@ -237,14 +219,14 @@ CREATE TABLE `u_address`  (
   `detilAddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户详细地址',
   `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户手机号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of u_address
 -- ----------------------------
-INSERT INTO `u_address` VALUES (3, 3, '重庆理工大学花溪校区', '龙东强', '竹轩B316', '15523085678');
-INSERT INTO `u_address` VALUES (17, 3, '重庆理工大学花溪校区', '菜就多练', '3教210', '15529865496');
+INSERT INTO `u_address` VALUES (3, 3, '重庆理工大学花溪校区', '龙东1', '竹轩B316', '15523085678');
 INSERT INTO `u_address` VALUES (18, 4, '重庆理工大学花溪校区', '尊嘟假嘟', '竹轩B316', '15523269584');
+INSERT INTO `u_address` VALUES (19, 3, '1111', '1111', '1111', '11111111111');
 
 -- ----------------------------
 -- Table structure for wxuser
@@ -263,6 +245,6 @@ CREATE TABLE `wxuser`  (
 -- Records of wxuser
 -- ----------------------------
 INSERT INTO `wxuser` VALUES (3, '我姓王', 'avatar/60ynsIs0Dno506ed4269da79f41956946bcdf4b1fa02.jpg', 'oynkS5nR3I1dZDfC9-RIb0z98ucQ', 2);
-INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54', 1);
+INSERT INTO `wxuser` VALUES (4, 'ikun', 'avatar/ghzpCplIlADxdbafd1b9c7eea39fca62d6100e039d6c.jpeg', 'oynkS5nTIloNeWGPEjktGQy8Dg54', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

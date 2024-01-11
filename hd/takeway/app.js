@@ -356,8 +356,6 @@ app.get('/setOrder',(req,res)=>{//添加订单信息
       })
     }
   })
-  // console.log(typeof foodlist,JSON.parse(foodlist))
-  // console.log(address)
 
 })
 app.get('/getOrder',(req,res)=>{//获取订单信息（通过订单编号）
